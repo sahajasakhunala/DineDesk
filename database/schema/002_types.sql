@@ -1,0 +1,2 @@
+-- 002_types.sql
+-- (No custom ENUM types are defined in this version; using VARCHAR with CHECK constraints in tables)
