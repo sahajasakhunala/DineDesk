@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DineDesk | Table Reservation & Food Service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Bar Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">🍽️</span>
+        <span class="logo-text">Dine<span class="highlight">Desk</span></span>
+      </div>
+
+      <div class="nav-links">
+        <a href="#menu" class="nav-item active">Food Menu</a>
+        <a href="#reservation" class="nav-item">Book a Table</a>
+        <a href="#my-order" class="nav-item">Current Order</a>
+      </div>
+
+      <div class="nav-status">
+        <span class="status-dot green"></span>
+        <span class="status-text">API Online</span>
+        <button class="cart-btn" onclick="toggleCart()">
+          🛒 Cart (<span id="cart-count">0</span>)
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Banner -->
+  <header class="hero">
+    <div class="hero-content">
+      <span class="hero-badge">✨ Premium Dining Experience</span>
+      <h1>Seamless Table Booking & Gourmet Food Service</h1>
+      <p>Reserve your favorite table in seconds, explore our chef's special menu, and enjoy an effortless dining experience.</p>
+      <div class="hero-actions">
+        <a href="#reservation" class="btn btn-primary">Book a Table Now</a>
+        <a href="#menu" class="btn btn-secondary">Explore Menu</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-container">
+
+    <!-- Table Reservation Section -->
+    <section id="reservation" class="section">
+      <div class="section-header">
+        <span class="section-tag">Step 1 • Table Booking</span>
+        <h2>Reserve a Table</h2>
+        <p>Choose your preferred dining area, select a time slot, and confirm your guest details.</p>
+      </div>
+
+      <div class="reservation-grid">
+        <!-- Table Selection -->
+        <div class="table-selection-card">
+          <h3>Select a Table</h3>
+          <div class="tables-grid" id="tables-container">
+            <div class="table-card active" data-table-id="1" data-table-num="T01" data-cap="2">
+              <div class="table-badge">Available</div>
+              <div class="table-number">Table T01</div>
+              <div class="table-cap">👤 2 Guests</div>
+              <div class="table-area">Main Hall</div>
+            </div>
+            <div class="table-card" data-table-id="2" data-table-num="T02" data-cap="4">
+              <div class="table-badge reserved">Reserved</div>
+              <div class="table-number">Table T02</div>
+              <div class="table-cap">👥 4 Guests</div>
+              <div class="table-area">Main Hall</div>
+            </div>
+            <div class="table-card" data-table-id="3" data-table-num="T03" data-cap="6">
+              <div class="table-badge">Available</div>
+              <div class="table-number">Table T03</div>
+              <div class="table-cap">👨‍👩‍👧‍👦 6 Guests</div>
+              <div class="table-area">Main Hall</div>
+            </div>
+            <div class="table-card" data-table-id="4" data-table-num="R01" data-cap="4">
+              <div class="table-badge">Available</div>
+              <div class="table-number">Rooftop R01</div>
+              <div class="table-cap">👥 4 Guests</div>
+              <div class="table-area">Rooftop Garden</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reservation Form -->
+        <div class="booking-form-card">
+          <h3>Reservation Details</h3>
+          <form id="booking-form" onsubmit="handleReservationSubmit(event)">
+            <div class="form-group">
+              <label>Selected Table</label>
+              <input type="text" id="selected-table-display" value="Table T01 (2 Guests)" readonly>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="res-date" required value="2026-09-17">
+              </div>
+              <div class="form-group">
+                <label>Time Slot</label>
+                <select id="res-time">
+                  <option value="19:00">19:00 PM</option>
+                  <option value="19:30">19:30 PM</option>
+                  <option value="20:00">20:00 PM</option>
+                  <option value="20:30">20:30 PM</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Guest Count</label>
+              <div class="guest-counter">
+                <button type="button" onclick="adjustGuests(-1)">-</button>
+                <span id="guest-count-val">2</span>
+                <button type="button" onclick="adjustGuests(1)">+</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" id="cust-name" placeholder="e.g. Rahul Verma" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="cust-phone" placeholder="9876543210" required>
+              </div>
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="cust-email" placeholder="rahul@gmail.com" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary full-width">Confirm Reservation</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Food Menu Section -->
+    <section id="menu" class="section">
+      <div class="section-header">
+        <span class="section-tag">Step 2 • Food Service Catalog</span>
+        <h2>Explore Menu & Order</h2>
+        <p>Browse our gourmet dishes, filter by category, and place your order directly to your table.</p>
+      </div>
+
+      <!-- Menu Category Filters -->
+      <div class="menu-filters">
+        <button class="filter-btn active" onclick="filterMenu('all')">All Dishes</button>
+        <button class="filter-btn" onclick="filterMenu('Main')">Main Course</button>
+        <button class="filter-btn" onclick="filterMenu('Appetizers')">Appetizers</button>
+        <button class="filter-btn" onclick="filterMenu('Dessert')">Desserts</button>
+      </div>
+
+      <!-- Food Menu Grid -->
+      <div class="menu-grid" id="menu-grid">
+        <!-- Dynamic Menu Cards Loaded via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Cart Modal / Drawer -->
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h3>Your Food Order</h3>
+      <button class="close-btn" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <p class="empty-cart-msg">Your order cart is empty.</p>
+    </div>
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">₹0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>GST (5%)</span>
+        <span id="cart-tax">₹0.00</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total Amount</span>
+        <span id="cart-total">₹0.00</span>
+      </div>
+      <button class="btn btn-primary full-width" onclick="checkoutOrder()">Submit Order to Kitchen</button>
+    </div>
+  </div>
+
+  <!-- Reservation Confirmation Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-icon">🎉</div>
+      <h2>Reservation Confirmed!</h2>
+      <p id="modal-details">Your reservation has been booked successfully.</p>
+      <button class="btn btn-primary" onclick="closeModal()">Great, Thanks!</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
