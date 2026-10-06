@@ -138,23 +138,9 @@ The relational database is normalized to Third Normal Form (3NF) to eliminate re
 
 ### Entity Relationship (ER) Diagram
 
-Below is the complete **Chen-Style Conceptual ER Diagram** for DineDesk with all entities, radiating attribute capsules, relationship diamonds, and cardinalities:
-
 [![DineDesk Chen-Style Entity Relationship Diagram](dinedesk_chen_er_diagram.svg)](https://htmlpreview.github.io/?https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_chen_er_diagram.html)
 
-#### 🎮 Interactive Movable & Draggable Canvas
-You can open the live, fully draggable and interactive version directly in your browser:
-- 🚀 **[Launch Live Draggable ER Diagram (Interactive Preview)](https://htmlpreview.github.io/?https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_chen_er_diagram.html)**
-- 📄 **[View Repository HTML File (`dinedesk_chen_er_diagram.html`)](https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_chen_er_diagram.html)**
-- 📑 **[View Data Dictionary & Schema Inspector (`dinedesk_er_diagram.html`)](https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_er_diagram.html)**
-
-#### 🕹️ Interactive Diagram Features
-- **Independent Entity Dragging:** Drag any entity box across the canvas without disturbing adjacent tables or relationships.
-- **360° Attribute Pill Repositioning:** Click and drag any individual attribute capsule (`id (PK)`, `foreign_key (FK)`, `unique_col (UQ)`) freely; curved SVG stem wires re-route dynamically.
-- **Movable Relationship Diamonds:** Reposition relationship junction diamonds (`<has>`, `<contains>`, `<books>`, `<places>`, `<generates>`, `<settles>`) independently.
-- **Zero-Overlap Layout Engine:** Switch between *Radiating Fan (Chen Classic)* and *Clean Stack* views with global spacing controls (`+` / `−`).
-- **Domain Cluster Filters:** Isolate specific subsystems (*Branch & Floor*, *Users & CRM*, *Reservations*, *Menu & Orders*, *Kitchen KDS*, *Billing & Discounts*).
-- **Auto-Save Persistence:** Custom arrangements automatically persist in browser local storage across sessions.
+*(Click on the diagram to open the live interactive, movable and draggable full-screen version)*
 
 ---
 
