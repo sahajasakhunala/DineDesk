@@ -257,70 +257,46 @@ def build_report():
     add_styled_heading(doc, "6. Entity-Relationship (ER) Diagram", level=1)
     p = doc.add_paragraph()
     p.add_run(
-        "The DineDesk database architecture models 9 primary entities connected through foreign-key relationships. "
-        "Below is the Entity-Relationship structure and cardinality mapping:"
+        "The DineDesk database architecture models 20 entities with 25 structural relationships, foreign-key constraints, and cardinalities. "
+        "Below is the complete Chen-style Entity-Relationship diagram:"
     )
     
-    er_text = """
-    +-------------------+          +---------------------+          +---------------------+
-    |    DINING_AREA    | 1      * |    TABLE_ENTITY     | 1      * |     RESERVATION     |
-    +-------------------+----------+---------------------+----------+---------------------+
-    | PK: id            |          | PK: id              |          | PK: id              |
-    |     name          |          | FK: area_id         |          | FK: table_id        |
-    |     description   |          |     table_number    |          | FK: customer_id     |
-    |     ambiance_type |          |     capacity        |          |     start_time      |
-    +-------------------+          |     is_active       |          |     end_time        |
-                                   +----------+----------+          |     guest_count     |
-                                              | 1                   |     status          |
-                                              |                     +----------+----------+
-                                              | *                              | *
-                                   +----------+----------+                     |
-                                   |   DINING_SESSION    |                     |
-                                   +---------------------+                     |
-                                   | PK: id              |                     |
-                                   | FK: table_id        |                     |
-                                   | FK: customer_id     |                     |
-                                   |     guest_count     |                     |
-                                   |     status (ACTIVE) |                     |
-                                   +----------+----------+                     |
-                                              | 1                              |
-                                              |                                |
-                                              | *                              |
-                                   +----------+----------+          +----------+----------+
-                                   |    ORDER_ENTITY     |          |   CUSTOMER_ENTITY   |
-                                   +---------------------+          +---------------------+
-                                   | PK: id              |          | PK: id              |
-                                   | FK: session_id      | 1      * |     first_name      |
-                                   |     status (PENDING)|----------|     last_name       |
-                                   |     total_amount    |          |     phone (UNIQUE)  |
-                                   +----------+----------+          |     email           |
-                                              | 1                   +---------------------+
-                                              |
-                                              | *
-    +-------------------+ 1      * +----------+----------+
-    |     MENU_ITEM     |----------|     ORDER_ITEM      |
-    +-------------------+          +---------------------+
-    | PK: id            |          | PK: id              |
-    |     name          |          | FK: order_id        |
-    |     category      |          | FK: item_id         |
-    |     price         |          |     quantity        |
-    |     is_available  |          |     unit_price      |
-    |     dietary_tags  |          |     special_requests|
-    +-------------------+          +---------------------+
-    """
-    add_code_block(doc, er_text)
+    img_path = os.path.join(os.path.dirname(__file__), "dinedesk_chen_er_diagram.png")
+    if os.path.exists(img_path):
+        p_img = doc.add_paragraph()
+        p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_img.paragraph_format.space_before = Pt(8)
+        p_img.paragraph_format.space_after = Pt(12)
+        run_img = p_img.add_run()
+        run_img.add_picture(img_path, width=Inches(6.5))
 
-    er_card_headers = ["Relationship", "Entity 1", "Cardinality", "Entity 2", "Description"]
+    er_card_headers = ["Rel ID", "Entity 1", "Cardinality", "Entity 2", "Relationship Description"]
     er_card_data = [
-        ["R1", "DINING_AREA", "1 : N", "TABLE_ENTITY", "One dining area (Rooftop, Main Hall) contains multiple tables."],
-        ["R2", "TABLE_ENTITY", "1 : N", "RESERVATION", "A single physical table can have multiple sequential time-slot bookings."],
-        ["R3", "CUSTOMER_ENTITY", "1 : N", "RESERVATION", "A registered customer can place multiple table reservations."],
-        ["R4", "TABLE_ENTITY", "1 : N", "DINING_SESSION", "A table hosts multiple live seated customer dining sessions over time."],
-        ["R5", "DINING_SESSION", "1 : N", "ORDER_ENTITY", "A dining session can submit multiple order rounds to the kitchen."],
-        ["R6", "ORDER_ENTITY", "1 : N", "ORDER_ITEM", "Each order contains multiple distinct dish line items."],
-        ["R7", "MENU_ITEM", "1 : N", "ORDER_ITEM", "A menu item can appear across numerous customer order line items."],
-        ["R8", "DINING_SESSION", "1 : 1", "BILL_ENTITY", "Each completed dining session generates a single finalized invoice."],
-        ["R9", "BILL_ENTITY", "1 : N", "PAYMENT_RECORD", "A bill can be settled through single or split payment records."]
+        ["R1", "BRANCH", "1 : N", "DINING_AREA", "One branch contains multiple floor dining areas (Rooftop, Main Hall, Lounge, etc.)."],
+        ["R2", "DINING_AREA", "1 : N", "TABLE_ENTITY", "Each dining area encompasses multiple dining tables."],
+        ["R3", "BRANCH", "1 : N", "USER_ACCOUNT", "Each branch employs staff members and administrative personnel."],
+        ["R4", "ROLE", "1 : N", "USER_ACCOUNT", "Access roles (Admin, Waiter, Chef, Cashier) assigned to accounts."],
+        ["R5", "TABLE_ENTITY", "1 : N", "RESERVATION", "A physical dining table hosts multiple sequential reservation slots."],
+        ["R6", "CUSTOMER", "1 : N", "RESERVATION", "A registered patron books one or more advance table reservations."],
+        ["R7", "TABLE_ENTITY", "1 : N", "DINING_SESSION", "A dining table hosts active live customer dining sessions over time."],
+        ["R8", "CUSTOMER", "1 : N", "DINING_SESSION", "A customer attends and participates in a live dining session."],
+        ["R9", "RESERVATION", "1 : 1", "DINING_SESSION", "A confirmed reservation is fulfilled by seating into an active dining session."],
+        ["R10", "MENU_CATEGORY", "1 : N", "MENU_ITEM", "Each food category categorizes multiple distinct culinary dishes."],
+        ["R11", "DINING_SESSION", "1 : N", "CUSTOMER_ORDER", "An active table session places multiple order rounds during their stay."],
+        ["R12", "USER_ACCOUNT", "1 : N", "CUSTOMER_ORDER", "A staff user / server takes and routes the customer order."],
+        ["R13", "CUSTOMER_ORDER", "1 : N", "ORDER_ITEM", "Each order ticket includes itemized food lines with quantities."],
+        ["R14", "MENU_ITEM", "1 : N", "ORDER_ITEM", "Menu items appear across customer order items."],
+        ["R15", "CUSTOMER_ORDER", "1 : N", "ORDER_STATUS_HISTORY", "Order lifecycle progression logs timestamps across statuses."],
+        ["R16", "CUSTOMER_ORDER", "1 : 1", "KITCHEN_TICKET", "Order submission automatically generates a corresponding kitchen prep ticket."],
+        ["R17", "KITCHEN_TICKET", "1 : N", "KITCHEN_TICKET_ITEM", "Kitchen tickets contain individual item tasks for prep stations."],
+        ["R18", "ORDER_ITEM", "1 : N", "KITCHEN_TICKET_ITEM", "Each ordered dish line item routes to its kitchen display tracker."],
+        ["R19", "DINING_SESSION", "1 : 1", "BILL", "A concluded dining session generates a unified financial invoice bill."],
+        ["R20", "BILL", "1 : N", "BILL_ITEM", "Bills itemize ordered items with price snapshots and subtotal lines."],
+        ["R21", "ORDER_ITEM", "1 : N", "BILL_ITEM", "Order line items are snapshotted into immutable bill lines."],
+        ["R22", "DISCOUNT", "1 : N", "DISCOUNT_APPLICATION", "Promotional discount codes are applied via application ledgers."],
+        ["R23", "BILL", "1 : N", "DISCOUNT_APPLICATION", "Bills receive authorized coupon and promotional reductions."],
+        ["R24", "USER_ACCOUNT", "1 : N", "DISCOUNT_APPLICATION", "Staff managers authorize applied discounts on customer bills."],
+        ["R25", "BILL", "1 : N", "PAYMENT", "Finalized bills are settled across payment receipts (Cash, Card, UPI)."]
     ]
     add_custom_table(doc, er_card_headers, er_card_data)
 
@@ -331,16 +307,26 @@ def build_report():
     
     add_styled_heading(doc, "7.1 Relational Schema Representation", level=2)
     schema_desc = """
-    1. DINING_AREA(area_id [PK], name, description, atmosphere_type, is_active)
-    2. TABLE_ENTITY(table_id [PK], area_id [FK->DINING_AREA.area_id], table_number, capacity, is_active)
-    3. CUSTOMER(customer_id [PK], first_name, last_name, phone [UQ], email, created_at)
-    4. RESERVATION(reservation_id [PK], table_id [FK], customer_id [FK], start_time, end_time, guest_count, status, notes)
-    5. MENU_ITEM(item_id [PK], name [UQ], category, price, description, is_available, dietary_flags)
-    6. DINING_SESSION(session_id [PK], table_id [FK], customer_id [FK], opened_at, closed_at, status, guest_count)
-    7. ORDER_ENTITY(order_id [PK], session_id [FK], status, created_at, kitchen_note, total_amount)
-    8. ORDER_ITEM(order_item_id [PK], order_id [FK], item_id [FK], quantity, unit_price, line_total, special_request)
-    9. BILL_ENTITY(bill_id [PK], session_id [FK], subtotal, discount_amount, tax_amount, grand_total, status)
-    10. PAYMENT(payment_id [PK], bill_id [FK], payment_method, amount, status, transaction_ref, processed_at)
+    1. BRANCH (branch_id [PK], name, phone, address, created_at, updated_at)
+    2. DINING_AREA (area_id [PK], branch_id [FK->BRANCH.branch_id], name, created_at, updated_at)
+    3. TABLE_ENTITY (table_id [PK], area_id [FK->DINING_AREA.area_id], table_number [UQ], capacity, is_active, created_at, updated_at)
+    4. ROLE (role_id [PK], name [UQ], description)
+    5. USER_ACCOUNT (user_id [PK], role_id [FK->ROLE.role_id], branch_id [FK->BRANCH.branch_id], email [UQ], first_name, last_name, password_hash, created_at)
+    6. CUSTOMER (customer_id [PK], first_name, last_name, phone [UQ], email [UQ], created_at, updated_at)
+    7. RESERVATION (reservation_id [PK], table_id [FK->TABLE_ENTITY.table_id], customer_id [FK->CUSTOMER.customer_id], start_time, end_time, guest_count, status, special_requests, created_at, updated_at)
+    8. DINING_SESSION (session_id [PK], table_id [FK->TABLE_ENTITY.table_id], customer_id [FK->CUSTOMER.customer_id], reservation_id [FK->RESERVATION.reservation_id], guest_count, status, start_time, end_time, created_at, updated_at)
+    9. MENU_CATEGORY (category_id [PK], name [UQ], description)
+    10. MENU_ITEM (item_id [PK], category_id [FK->MENU_CATEGORY.category_id], name, description, current_price, is_active, image_url, created_at, updated_at)
+    11. CUSTOMER_ORDER (order_id [PK], session_id [FK->DINING_SESSION.session_id], user_id [FK->USER_ACCOUNT.user_id], status, created_at, updated_at)
+    12. ORDER_ITEM (order_item_id [PK], order_id [FK->CUSTOMER_ORDER.order_id], item_id [FK->MENU_ITEM.item_id], quantity, unit_price, special_requests, created_at, updated_at)
+    13. ORDER_STATUS_HISTORY (history_id [PK], order_id [FK->CUSTOMER_ORDER.order_id], status, changed_at)
+    14. KITCHEN_TICKET (ticket_id [PK], order_id [FK->CUSTOMER_ORDER.order_id], status, prep_start_time, ready_time, created_at, updated_at)
+    15. KITCHEN_TICKET_ITEM (ticket_item_id [PK], ticket_id [FK->KITCHEN_TICKET.ticket_id], order_item_id [FK->ORDER_ITEM.order_item_id], status)
+    16. BILL (bill_id [PK], session_id [FK->DINING_SESSION.session_id], subtotal, tax_amount, total_amount, status, created_at, updated_at)
+    17. BILL_ITEM (bill_item_id [PK], bill_id [FK->BILL.bill_id], order_item_id [FK->ORDER_ITEM.order_item_id], item_name_snapshot, quantity, total_price)
+    18. DISCOUNT (discount_id [PK], code [UQ], discount_type, percentage_off, fixed_amount_off, is_active)
+    19. DISCOUNT_APPLICATION (discount_app_id [PK], bill_id [FK->BILL.bill_id], discount_id [FK->DISCOUNT.discount_id], authorized_by [FK->USER_ACCOUNT.user_id], applied_amount)
+    20. PAYMENT (payment_id [PK], bill_id [FK->BILL.bill_id], amount, payment_method, status, transaction_ref [UQ], created_at, updated_at)
     """
     add_code_block(doc, schema_desc.strip())
 
