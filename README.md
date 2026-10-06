@@ -95,45 +95,6 @@ graph TD
     AUTH & RES & FLOOR & ORD & KDS & BILL & REP --> DB
 ```
 
-### End-to-End Operational Lifecycle
-
-The flowchart below details the step-by-step operational lifecycle of a dining session from table seating to cashier settlement:
-
-```mermaid
-graph TD
-    classDef step fill:#1e293b,stroke:#818cf8,stroke-width:1.5px,color:#f8fafc;
-    classDef db fill:#0f172a,stroke:#38bdf8,stroke-width:1.5px,color:#f8fafc;
-    classDef success fill:#064e3b,stroke:#34d399,stroke-width:1.5px,color:#f8fafc;
-
-    subgraph Phase1["Phase 1: Seating and Table Allocation"]
-        S1["1. Guest selects table or arrives for reservation"]:::step
-        S2["2. Dispatch API: POST /api/v1/dining/sessions"]:::step
-        S3[("3. Dining Session created in Database<br/>Table status locked to OCCUPIED")]:::db
-        S1 --> S2 --> S3
-    end
-
-    subgraph Phase2["Phase 2: Digital Menu & Order Placement"]
-        S4["4. Guest browses menu items & adds chef notes"]:::step
-        S5["5. Dispatch API: POST /api/v1/orders"]:::step
-        S6[("6. Order and line items saved<br/>Kitchen Ticket generated: PENDING")]:::db
-        S3 --> S4 --> S5 --> S6
-    end
-
-    subgraph Phase3["Phase 3: Kitchen Preparation (KDS)"]
-        S7["7. Chef starts cooking: POST /kitchen/tickets/{id}/start"]:::step
-        S8[("8. Ticket status updated to IN_PROGRESS")]:::db
-        S9["9. Chef completes preparation: POST /kitchen/tickets/{id}/ready"]:::step
-        S10[("10. Ticket status updated to READY<br/>Server delivers food to table")]:::db
-        S6 --> S7 --> S8 --> S9 --> S10
-    end
-
-    subgraph Phase4["Phase 4: Invoice Billing & Settlement"]
-        S11["11. Guest requests final bill"]:::step
-        S12["12. Cashier settles invoice: POST /api/v1/billing/{id}/pay"]:::step
-        S13[("13. Bill status updated to PAID<br/>Table status released to AVAILABLE")]:::success
-        S10 --> S11 --> S12 --> S13
-    end
-```
 
 ---
 
