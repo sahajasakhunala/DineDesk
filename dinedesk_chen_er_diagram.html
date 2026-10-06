@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DineDesk - Chen-Style Entity Relationship (ER) Diagram</title>
-  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -14,228 +13,363 @@
     body {
       background-color: #070c18;
       color: #f8fafc;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       overflow: hidden;
       user-select: none;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    /* Clean Dot Grid Canvas */
-    .dot-grid {
+
+    /* Top Navigation Header */
+    header {
+      height: 56px;
+      background: #090f1d;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand-title {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+    }
+
+    /* Cluster Filter Pills */
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cluster-btn {
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #111827;
+      border: 1px solid #374151;
+      color: #9ca3af;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .cluster-btn:hover {
+      color: #ffffff;
+      border-color: #4b5563;
+    }
+    .cluster-btn.active {
+      background: #1e293b;
+      color: #ffffff;
+      border-color: #38bdf8;
+    }
+    .btn-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    /* Right Controls */
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .search-box {
+      position: relative;
+    }
+    .search-input {
+      background: #111827;
+      border: 1px solid #374151;
+      border-radius: 6px;
+      padding: 6px 12px 6px 28px;
+      font-size: 12px;
+      color: #e5e7eb;
+      width: 180px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .search-input:focus {
+      border-color: #38bdf8;
+    }
+    .search-icon {
+      position: absolute;
+      left: 9px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      fill: none;
+      stroke: #6b7280;
+    }
+    .tool-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f1f5f9;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    .tool-btn:hover {
+      background: #334155;
+    }
+    .btn-primary {
+      background: #0284c7;
+      border-color: #0284c7;
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: #0369a1;
+    }
+
+    /* Infinite Canvas */
+    main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
       background-size: 32px 32px;
-      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.14) 1.2px, transparent 1.2px);
+      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.13) 1.2px, transparent 1.2px);
       background-color: #060a14;
     }
+    #svgLayer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+    #diagramWorld {
+      position: absolute;
+      inset: 0;
+      transform-origin: 0 0;
+    }
+
+    /* Entity Cards */
     .entity-box {
+      position: absolute;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: grab;
-      transition: box-shadow 0.15s ease;
       touch-action: none;
+      background: #0b1329;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      transition: box-shadow 0.15s ease;
+      z-index: 20;
     }
     .entity-box:active {
       cursor: grabbing;
+      z-index: 40 !important;
     }
-    .entity-box:hover {
-      box-shadow: 0 0 25px currentColor !important;
-      z-index: 30 !important;
-    }
+
+    /* Attribute Capsules */
     .attr-pill {
+      position: absolute;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight: 600;
+      white-space: nowrap;
       cursor: grab;
-      transition: transform 0.1s ease, box-shadow 0.15s ease;
       touch-action: none;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      z-index: 25;
+      transition: transform 0.1s ease;
+    }
+    .attr-pill:hover {
+      transform: scale(1.08) translate(-50%, -50%);
+      z-index: 50;
     }
     .attr-pill:active {
       cursor: grabbing;
-      transform: scale(1.12) translate(-50%, -50%) !important;
+      transform: scale(1.15) translate(-50%, -50%) !important;
       z-index: 60 !important;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
     }
-    .attr-pill:hover {
-      transform: scale(1.06) translate(-50%, -50%);
-      z-index: 50;
-    }
+
+    /* Relationship Diamonds */
     .rel-diamond {
       cursor: grab;
-      transition: filter 0.15s ease;
+      pointer-events: auto;
       touch-action: none;
     }
-    .rel-diamond:active {
-      cursor: grabbing;
-    }
     .rel-diamond:hover {
-      filter: drop-shadow(0 0 12px #818cf8);
+      filter: drop-shadow(0 0 10px #818cf8);
+    }
+    .rel-wire {
+      stroke: #475569;
+      stroke-width: 2;
+      stroke-linecap: round;
+      fill: none;
     }
     .stem-wire {
       fill: none;
       stroke-width: 1.6;
       stroke-linecap: round;
       opacity: 0.8;
-      pointer-events: none;
     }
-    .rel-wire {
-      fill: none;
-      stroke: #475569;
-      stroke-width: 2;
-      stroke-linecap: round;
-      pointer-events: none;
-    }
-    .rel-wire.active {
-      stroke: #38bdf8;
-      stroke-width: 3;
-    }
-    .cardinality-badge {
-      font-family: monospace;
+    .cardinality-text {
+      font-family: ui-monospace, monospace;
       font-size: 11px;
       font-weight: 800;
       fill: #f8fafc;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
       user-select: none;
     }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
+
+    /* Floating Legend */
+    .legend-card {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(9, 15, 29, 0.95);
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
+      color: #94a3b8;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 50;
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 4px;
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #f1f5f9;
+      font-weight: 600;
     }
   </style>
 </head>
-<body class="w-screen h-screen flex flex-col">
+<body>
 
-  <!-- Top Navigation & Control Header -->
-  <header class="h-16 border-b border-slate-800/90 bg-slate-950/95 backdrop-blur-md px-6 flex items-center justify-between z-30 shrink-0">
-    <div class="flex items-center gap-4">
-      <div class="flex items-center gap-2.5">
-        <span class="w-3.5 h-3.5 rounded-full bg-sky-400 shadow-md shadow-sky-400/50 animate-pulse"></span>
-        <div>
-          <h1 class="text-sm font-black tracking-wider text-white uppercase">DineDesk &bull; Chen ER Diagram</h1>
-          <p class="text-[10px] text-slate-400">Independent Drag &bull; Zero Overlap Controls</p>
-        </div>
+  <!-- Top Control Bar -->
+  <header>
+    <div class="header-left">
+      <div class="brand-title">
+        <span class="brand-dot"></span>
+        <span>DINEDESK ER DIAGRAM</span>
       </div>
 
       <!-- Domain Chips -->
-      <div class="hidden xl:flex items-center gap-1.5 ml-3">
-        <button onclick="filterCluster('ALL')" class="cluster-btn px-2.5 py-1 rounded text-[11px] font-semibold bg-slate-800 text-white border border-slate-700" data-cluster="ALL">ALL (20)</button>
-        <button onclick="filterCluster('RESTAURANT')" class="cluster-btn px-2.5 py-1 rounded text-[11px] font-semibold text-sky-400 bg-sky-950/40 border border-sky-800/50" data-cluster="RESTAURANT"><span class="inline-block w-2 h-2 rounded-full bg-sky-400 mr-1"></span>BRANCH & FLOOR</button>
-        <button onclick="filterCluster('USERS')" class="cluster-btn px-2.5 py-1 rounded text-[11px] font-semibold text-indigo-400 bg-indigo-950/40 border border-indigo-800/50" data-cluster="USERS"><span class="inline-block w-2 h-2 rounded-full bg-indigo-400 mr-1"></span>USERS & CRM</button>
-        <button onclick="filterCluster('DINING')" class="cluster-btn px-2.5 py-1 rounded text-[11px] font-semibold text-emerald-400 bg-emerald-950/40 border border-emerald-800/50" data-cluster="DINING"><span class="inline-block w-2 h-2 rounded-full bg-emerald-400 mr-1"></span>RESERVATIONS</button>
-        <button onclick="filterCluster('ORDERS')" class="cluster-btn px-2.5 py-1 rounded text-[11px] font-semibold text-amber-400 bg-amber-950/40 border border-amber-800/50" data-cluster="ORDERS"><span class="inline-block w-2 h-2 rounded-full bg-amber-400 mr-1"></span>MENU & ORDERS</button>
-        <button onclick="filterCluster('KITCHEN')" class="cluster-btn px-2.5 py-1 rounded text-[11px] font-semibold text-rose-400 bg-rose-950/40 border border-rose-800/50" data-cluster="KITCHEN"><span class="inline-block w-2 h-2 rounded-full bg-rose-400 mr-1"></span>KITCHEN KDS</button>
-        <button onclick="filterCluster('BILLING')" class="cluster-btn px-2.5 py-1 rounded text-[11px] font-semibold text-pink-400 bg-pink-950/40 border border-pink-800/50" data-cluster="BILLING"><span class="inline-block w-2 h-2 rounded-full bg-pink-400 mr-1"></span>BILLING & DISCOUNTS</button>
+      <div class="filter-group">
+        <button onclick="filterCluster('ALL')" class="cluster-btn active" data-cluster="ALL">ALL (20)</button>
+        <button onclick="filterCluster('RESTAURANT')" class="cluster-btn" data-cluster="RESTAURANT"><span class="btn-dot" style="background:#38bdf8"></span>BRANCH</button>
+        <button onclick="filterCluster('USERS')" class="cluster-btn" data-cluster="USERS"><span class="btn-dot" style="background:#818cf8"></span>USERS</button>
+        <button onclick="filterCluster('DINING')" class="cluster-btn" data-cluster="DINING"><span class="btn-dot" style="background:#34d399"></span>RESERVATIONS</button>
+        <button onclick="filterCluster('ORDERS')" class="cluster-btn" data-cluster="ORDERS"><span class="btn-dot" style="background:#fbbf24"></span>ORDERS</button>
+        <button onclick="filterCluster('KITCHEN')" class="cluster-btn" data-cluster="KITCHEN"><span class="btn-dot" style="background:#f87171"></span>KITCHEN</button>
+        <button onclick="filterCluster('BILLING')" class="cluster-btn" data-cluster="BILLING"><span class="btn-dot" style="background:#f472b6"></span>BILLING</button>
       </div>
     </div>
 
-    <!-- Quick Tool Controls -->
-    <div class="flex items-center gap-3 text-xs">
-      
-      <!-- Layout Style Mode -->
-      <div class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-1 text-[11px] gap-1">
-        <span class="text-slate-400 px-1 font-medium">Style:</span>
-        <button id="modeFan" onclick="setAttrMode('fan')" class="px-2 py-0.5 rounded bg-sky-600 text-white font-semibold">Fan (Chen)</button>
-        <button id="modeStack" onclick="setAttrMode('stack')" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">Clean Stack</button>
+    <!-- Right Controls -->
+    <div class="header-right">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search table or column..." oninput="handleSearch(this.value)" />
       </div>
 
-      <!-- Spacing Spreader -->
-      <div class="hidden md:flex items-center bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 gap-2 text-[11px]">
-        <span class="text-slate-400">Spacing:</span>
-        <button onclick="adjustSpacing(1.15)" title="Spread Out Further" class="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-bold">+</button>
-        <button onclick="adjustSpacing(0.88)" title="Compress Spacing" class="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-bold">−</button>
-      </div>
-
-      <!-- Search Bar -->
-      <div class="relative">
-        <input type="text" id="searchInput" placeholder="Search table or column..." oninput="handleSearch(this.value)"
-          class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 pl-8 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-400 w-44 lg:w-52" />
-        <svg class="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-      </div>
-
-      <!-- Zoom Controls -->
-      <div class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5">
-        <button onclick="zoomDelta(-0.12)" class="px-2 py-1 text-slate-300 hover:text-white font-bold text-sm">−</button>
-        <button onclick="resetZoom()" class="px-2 py-1 text-[11px] text-slate-400 hover:text-white border-x border-slate-800">100%</button>
-        <button onclick="zoomDelta(0.12)" class="px-2 py-1 text-slate-300 hover:text-white font-bold text-sm">+</button>
-      </div>
-
-      <button onclick="resetToSpaciousLayout()" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold shadow-md shadow-sky-600/30 flex items-center gap-1.5 transition">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-        <span>Reset Layout</span>
-      </button>
+      <button onclick="zoomDelta(-0.12)" class="tool-btn">Zoom −</button>
+      <button onclick="resetZoom()" class="tool-btn">Reset</button>
+      <button onclick="zoomDelta(0.12)" class="tool-btn">Zoom +</button>
+      <button onclick="resetToSpaciousLayout()" class="tool-btn btn-primary">Auto-Layout</button>
     </div>
   </header>
 
-  <!-- Interactive Infinite Canvas -->
-  <main class="flex-1 relative overflow-hidden dot-grid" id="canvasViewport">
-    
-    <!-- SVG Vector Layer for Relationship Wires, Attribute Stems, Diamonds & Cardinalities -->
-    <svg id="svgLayer" class="absolute inset-0 w-full h-full pointer-events-none" style="overflow: visible;">
+  <!-- Interactive Canvas -->
+  <main id="canvasViewport">
+    <svg id="svgLayer">
       <g id="relWiresGroup"></g>
       <g id="attrStemsGroup"></g>
-      <g id="diamondsGroup" class="pointer-events-auto"></g>
+      <g id="diamondsGroup"></g>
       <g id="cardinalityGroup"></g>
     </svg>
 
-    <!-- World Container for Entity Boxes and Attribute Capsules -->
-    <div id="diagramWorld" class="absolute inset-0 origin-top-left" style="transform: translate(80px, 60px) scale(0.68);">
-      <div id="entitiesLayer" class="relative"></div>
-      <div id="attributesLayer" class="relative"></div>
+    <div id="diagramWorld">
+      <div id="entitiesLayer"></div>
+      <div id="attributesLayer"></div>
     </div>
 
-    <!-- Floating Live Instruction Toast -->
-    <div class="absolute bottom-5 left-6 bg-slate-950/95 backdrop-blur-md border border-slate-800 rounded-xl p-3.5 shadow-2xl z-20 flex items-center gap-5 text-xs text-slate-300">
-      <div class="flex items-center gap-2">
-        <span class="w-4 h-3 rounded border-2 border-sky-400 bg-sky-950/70 inline-block"></span>
-        <span class="font-bold text-white">Drag Entity</span>
-        <span class="text-slate-500 text-[11px]">(moves table + its capsules)</span>
+    <!-- Floating Instruction -->
+    <div class="legend-card">
+      <div class="legend-item">
+        <span style="width:14px; height:10px; border:2px solid #38bdf8; background:#0b1329; border-radius:3px; display:inline-block"></span>
+        <span>Drag Entity</span>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="px-2 py-0.5 rounded-full border border-yellow-400/80 bg-yellow-950/40 text-[10px] text-yellow-300 font-mono">id (PK)</span>
-        <span class="font-bold text-white">Drag Any Pill</span>
-        <span class="text-slate-500 text-[11px]">(moves only that pill)</span>
+      <div class="legend-item">
+        <span style="padding:1px 6px; border:1px solid #facc15; background:rgba(234,179,8,0.2); color:#fde047; border-radius:10px; font-size:9px; font-family:monospace">id (PK)</span>
+        <span>Drag Attribute Pill</span>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="w-3.5 h-3.5 rotate-45 border-2 border-indigo-400 bg-indigo-950/80 inline-block"></span>
-        <span class="font-bold text-white">Drag Diamond</span>
-        <span class="text-slate-500 text-[11px]">(adjusts relationship)</span>
+      <div class="legend-item">
+        <span style="width:10px; height:10px; border:1.5px solid #818cf8; background:#0f172a; transform:rotate(45deg); display:inline-block"></span>
+        <span>Drag Diamond</span>
       </div>
-      <div class="h-4 w-px bg-slate-800"></div>
-      <div class="text-[11px] text-slate-400">
-        ✨ <em>Positions auto-save to browser storage</em>
-      </div>
+      <span style="color:#64748b; font-size:10px">| Positions auto-save to browser</span>
     </div>
   </main>
 
   <script>
-    // Spacious Non-Overlapping Coordinates with Generous Margins
     const SPACIOUS_LAYOUT = {
-      // Row 1: Branches, Roles, Menu Categories, Kitchen Tickets
-      BRANCH: { x: 120, y: 150 },
-      ROLE: { x: 800, y: 150 },
-      MENU_CATEGORY: { x: 1550, y: 150 },
-      KITCHEN_TICKET: { x: 2300, y: 150 },
-      KITCHEN_TICKET_ITEM: { x: 2950, y: 150 },
+      BRANCH: { x: 140, y: 150 },
+      ROLE: { x: 820, y: 150 },
+      MENU_CATEGORY: { x: 1580, y: 150 },
+      KITCHEN_TICKET: { x: 2320, y: 150 },
+      KITCHEN_TICKET_ITEM: { x: 2980, y: 150 },
 
-      // Row 2: Dining Areas, Staff Accounts, Menu Items, Order Items
-      DINING_AREA: { x: 120, y: 650 },
-      USER_ACCOUNT: { x: 800, y: 650 },
-      MENU_ITEM: { x: 1550, y: 650 },
-      ORDER_ITEM: { x: 2300, y: 650 },
+      DINING_AREA: { x: 140, y: 650 },
+      USER_ACCOUNT: { x: 820, y: 650 },
+      MENU_ITEM: { x: 1580, y: 650 },
+      ORDER_ITEM: { x: 2320, y: 650 },
 
-      // Row 3: Tables, Customers, Reservations, Customer Orders, Status History
-      TABLE_ENTITY: { x: 120, y: 1200 },
-      CUSTOMER: { x: 800, y: 1200 },
-      RESERVATION: { x: 1550, y: 1200 },
-      CUSTOMER_ORDER: { x: 2300, y: 1200 },
-      ORDER_STATUS_HISTORY: { x: 2950, y: 1200 },
+      TABLE_ENTITY: { x: 140, y: 1200 },
+      CUSTOMER: { x: 820, y: 1200 },
+      RESERVATION: { x: 1580, y: 1200 },
+      CUSTOMER_ORDER: { x: 2320, y: 1200 },
+      ORDER_STATUS_HISTORY: { x: 2980, y: 1200 },
 
-      // Row 4: Dining Sessions, Bill Items
-      DINING_SESSION: { x: 1550, y: 1750 },
-      BILL_ITEM: { x: 2300, y: 1750 },
+      DINING_SESSION: { x: 1580, y: 1750 },
+      BILL_ITEM: { x: 2320, y: 1750 },
 
-      // Row 5: Discounts, Discount Applications, Bills
-      DISCOUNT: { x: 120, y: 2280 },
-      DISCOUNT_APPLICATION: { x: 800, y: 2280 },
-      BILL: { x: 1550, y: 2280 },
+      DISCOUNT: { x: 140, y: 2280 },
+      DISCOUNT_APPLICATION: { x: 820, y: 2280 },
+      BILL: { x: 1580, y: 2280 },
 
-      // Row 6: Payments
-      PAYMENT: { x: 1550, y: 2800 }
+      PAYMENT: { x: 1580, y: 2820 }
     };
 
     const CHEN_DATA = {
@@ -248,12 +382,8 @@
         BILLING: { color: "#f472b6", border: "#db2777", bg: "rgba(236, 72, 153, 0.14)" }
       },
       entities: [
-        // 1. Restaurant Hierarchy
         {
-          id: "BRANCH",
-          name: "BRANCH",
-          cluster: "RESTAURANT",
-          w: 140, h: 48,
+          id: "BRANCH", name: "BRANCH", cluster: "RESTAURANT", w: 140, h: 48,
           attributes: [
             { id: "b_id", name: "id (PK)", type: "pk", ox: -130, oy: -75 },
             { id: "b_name", name: "name", type: "normal", ox: -30, oy: -95 },
@@ -264,10 +394,7 @@
           ]
         },
         {
-          id: "DINING_AREA",
-          name: "DINING_AREA",
-          cluster: "RESTAURANT",
-          w: 150, h: 48,
+          id: "DINING_AREA", name: "DINING_AREA", cluster: "RESTAURANT", w: 150, h: 48,
           attributes: [
             { id: "da_id", name: "id (PK)", type: "pk", ox: -130, oy: -60 },
             { id: "da_bid", name: "branch_id (FK)", type: "fk", ox: -145, oy: 0 },
@@ -276,10 +403,7 @@
           ]
         },
         {
-          id: "TABLE_ENTITY",
-          name: "TABLE_ENTITY",
-          cluster: "RESTAURANT",
-          w: 160, h: 48,
+          id: "TABLE_ENTITY", name: "TABLE_ENTITY", cluster: "RESTAURANT", w: 160, h: 48,
           attributes: [
             { id: "t_id", name: "id (PK)", type: "pk", ox: -130, oy: -75 },
             { id: "t_aid", name: "area_id (FK)", type: "fk", ox: -145, oy: -20 },
@@ -288,13 +412,8 @@
             { id: "t_act", name: "is_active", type: "normal", ox: 0, oy: 85 }
           ]
         },
-
-        // 2. Users & Roles
         {
-          id: "ROLE",
-          name: "ROLE",
-          cluster: "USERS",
-          w: 130, h: 48,
+          id: "ROLE", name: "ROLE", cluster: "USERS", w: 130, h: 48,
           attributes: [
             { id: "r_id", name: "id (PK)", type: "pk", ox: -70, oy: -85 },
             { id: "r_name", name: "name (UQ)", type: "uq", ox: 50, oy: -85 },
@@ -302,10 +421,7 @@
           ]
         },
         {
-          id: "USER_ACCOUNT",
-          name: "USER_ACCOUNT",
-          cluster: "USERS",
-          w: 160, h: 48,
+          id: "USER_ACCOUNT", name: "USER_ACCOUNT", cluster: "USERS", w: 160, h: 48,
           attributes: [
             { id: "u_id", name: "id (PK)", type: "pk", ox: 135, oy: -75 },
             { id: "u_rid", name: "role_id (FK)", type: "fk", ox: 145, oy: -25 },
@@ -317,10 +433,7 @@
           ]
         },
         {
-          id: "CUSTOMER",
-          name: "CUSTOMER",
-          cluster: "USERS",
-          w: 150, h: 48,
+          id: "CUSTOMER", name: "CUSTOMER", cluster: "USERS", w: 150, h: 48,
           attributes: [
             { id: "c_id", name: "id (PK)", type: "pk", ox: 130, oy: -75 },
             { id: "c_fn", name: "first_name", type: "normal", ox: 140, oy: -25 },
@@ -330,13 +443,8 @@
             { id: "c_ca", name: "created_at", type: "normal", ox: -60, oy: 85 }
           ]
         },
-
-        // 3. Dining & Reservations
         {
-          id: "RESERVATION",
-          name: "RESERVATION",
-          cluster: "DINING",
-          w: 150, h: 48,
+          id: "RESERVATION", name: "RESERVATION", cluster: "DINING", w: 150, h: 48,
           attributes: [
             { id: "res_id", name: "id (PK)", type: "pk", ox: -90, oy: -85 },
             { id: "res_tid", name: "table_id (FK)", type: "fk", ox: 0, oy: -95 },
@@ -348,10 +456,7 @@
           ]
         },
         {
-          id: "DINING_SESSION",
-          name: "DINING_SESSION",
-          cluster: "DINING",
-          w: 165, h: 48,
+          id: "DINING_SESSION", name: "DINING_SESSION", cluster: "DINING", w: 165, h: 48,
           attributes: [
             { id: "ds_id", name: "id (PK)", type: "pk", ox: -90, oy: -85 },
             { id: "ds_tid", name: "table_id (FK)", type: "fk", ox: 0, oy: -95 },
@@ -363,13 +468,8 @@
             { id: "ds_stat", name: "status", type: "normal", ox: -80, oy: 85 }
           ]
         },
-
-        // 4. Menu & Orders
         {
-          id: "MENU_CATEGORY",
-          name: "MENU_CATEGORY",
-          cluster: "ORDERS",
-          w: 165, h: 48,
+          id: "MENU_CATEGORY", name: "MENU_CATEGORY", cluster: "ORDERS", w: 165, h: 48,
           attributes: [
             { id: "mc_id", name: "id (PK)", type: "pk", ox: -70, oy: -85 },
             { id: "mc_name", name: "name (UQ)", type: "uq", ox: 50, oy: -85 },
@@ -377,10 +477,7 @@
           ]
         },
         {
-          id: "MENU_ITEM",
-          name: "MENU_ITEM",
-          cluster: "ORDERS",
-          w: 150, h: 48,
+          id: "MENU_ITEM", name: "MENU_ITEM", cluster: "ORDERS", w: 150, h: 48,
           attributes: [
             { id: "mi_id", name: "id (PK)", type: "pk", ox: -70, oy: -85 },
             { id: "mi_cid", name: "category_id (FK)", type: "fk", ox: 50, oy: -85 },
@@ -391,10 +488,7 @@
           ]
         },
         {
-          id: "CUSTOMER_ORDER",
-          name: "CUSTOMER_ORDER",
-          cluster: "ORDERS",
-          w: 170, h: 48,
+          id: "CUSTOMER_ORDER", name: "CUSTOMER_ORDER", cluster: "ORDERS", w: 170, h: 48,
           attributes: [
             { id: "co_id", name: "id (PK)", type: "pk", ox: -80, oy: -85 },
             { id: "co_sid", name: "session_id (FK)", type: "fk", ox: 0, oy: -95 },
@@ -405,10 +499,7 @@
           ]
         },
         {
-          id: "ORDER_ITEM",
-          name: "ORDER_ITEM",
-          cluster: "ORDERS",
-          w: 150, h: 48,
+          id: "ORDER_ITEM", name: "ORDER_ITEM", cluster: "ORDERS", w: 150, h: 48,
           attributes: [
             { id: "oi_id", name: "id (PK)", type: "pk", ox: -70, oy: -85 },
             { id: "oi_oid", name: "order_id (FK)", type: "fk", ox: 20, oy: -95 },
@@ -419,10 +510,7 @@
           ]
         },
         {
-          id: "ORDER_STATUS_HISTORY",
-          name: "ORDER_STATUS_HISTORY",
-          cluster: "ORDERS",
-          w: 200, h: 48,
+          id: "ORDER_STATUS_HISTORY", name: "ORDER_STATUS_HISTORY", cluster: "ORDERS", w: 200, h: 48,
           attributes: [
             { id: "osh_id", name: "id (PK)", type: "pk", ox: -70, oy: 85 },
             { id: "osh_oid", name: "order_id (FK)", type: "fk", ox: 20, oy: 95 },
@@ -430,13 +518,8 @@
             { id: "osh_ca", name: "changed_at", type: "normal", ox: 135, oy: 30 }
           ]
         },
-
-        // 5. Kitchen Display (KDS)
         {
-          id: "KITCHEN_TICKET",
-          name: "KITCHEN_TICKET",
-          cluster: "KITCHEN",
-          w: 165, h: 48,
+          id: "KITCHEN_TICKET", name: "KITCHEN_TICKET", cluster: "KITCHEN", w: 165, h: 48,
           attributes: [
             { id: "kt_id", name: "id (PK)", type: "pk", ox: -80, oy: -85 },
             { id: "kt_oid", name: "order_id (FK)", type: "fk", ox: 10, oy: -95 },
@@ -446,10 +529,7 @@
           ]
         },
         {
-          id: "KITCHEN_TICKET_ITEM",
-          name: "KITCHEN_TICKET_ITEM",
-          cluster: "KITCHEN",
-          w: 200, h: 48,
+          id: "KITCHEN_TICKET_ITEM", name: "KITCHEN_TICKET_ITEM", cluster: "KITCHEN", w: 200, h: 48,
           attributes: [
             { id: "kti_id", name: "id (PK)", type: "pk", ox: -70, oy: -85 },
             { id: "kti_tid", name: "ticket_id (FK)", type: "fk", ox: 30, oy: -95 },
@@ -457,13 +537,8 @@
             { id: "kti_stat", name: "status", type: "normal", ox: 130, oy: 30 }
           ]
         },
-
-        // 6. Billing & Payments
         {
-          id: "BILL",
-          name: "BILL",
-          cluster: "BILLING",
-          w: 140, h: 48,
+          id: "BILL", name: "BILL", cluster: "BILLING", w: 140, h: 48,
           attributes: [
             { id: "b_id_pk", name: "id (PK)", type: "pk", ox: -125, oy: -45 },
             { id: "b_sid", name: "session_id (FK)", type: "fk", ox: -140, oy: 15 },
@@ -474,10 +549,7 @@
           ]
         },
         {
-          id: "BILL_ITEM",
-          name: "BILL_ITEM",
-          cluster: "BILLING",
-          w: 145, h: 48,
+          id: "BILL_ITEM", name: "BILL_ITEM", cluster: "BILLING", w: 145, h: 48,
           attributes: [
             { id: "bi_id", name: "id (PK)", type: "pk", ox: -60, oy: -85 },
             { id: "bi_bid", name: "bill_id (FK)", type: "fk", ox: 30, oy: -95 },
@@ -488,10 +560,7 @@
           ]
         },
         {
-          id: "DISCOUNT",
-          name: "DISCOUNT",
-          cluster: "BILLING",
-          w: 145, h: 48,
+          id: "DISCOUNT", name: "DISCOUNT", cluster: "BILLING", w: 145, h: 48,
           attributes: [
             { id: "d_id", name: "id (PK)", type: "pk", ox: -70, oy: -85 },
             { id: "d_name", name: "name (UQ)", type: "uq", ox: 40, oy: -90 },
@@ -502,10 +571,7 @@
           ]
         },
         {
-          id: "DISCOUNT_APPLICATION",
-          name: "DISCOUNT_APPLICATION",
-          cluster: "BILLING",
-          w: 210, h: 48,
+          id: "DISCOUNT_APPLICATION", name: "DISCOUNT_APPLICATION", cluster: "BILLING", w: 210, h: 48,
           attributes: [
             { id: "da_id_pk", name: "id (PK)", type: "pk", ox: -80, oy: -85 },
             { id: "da_bid", name: "bill_id (FK)", type: "fk", ox: 0, oy: -95 },
@@ -516,10 +582,7 @@
           ]
         },
         {
-          id: "PAYMENT",
-          name: "PAYMENT",
-          cluster: "BILLING",
-          w: 145, h: 48,
+          id: "PAYMENT", name: "PAYMENT", cluster: "BILLING", w: 145, h: 48,
           attributes: [
             { id: "p_id", name: "id (PK)", type: "pk", ox: -70, oy: 85 },
             { id: "p_bid", name: "bill_id (FK)", type: "fk", ox: 30, oy: 95 },
@@ -535,24 +598,20 @@
         { id: "rel_da_t", name: "contains", e1: "DINING_AREA", e2: "TABLE_ENTITY", c1: "1", c2: "N" },
         { id: "rel_b_u", name: "employs", e1: "BRANCH", e2: "USER_ACCOUNT", c1: "1", c2: "N" },
         { id: "rel_r_u", name: "assigned_to", e1: "ROLE", e2: "USER_ACCOUNT", c1: "1", c2: "N" },
-
         { id: "rel_t_res", name: "reserved_for", e1: "TABLE_ENTITY", e2: "RESERVATION", c1: "1", c2: "N" },
         { id: "rel_c_res", name: "books", e1: "CUSTOMER", e2: "RESERVATION", c1: "1", c2: "N" },
         { id: "rel_t_sess", name: "hosts", e1: "TABLE_ENTITY", e2: "DINING_SESSION", c1: "1", c2: "N" },
         { id: "rel_c_sess", name: "attends", e1: "CUSTOMER", e2: "DINING_SESSION", c1: "1", c2: "N" },
         { id: "rel_res_sess", name: "fulfills", e1: "RESERVATION", e2: "DINING_SESSION", c1: "1", c2: "1" },
-
         { id: "rel_mc_mi", name: "categorizes", e1: "MENU_CATEGORY", e2: "MENU_ITEM", c1: "1", c2: "N" },
         { id: "rel_sess_ord", name: "places", e1: "DINING_SESSION", e2: "CUSTOMER_ORDER", c1: "1", c2: "N" },
         { id: "rel_u_ord", name: "takes", e1: "USER_ACCOUNT", e2: "CUSTOMER_ORDER", c1: "1", c2: "N" },
         { id: "rel_ord_oi", name: "includes", e1: "CUSTOMER_ORDER", e2: "ORDER_ITEM", c1: "1", c2: "N" },
         { id: "rel_mi_oi", name: "ordered_as", e1: "MENU_ITEM", e2: "ORDER_ITEM", c1: "1", c2: "N" },
         { id: "rel_ord_hist", name: "logs", e1: "CUSTOMER_ORDER", e2: "ORDER_STATUS_HISTORY", c1: "1", c2: "N" },
-
         { id: "rel_ord_kt", name: "generates", e1: "CUSTOMER_ORDER", e2: "KITCHEN_TICKET", c1: "1", c2: "1" },
         { id: "rel_kt_kti", name: "contains", e1: "KITCHEN_TICKET", e2: "KITCHEN_TICKET_ITEM", c1: "1", c2: "N" },
         { id: "rel_oi_kti", name: "routes_to", e1: "ORDER_ITEM", e2: "KITCHEN_TICKET_ITEM", c1: "1", c2: "N" },
-
         { id: "rel_sess_bill", name: "generates", e1: "DINING_SESSION", e2: "BILL", c1: "1", c2: "1" },
         { id: "rel_bill_bi", name: "itemizes", e1: "BILL", e2: "BILL_ITEM", c1: "1", c2: "N" },
         { id: "rel_oi_bi", name: "snapshots", e1: "ORDER_ITEM", e2: "BILL_ITEM", c1: "1", c2: "N" },
@@ -563,18 +622,14 @@
       ]
     };
 
-    // State Variables
     let scale = 0.68;
     let panX = 80;
     let panY = 60;
     let isPanning = false;
     let startX, startY;
     let activeCluster = 'ALL';
-    let attrLayoutMode = 'fan'; // 'fan' or 'stack'
     let customDiamondOffsets = {};
-
-    // Drag States: entity, individual pill, or diamond
-    let dragTarget = null; // { type: 'entity'|'pill'|'diamond', item: object }
+    let dragTarget = null;
     let dragOffset = { x: 0, y: 0 };
 
     const viewport = document.getElementById('canvasViewport');
@@ -587,7 +642,6 @@
     const diamondsGroup = document.getElementById('diamondsGroup');
     const cardinalityGroup = document.getElementById('cardinalityGroup');
 
-    // Initialize Diagram
     function init() {
       loadSavedPositions();
       renderEntities();
@@ -597,10 +651,9 @@
       setupInteractions();
     }
 
-    // Load custom positions from localStorage if available
     function loadSavedPositions() {
       try {
-        const saved = localStorage.getItem('dinedesk_chen_layout_v2');
+        const saved = localStorage.getItem('dinedesk_chen_layout_v3');
         if (saved) {
           const parsed = JSON.parse(saved);
           CHEN_DATA.entities.forEach(ent => {
@@ -625,7 +678,6 @@
         }
       } catch(e) {}
 
-      // Default to Spacious Layout
       CHEN_DATA.entities.forEach(ent => {
         if (SPACIOUS_LAYOUT[ent.id]) {
           ent.x = SPACIOUS_LAYOUT[ent.id].x;
@@ -636,11 +688,7 @@
 
     function savePositionsToStorage() {
       try {
-        const payload = {
-          entities: {},
-          attributes: {},
-          diamonds: customDiamondOffsets
-        };
+        const payload = { entities: {}, attributes: {}, diamonds: customDiamondOffsets };
         CHEN_DATA.entities.forEach(ent => {
           payload.entities[ent.id] = { x: ent.x, y: ent.y };
           payload.attributes[ent.id] = {};
@@ -648,29 +696,26 @@
             payload.attributes[ent.id][attr.id || idx] = { ox: attr.ox, oy: attr.oy };
           });
         });
-        localStorage.setItem('dinedesk_chen_layout_v2', JSON.stringify(payload));
+        localStorage.setItem('dinedesk_chen_layout_v3', JSON.stringify(payload));
       } catch(e) {}
     }
 
-    // Render Entity Boxes
     function renderEntities() {
       entitiesLayer.innerHTML = '';
       CHEN_DATA.entities.forEach(ent => {
         const cl = CHEN_DATA.clusters[ent.cluster];
         const el = document.createElement('div');
         el.id = `entity-${ent.id}`;
-        el.className = `entity-box absolute rounded-lg font-extrabold text-center flex items-center justify-center tracking-wider text-xs shadow-xl`;
+        el.className = 'entity-box';
         el.style.left = `${ent.x}px`;
         el.style.top = `${ent.y}px`;
         el.style.width = `${ent.w}px`;
         el.style.height = `${ent.h}px`;
         el.style.border = `2.5px solid ${cl.color}`;
-        el.style.backgroundColor = '#0b1329';
         el.style.color = cl.color;
         el.style.boxShadow = `0 0 16px ${cl.bg}`;
         el.innerText = ent.name;
 
-        // Mouse Down for Entity Drag
         el.addEventListener('mousedown', (e) => {
           if (e.button !== 0) return;
           e.stopPropagation();
@@ -684,7 +729,6 @@
       });
     }
 
-    // Render Attribute Capsules
     function renderAttributes() {
       attributesLayer.innerHTML = '';
       CHEN_DATA.entities.forEach(ent => {
@@ -692,45 +736,33 @@
         ent.attributes.forEach((attr, idx) => {
           const pill = document.createElement('div');
           pill.id = `attr-${ent.id}-${attr.id || idx}`;
-          pill.className = `attr-pill absolute px-3 py-1 rounded-full text-[11px] font-mono whitespace-nowrap border shadow-md backdrop-blur-md font-medium`;
+          pill.className = 'attr-pill';
           
-          let posX, posY;
-          if (attrLayoutMode === 'stack') {
-            // Clean vertical stack right beside entity
-            posX = ent.x + ent.w + 40;
-            posY = ent.y + (idx * 34) - (ent.attributes.length * 17) + 24;
-          } else {
-            // Fan Mode with individual offsets
-            posX = ent.x + (ent.w / 2) + attr.ox;
-            posY = ent.y + (ent.h / 2) + attr.oy;
-          }
-
+          const posX = ent.x + (ent.w / 2) + attr.ox;
+          const posY = ent.y + (ent.h / 2) + attr.oy;
           pill.style.left = `${posX}px`;
           pill.style.top = `${posY}px`;
-          pill.style.transform = 'translate(-50%, -50%)';
 
           if (attr.type === 'pk') {
-            pill.style.borderColor = '#facc15';
+            pill.style.border = '1.5px solid #facc15';
             pill.style.color = '#fde047';
-            pill.style.backgroundColor = 'rgba(234, 179, 8, 0.2)';
-            pill.style.boxShadow = '0 0 10px rgba(234, 179, 8, 0.35)';
+            pill.style.background = 'rgba(234, 179, 8, 0.22)';
           } else if (attr.type === 'fk') {
-            pill.style.borderColor = '#38bdf8';
+            pill.style.border = '1.5px solid #38bdf8';
             pill.style.color = '#7dd3fc';
-            pill.style.backgroundColor = 'rgba(56, 189, 248, 0.15)';
+            pill.style.background = 'rgba(56, 189, 248, 0.16)';
           } else if (attr.type === 'uq') {
-            pill.style.borderColor = '#c084fc';
+            pill.style.border = '1.5px solid #c084fc';
             pill.style.color = '#e9d5ff';
-            pill.style.backgroundColor = 'rgba(192, 132, 252, 0.15)';
+            pill.style.background = 'rgba(192, 132, 252, 0.16)';
           } else {
-            pill.style.borderColor = cl.border;
+            pill.style.border = `1.5px solid ${cl.border}`;
             pill.style.color = '#cbd5e1';
-            pill.style.backgroundColor = '#0f172a';
+            pill.style.background = '#0f172a';
           }
 
           pill.innerText = attr.name;
 
-          // Drag Listener for THIS INDIVIDUAL PILL ONLY!
           pill.addEventListener('mousedown', (e) => {
             if (e.button !== 0) return;
             e.stopPropagation();
@@ -745,14 +777,13 @@
       });
     }
 
-    // Draw Vector Lines, Stems & Diamonds
     function drawAllConnections() {
       relWiresGroup.innerHTML = '';
       attrStemsGroup.innerHTML = '';
       diamondsGroup.innerHTML = '';
       cardinalityGroup.innerHTML = '';
 
-      // 1. Draw Attribute Stems
+      // Stems
       CHEN_DATA.entities.forEach(ent => {
         const cl = CHEN_DATA.clusters[ent.cluster];
         const eCenter = { x: ent.x + ent.w / 2, y: ent.y + ent.h / 2 };
@@ -761,32 +792,19 @@
           const attrEl = document.getElementById(`attr-${ent.id}-${attr.id || idx}`);
           if (!attrEl) return;
 
-          let aCenter;
-          if (attrLayoutMode === 'stack') {
-            aCenter = {
-              x: ent.x + ent.w + 40,
-              y: ent.y + (idx * 34) - (ent.attributes.length * 17) + 24
-            };
-          } else {
-            aCenter = {
-              x: ent.x + (ent.w / 2) + attr.ox,
-              y: ent.y + (ent.h / 2) + attr.oy
-            };
-          }
-
+          const aCenter = { x: ent.x + (ent.w / 2) + attr.ox, y: ent.y + (ent.h / 2) + attr.oy };
           const cpX = (eCenter.x + aCenter.x) / 2;
           const cpY = (eCenter.y + aCenter.y) / 2;
-          const pathData = `M ${eCenter.x} ${eCenter.y} Q ${cpX} ${cpY}, ${aCenter.x} ${aCenter.y}`;
 
           const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          path.setAttribute('d', pathData);
+          path.setAttribute('d', `M ${eCenter.x} ${eCenter.y} Q ${cpX} ${cpY}, ${aCenter.x} ${aCenter.y}`);
           path.setAttribute('class', 'stem-wire');
           path.setAttribute('stroke', cl.color);
           attrStemsGroup.appendChild(path);
         });
       });
 
-      // 2. Draw Relationships with Diamond Connectors
+      // Relationships
       CHEN_DATA.relationships.forEach(rel => {
         const e1 = CHEN_DATA.entities.find(e => e.id === rel.e1);
         const e2 = CHEN_DATA.entities.find(e => e.id === rel.e2);
@@ -795,7 +813,6 @@
         const c1 = { x: e1.x + e1.w / 2, y: e1.y + e1.h / 2 };
         const c2 = { x: e2.x + e2.w / 2, y: e2.y + e2.h / 2 };
 
-        // Check if custom diamond offset exists
         let dCenter;
         if (customDiamondOffsets[rel.id]) {
           dCenter = {
@@ -806,36 +823,30 @@
           dCenter = { x: (c1.x + c2.x) / 2, y: (c1.y + c2.y) / 2 };
         }
 
-        // Draw Line 1 (E1 to Diamond)
         const line1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line1.setAttribute('x1', c1.x);
-        line1.setAttribute('y1', c1.y);
-        line1.setAttribute('x2', dCenter.x);
-        line1.setAttribute('y2', dCenter.y);
+        line1.setAttribute('x1', c1.x); line1.setAttribute('y1', c1.y);
+        line1.setAttribute('x2', dCenter.x); line1.setAttribute('y2', dCenter.y);
         line1.setAttribute('class', 'rel-wire');
         relWiresGroup.appendChild(line1);
 
-        // Draw Line 2 (Diamond to E2)
         const line2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line2.setAttribute('x1', dCenter.x);
-        line2.setAttribute('y1', dCenter.y);
-        line2.setAttribute('x2', c2.x);
-        line2.setAttribute('y2', c2.y);
+        line2.setAttribute('x1', dCenter.x); line2.setAttribute('y1', dCenter.y);
+        line2.setAttribute('x2', c2.x); line2.setAttribute('y2', c2.y);
         line2.setAttribute('class', 'rel-wire');
         relWiresGroup.appendChild(line2);
 
-        // Draw Diamond Rhombus Shape
-        const diamondSize = 34;
+        // Diamond
+        const size = 34;
         const dGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         dGroup.setAttribute('class', 'rel-diamond');
         dGroup.setAttribute('transform', `translate(${dCenter.x}, ${dCenter.y})`);
 
         const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-        polygon.setAttribute('points', `0,-${diamondSize} ${diamondSize*1.35},0 0,${diamondSize} -${diamondSize*1.35},0`);
+        polygon.setAttribute('points', `0,-${size} ${size*1.35},0 0,{size} -${size*1.35},0`);
+        polygon.setAttribute('points', `0,-${size} ${size*1.35},0 0,${size} -${size*1.35},0`);
         polygon.setAttribute('fill', '#0f172a');
         polygon.setAttribute('stroke', '#6366f1');
         polygon.setAttribute('stroke-width', '2.2');
-        polygon.setAttribute('filter', 'drop-shadow(0 0 8px rgba(99, 102, 241, 0.45))');
 
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('text-anchor', 'middle');
@@ -848,7 +859,6 @@
         dGroup.appendChild(polygon);
         dGroup.appendChild(text);
 
-        // Drag THIS DIAMOND INDEPENDENTLY!
         dGroup.addEventListener('mousedown', (e) => {
           if (e.button !== 0) return;
           e.stopPropagation();
@@ -860,20 +870,17 @@
 
         diamondsGroup.appendChild(dGroup);
 
-        // Cardinalities
         const card1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        const posC1 = { x: c1.x + (dCenter.x - c1.x) * 0.35 + 8, y: c1.y + (dCenter.y - c1.y) * 0.35 - 8 };
-        card1.setAttribute('x', posC1.x);
-        card1.setAttribute('y', posC1.y);
-        card1.setAttribute('class', 'cardinality-badge');
+        card1.setAttribute('x', c1.x + (dCenter.x - c1.x) * 0.35 + 8);
+        card1.setAttribute('y', c1.y + (dCenter.y - c1.y) * 0.35 - 8);
+        card1.setAttribute('class', 'cardinality-text');
         card1.textContent = rel.c1;
         cardinalityGroup.appendChild(card1);
 
         const card2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        const posC2 = { x: dCenter.x + (c2.x - dCenter.x) * 0.65 + 8, y: dCenter.y + (c2.y - dCenter.y) * 0.65 - 8 };
-        card2.setAttribute('x', posC2.x);
-        card2.setAttribute('y', posC2.y);
-        card2.setAttribute('class', 'cardinality-badge');
+        card2.setAttribute('x', dCenter.x + (c2.x - dCenter.x) * 0.65 + 8);
+        card2.setAttribute('y', dCenter.y + (c2.y - dCenter.y) * 0.65 - 8);
+        card2.setAttribute('class', 'cardinality-text');
         card2.textContent = rel.c2;
         cardinalityGroup.appendChild(card2);
       });
@@ -900,33 +907,8 @@
       drawAllConnections();
     }
 
-    function setAttrMode(mode) {
-      attrLayoutMode = mode;
-      document.getElementById('modeFan').className = mode === 'fan' ? 'px-2 py-0.5 rounded bg-sky-600 text-white font-semibold' : 'px-2 py-0.5 rounded text-slate-400 hover:text-white';
-      document.getElementById('modeStack').className = mode === 'stack' ? 'px-2 py-0.5 rounded bg-sky-600 text-white font-semibold' : 'px-2 py-0.5 rounded text-slate-400 hover:text-white';
-      renderAttributes();
-      drawAllConnections();
-    }
-
-    function adjustSpacing(factor) {
-      const centerX = 1500;
-      const centerY = 1500;
-      CHEN_DATA.entities.forEach(ent => {
-        ent.x = Math.round(centerX + (ent.x - centerX) * factor);
-        ent.y = Math.round(centerY + (ent.y - centerY) * factor);
-        const el = document.getElementById(`entity-${ent.id}`);
-        if (el) {
-          el.style.left = `${ent.x}px`;
-          el.style.top = `${ent.y}px`;
-        }
-      });
-      renderAttributes();
-      drawAllConnections();
-      savePositionsToStorage();
-    }
-
     function resetToSpaciousLayout() {
-      localStorage.removeItem('dinedesk_chen_layout_v2');
+      localStorage.removeItem('dinedesk_chen_layout_v3');
       customDiamondOffsets = {};
       CHEN_DATA.entities.forEach(ent => {
         if (SPACIOUS_LAYOUT[ent.id]) {
@@ -950,21 +932,14 @@
     function filterCluster(clusterKey) {
       activeCluster = clusterKey;
       document.querySelectorAll('.cluster-btn').forEach(b => {
-        if (b.dataset.cluster === clusterKey) {
-          b.classList.add('bg-slate-800', 'text-white');
-        } else {
-          b.classList.remove('bg-slate-800', 'text-white');
-        }
+        if (b.dataset.cluster === clusterKey) b.classList.add('active');
+        else b.classList.remove('active');
       });
 
       CHEN_DATA.entities.forEach(ent => {
         const el = document.getElementById(`entity-${ent.id}`);
         if (!el) return;
-        if (clusterKey === 'ALL' || ent.cluster === clusterKey) {
-          el.style.display = 'flex';
-        } else {
-          el.style.display = 'none';
-        }
+        el.style.display = (clusterKey === 'ALL' || ent.cluster === clusterKey) ? 'flex' : 'none';
       });
 
       renderAttributes();
@@ -984,11 +959,8 @@
         const matchEnt = ent.name.includes(q);
         const matchAttr = ent.attributes.some(a => a.name.toUpperCase().includes(q));
 
-        if (matchEnt || matchAttr) {
-          entEl.style.opacity = '1';
-        } else {
-          entEl.style.opacity = '0.15';
-        }
+        if (matchEnt || matchAttr) entEl.style.opacity = '1';
+        else entEl.style.opacity = '0.15';
 
         ent.attributes.forEach((a, i) => {
           const attrEl = document.getElementById(`attr-${ent.id}-${a.id || i}`);
@@ -999,9 +971,7 @@
       });
     }
 
-    // Unified Drag Interactions
     function setupInteractions() {
-      // Pan Canvas
       viewport.addEventListener('mousedown', (e) => {
         if (e.target.closest('.entity-box') || e.target.closest('.attr-pill') || e.target.closest('.rel-diamond') || e.target.closest('button') || e.target.closest('input')) return;
         isPanning = true;
@@ -1018,7 +988,6 @@
         } else if (dragTarget) {
           const worldRect = world.getBoundingClientRect();
 
-          // 1. Moving an Entity (Leaves other entities untouched)
           if (dragTarget.type === 'entity') {
             const ent = dragTarget.item;
             const newX = (e.clientX - worldRect.left) / scale - dragOffset.x;
@@ -1032,31 +1001,17 @@
               el.style.top = `${ent.y}px`;
             }
 
-            // Sync this entity's own pills
             ent.attributes.forEach((attr, idx) => {
               const attrEl = document.getElementById(`attr-${ent.id}-${attr.id || idx}`);
               if (attrEl) {
-                let aX, aY;
-                if (attrLayoutMode === 'stack') {
-                  aX = ent.x + ent.w + 40;
-                  aY = ent.y + (idx * 34) - (ent.attributes.length * 17) + 24;
-                } else {
-                  aX = ent.x + (ent.w / 2) + attr.ox;
-                  aY = ent.y + (ent.h / 2) + attr.oy;
-                }
-                attrEl.style.left = `${aX}px`;
-                attrEl.style.top = `${aY}px`;
+                attrEl.style.left = `${ent.x + (ent.w / 2) + attr.ox}px`;
+                attrEl.style.top = `${ent.y + (ent.h / 2) + attr.oy}px`;
               }
             });
             drawAllConnections();
-          }
-
-          // 2. Moving an INDIVIDUAL PILL ONLY!
-          else if (dragTarget.type === 'pill') {
+          } else if (dragTarget.type === 'pill') {
             const attr = dragTarget.item;
             const parentEnt = dragTarget.parent;
-            
-            // Mouse in world coordinates
             const currentMouseX = (e.clientX - worldRect.left) / scale;
             const currentMouseY = (e.clientY - worldRect.top) / scale;
 
@@ -1069,10 +1024,7 @@
               pillEl.style.top = `${parentEnt.y + (parentEnt.h / 2) + attr.oy}px`;
             }
             drawAllConnections();
-          }
-
-          // 3. Moving a Relationship Diamond
-          else if (dragTarget.type === 'diamond') {
+          } else if (dragTarget.type === 'diamond') {
             const rel = dragTarget.rel;
             const currentMouseX = (e.clientX / scale) - dragOffset.x;
             const currentMouseY = (e.clientY / scale) - dragOffset.y;
@@ -1102,9 +1054,7 @@
         zoomDelta(e.deltaY < 0 ? 0.08 : -0.08);
       }, { passive: false });
 
-      window.addEventListener('resize', () => {
-        drawAllConnections();
-      });
+      window.addEventListener('resize', drawAllConnections);
     }
 
     window.addEventListener('DOMContentLoaded', init);
