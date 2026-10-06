@@ -140,8 +140,6 @@ The relational database is normalized to Third Normal Form (3NF) to eliminate re
 
 [![DineDesk Chen-Style Entity Relationship Diagram](dinedesk_chen_er_diagram.svg)](https://htmlpreview.github.io/?https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_chen_er_diagram.html)
 
-*(Click on the diagram above to launch the live interactive, movable, and draggable full-screen diagram or view [`dinedesk_chen_er_diagram.html`](dinedesk_chen_er_diagram.html))*
-
 ---
 
 ## Project Directory Structure
