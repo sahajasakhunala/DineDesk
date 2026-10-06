@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DineDesk | Admin & Operations Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="staff.css">
+</head>
+<body>
+
+  <!-- Left Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <span style="font-size: 1.5rem;">👨‍🍳</span>
+      <h2>DineDesk <span style="font-size: 0.8rem; font-weight: 600; color: var(--accent-cyan); background: rgba(6,182,212,0.15); padding: 2px 6px; border-radius: 4px;">ADMIN</span></h2>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-link active" onclick="switchPane('dashboard')">
+        <span class="nav-link-icon">📊</span> Dashboard
+      </a>
+      <a class="nav-link" onclick="switchPane('reservations')">
+        <span class="nav-link-icon">📅</span> Reservations
+      </a>
+      <a class="nav-link" onclick="switchPane('tables')">
+        <span class="nav-link-icon">🪑</span> Tables & Seating
+      </a>
+      <a class="nav-link" onclick="switchPane('orders')">
+        <span class="nav-link-icon">📝</span> Orders
+      </a>
+      <a class="nav-link" onclick="switchPane('kitchen')">
+        <span class="nav-link-icon">🍳</span> Kitchen KDS
+      </a>
+      <a class="nav-link" onclick="switchPane('billing')">
+        <span class="nav-link-icon">💳</span> Billing & Cashier
+      </a>
+      <a class="nav-link" onclick="switchPane('reports')">
+        <span class="nav-link-icon">📈</span> Reports & Analytics
+      </a>
+      <a class="nav-link" onclick="switchPane('menu')">
+        <span class="nav-link-icon">🍽️</span> Menu Catalog
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn btn-secondary" onclick="logoutStaff()" style="width: 100%; padding: 0.45rem 0.65rem; font-size: 0.8rem;">Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main Application Wrapper -->
+  <div class="main-wrapper">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="top-title" id="current-pane-title">Operational Dashboard</div>
+      <div style="display:flex; align-items:center; gap: 1rem;">
+        <div class="user-badge">
+          <span id="staff-name-display" style="font-weight: 500;">Admin User</span>
+          <span class="role-tag" id="staff-role-display">ADMIN</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 1. DASHBOARD PANE -->
+    <main class="content-pane active" id="pane-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header"><span>Available Tables</span><span>🪑</span></div>
+          <div class="stat-value" id="stat-available-tables">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header"><span>Active Sessions</span><span>👥</span></div>
+          <div class="stat-value" id="stat-active-sessions">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header"><span>Pending Kitchen Tickets</span><span>🍳</span></div>
+          <div class="stat-value" id="stat-kitchen-tickets">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header"><span>Today's Total Revenue</span><span>💰</span></div>
+          <div class="stat-value" id="stat-today-revenue">₹0.00</div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <h3>Active Dining Sessions on Floor</h3>
+          <button class="btn btn-primary" onclick="openSeatModal()">+ Seat Walk-in Guest</button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Table</th>
+              <th>Customer</th>
+              <th>Guests</th>
+              <th>Start Time</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="dashboard-sessions-tbody">
+            <tr><td colspan="6" style="text-align:center;">Loading active sessions...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- 2. RESERVATIONS PANE -->
+    <main class="content-pane" id="pane-reservations">
+      <div class="panel-card">
+        <div class="panel-header" style="flex-wrap: wrap; gap: 1rem;">
+          <div style="display:flex; align-items:center; gap: 0.8rem;">
+            <h3>Master Guest Reservations Ledger</h3>
+            <span class="badge" style="background:rgba(16,185,129,0.15); color:#10b981; border:1px solid rgba(16,185,129,0.3); font-size:0.75rem; padding:0.25rem 0.65rem; border-radius:20px;">
+              🟢 Live Auto-Sync Active
+            </span>
+          </div>
+          <div style="display:flex; gap:0.75rem; flex-wrap: wrap; align-items: center;">
+            <input type="text" id="admin-res-search" class="form-control" placeholder="🔍 Search guest name, phone, table..." style="min-width:240px;" oninput="filterStaffReservationsTable()">
+            <select id="res-filter-status" class="form-control" onchange="loadStaffReservations()">
+              <option value="">All Statuses</option>
+              <option value="PENDING">PENDING</option>
+              <option value="CONFIRMED">CONFIRMED</option>
+              <option value="CANCELLED">CANCELLED</option>
+              <option value="COMPLETED">COMPLETED</option>
+            </select>
+            <button class="btn btn-secondary" onclick="loadStaffReservations()">🔄 Refresh</button>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ref ID</th>
+              <th>Customer Name</th>
+              <th>Phone / Contact</th>
+              <th>Allocated Table</th>
+              <th>Date & Reserved Slot</th>
+              <th>Party Size</th>
+              <th>Status</th>
+              <th>Management Actions</th>
+            </tr>
+          </thead>
+          <tbody id="reservations-tbody">
+            <tr><td colspan="8" style="text-align:center;">Loading reservations...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- 3. TABLES PANE -->
+    <main class="content-pane" id="pane-tables">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div>
+            <h3>Restaurant Floor Map & Seating</h3>
+            <span style="font-size:0.8rem; color:var(--text-muted);">Admin Authority: Add new tables or permanently delete tables from database</span>
+          </div>
+          <div style="display:flex; gap:0.6rem;">
+            <button class="btn btn-primary" onclick="openAddTableModal()">+ Add Table</button>
+            <button class="btn btn-secondary" onclick="openSeatModal()">+ Seat Guests</button>
+          </div>
+        </div>
+        <div class="floor-grid" id="floor-tables-container">
+          <!-- Tables loaded dynamically -->
+        </div>
+      </div>
+    </main>
+
+    <!-- 4. ORDERS PANE -->
+    <main class="content-pane" id="pane-orders">
+      <div class="panel-card">
+        <div class="panel-header">
+          <h3>Floor Orders Management</h3>
+          <button class="btn btn-primary" onclick="openNewOrderModal()">+ Create New Order</button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Table</th>
+              <th>Staff User</th>
+              <th>Items</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="staff-orders-tbody">
+            <tr><td colspan="6" style="text-align:center;">Loading floor orders...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- 5. KITCHEN PANE -->
+    <main class="content-pane" id="pane-kitchen">
+      <div class="panel-card">
+        <div class="panel-header">
+          <h3>Kitchen Display System (KDS) Live Stream</h3>
+          <button class="btn btn-secondary" onclick="loadKitchenTickets()">🔄 Refresh Stream</button>
+        </div>
+        <div class="kds-grid" id="kds-tickets-container">
+          <!-- Kitchen tickets loaded dynamically -->
+        </div>
+      </div>
+    </main>
+
+    <!-- 6. BILLING PANE -->
+    <main class="content-pane" id="pane-billing">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div>
+            <h3>Table Itemized Billing & Financial Summary</h3>
+            <span style="font-size:0.8rem; color:var(--text-muted);">Real-time summary of table charges, guest orders, tax and payment settlement status</span>
+          </div>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <select id="billing-session-select" class="form-control" onchange="loadBillingSession()" style="min-width:280px;">
+              <option value="">Select an Active Table Session...</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="billing-details-view" style="display:none;">
+          <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem;">
+            <div>
+              <h4 style="margin-bottom:1rem;">Itemized Order & Consumption Details</h4>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody id="bill-items-tbody"></tbody>
+              </table>
+            </div>
+
+            <div>
+              <h4 style="margin-bottom:1rem;">Table Settlement Summary</h4>
+              <div class="bill-breakdown-box">
+                <div class="bill-summary-line"><span>Subtotal:</span> <span id="bill-subtotal-val">₹0.00</span></div>
+                <div class="bill-summary-line"><span>GST (5%):</span> <span id="bill-tax-val">₹0.00</span></div>
+                <div class="bill-summary-line total-line"><span>Total Payable:</span> <span id="bill-total-val">₹0.00</span></div>
+                <div class="bill-summary-line"><span>Paid by Guest:</span> <span id="bill-paid-val" style="color:var(--accent-emerald);">₹0.00</span></div>
+                <div class="bill-summary-line" style="font-weight:700; color:#ffffff;"><span>Outstanding Balance:</span> <span id="bill-balance-val">₹0.00</span></div>
+                <div class="bill-summary-line"><span>Bill Status:</span> <span id="bill-status-badge" class="badge">UNPAID</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 7. REPORTS PANE -->
+    <main class="content-pane" id="pane-reports">
+      <div class="panel-card">
+        <div class="panel-header">
+          <h3>Daily Revenue Aggregations</h3>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Transaction Count</th>
+              <th>Total Revenue (₹)</th>
+            </tr>
+          </thead>
+          <tbody id="daily-revenue-tbody">
+            <tr><td colspan="3" style="text-align:center;">Loading revenue report...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+        <div class="panel-card">
+          <div class="panel-header"><h3>Top Selling Items</h3></div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Category</th>
+                <th>Units Sold</th>
+                <th>Revenue</th>
+              </tr>
+            </thead>
+            <tbody id="item-sales-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-header"><h3>Table Utilization & Turnover</h3></div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Table</th>
+                <th>Capacity</th>
+                <th>Sessions</th>
+                <th>Avg Turnaround (Min)</th>
+              </tr>
+            </thead>
+            <tbody id="table-turnover-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- 8. MENU PANE -->
+    <main class="content-pane" id="pane-menu">
+      <div class="panel-card">
+        <div class="panel-header">
+          <h3>Menu Catalog</h3>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Price (₹)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="staff-menu-tbody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Staff Login Modal -->
+  <div class="staff-modal-overlay" id="staff-login-modal">
+    <div class="staff-modal-card">
+      <h3 style="margin-bottom:0.5rem;">Staff & Management Login</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.5rem;">Enter your staff credentials to access restaurant operations.</p>
+      
+      <form onsubmit="handleStaffLogin(event)">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="login-email" class="form-control" value="admin@dinedesk.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" class="form-control" value="admin123" required>
+        </div>
+        <div style="background: rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:0.75rem; font-size:0.8rem; color:var(--text-muted); margin-bottom:1.25rem;">
+          <strong>Quick Demo Fill:</strong><br>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="button" class="btn btn-secondary" style="font-size:0.75rem; padding:0.25rem 0.5rem;" onclick="quickLogin('admin@dinedesk.com', 'admin123')">Admin</button>
+            <button type="button" class="btn btn-secondary" style="font-size:0.75rem; padding:0.25rem 0.5rem;" onclick="quickLogin('manager@dinedesk.com', 'manager123')">Manager</button>
+            <button type="button" class="btn btn-secondary" style="font-size:0.75rem; padding:0.25rem 0.5rem;" onclick="quickLogin('waiter@dinedesk.com', 'waiter123')">Waiter</button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Seat Guest Modal -->
+  <div class="staff-modal-overlay" id="seat-guest-modal">
+    <div class="staff-modal-card">
+      <h3 style="margin-bottom:1rem;">Seat Guests at Table</h3>
+      <form onsubmit="handleSeatGuests(event)">
+        <div class="form-group">
+          <label>Select Table</label>
+          <select id="seat-table-select" class="form-control" required></select>
+        </div>
+        <div class="form-group">
+          <label>Guest Count</label>
+          <input type="number" id="seat-guests-count" class="form-control" min="1" value="2" required>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeStaffModals()">Cancel</button>
+          <button type="submit" class="btn btn-success">Seat & Open Session</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- New Order Modal -->
+  <div class="staff-modal-overlay" id="new-order-modal">
+    <div class="staff-modal-card" style="max-width:550px;">
+      <h3 style="margin-bottom:1rem;">Create Table Order</h3>
+      <form onsubmit="handleCreateStaffOrder(event)">
+        <div class="form-group">
+          <label>Active Table Session</label>
+          <select id="order-session-select" class="form-control" required></select>
+        </div>
+        <div class="form-group">
+          <label>Select Dish</label>
+          <select id="order-item-select" class="form-control" required></select>
+        </div>
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="number" id="order-item-qty" class="form-control" min="1" value="1" required>
+        </div>
+        <div class="form-group">
+          <label>Special Instructions</label>
+          <input type="text" id="order-item-notes" class="form-control" placeholder="e.g. Less salt, extra chutney">
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeStaffModals()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Fire to Kitchen</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Table Modal (Admin Authority) -->
+  <div class="staff-modal-overlay" id="add-table-modal">
+    <div class="staff-modal-card" style="max-width:480px;">
+      <h3 style="margin-bottom:1rem;">Add Dining Table (Admin Authority)</h3>
+      <form onsubmit="handleAddTable(event)">
+        <div class="form-group">
+          <label>Table Number</label>
+          <input type="text" id="new-table-number" class="form-control" placeholder="e.g. T06, R04, F04, P02" required style="text-transform:uppercase;">
+          <small style="color:var(--text-muted); font-size:0.75rem;">Use prefix T (Main Hall), R (Rooftop Terrace), F (Family Lounge), P (Private Dining)</small>
+        </div>
+        <div class="form-group">
+          <label>Dining Atmosphere / Area</label>
+          <select id="new-table-area" class="form-control" required>
+            <option value="Main Dining Hall">Main Dining Hall</option>
+            <option value="Romantic Terrace (Rooftop)">Romantic Terrace (Rooftop)</option>
+            <option value="Family & Kids Lounge">Family & Kids Lounge</option>
+            <option value="Chef's Private Dining">Chef's Private Dining</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Seating Capacity (Max Guests)</label>
+          <input type="number" id="new-table-capacity" class="form-control" min="1" max="20" value="4" required>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeStaffModals()">Cancel</button>
+          <button type="submit" class="btn btn-primary">+ Create Table in Database</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="staff.js"></script>
+</body>
+</html>
+

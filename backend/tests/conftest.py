@@ -52,24 +52,30 @@ def test_table(db, test_area):
 
 @pytest.fixture
 def test_customer(db):
+    import uuid
     from app.models.users import Customer
-    customer = Customer(first_name="John", last_name="Doe", phone="555-9999")
+    uid = uuid.uuid4().hex[:6]
+    customer = Customer(first_name="John", last_name="Doe", phone=f"555-{uid}")
     db.add(customer)
     db.commit()
     return customer
 
 @pytest.fixture
 def test_user(db, test_branch):
+    import uuid
     from app.models.users import Role, UserAccount
-    role = Role(name="MANAGER")
-    db.add(role)
-    db.commit()
+    role = db.query(Role).filter(Role.name == "MANAGER").first()
+    if not role:
+        role = Role(name="MANAGER")
+        db.add(role)
+        db.commit()
+    uid = uuid.uuid4().hex[:6]
     user = UserAccount(
         role_id=role.id,
         branch_id=test_branch.id,
         first_name="Admin",
         last_name="User",
-        email="admin@test.com",
+        email=f"admin_{uid}@test.com",
         password_hash="hash"
     )
     db.add(user)
@@ -78,11 +84,14 @@ def test_user(db, test_branch):
 
 @pytest.fixture
 def test_menu_item(db):
+    import uuid
     from app.models.menu import MenuCategory, MenuItem
-    cat = MenuCategory(name="Mains")
-    db.add(cat)
-    db.commit()
-    item = MenuItem(category_id=cat.id, name="Steak", current_price=25.00)
+    cat = db.query(MenuCategory).first()
+    if not cat:
+        cat = MenuCategory(name=f"Category_{uuid.uuid4().hex[:6]}")
+        db.add(cat)
+        db.commit()
+    item = MenuItem(category_id=cat.id, name=f"Item_{uuid.uuid4().hex[:6]}", current_price=25.00)
     db.add(item)
     db.commit()
     return item

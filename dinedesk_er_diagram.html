@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DineDesk - Entity Relationship (ER) Diagram</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-card: #182234;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    body {
+      background-color: #0b1120;
+      color: #f1f5f9;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    .grid-bg {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .entity-card {
+      transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+      cursor: grab;
+      user-select: none;
+    }
+    .entity-card:active {
+      cursor: grabbing;
+    }
+    .entity-card.highlighted {
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35) !important;
+      z-index: 40 !important;
+    }
+    .entity-card.dimmed {
+      opacity: 0.25 !important;
+      filter: grayscale(0.5);
+    }
+    .badge-pk {
+      background: rgba(234, 179, 8, 0.15);
+      color: #facc15;
+      border: 1px solid rgba(234, 179, 8, 0.35);
+    }
+    .badge-fk {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .badge-uq {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+    }
+    .connector-line {
+      stroke: #475569;
+      stroke-width: 2;
+      fill: none;
+      transition: stroke 0.2s, stroke-width 0.2s;
+    }
+    .connector-line.active {
+      stroke: #38bdf8;
+      stroke-width: 3.5;
+      filter: drop-shadow(0 0 4px #0284c7);
+    }
+    .connector-line.dimmed {
+      opacity: 0.15;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col antialiased select-none">
+
+  <!-- Header Bar -->
+  <header class="h-14 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-5 flex items-center justify-between z-30 shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center shadow-md shadow-sky-500/20 text-white font-black text-sm tracking-wider">
+        DD
+      </div>
+      <div>
+        <h1 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+          DineDesk <span class="text-xs font-normal px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">Database ERD v1.0</span>
+        </h1>
+        <p class="text-[11px] text-slate-400">Multi-branch Restaurant Management & Point-of-Sale (POS) Schema</p>
+      </div>
+    </div>
+
+    <!-- Central Controls: Module Filters -->
+    <div class="hidden md:flex items-center bg-slate-950/70 border border-slate-800 rounded-lg p-1 text-xs gap-1">
+      <button onclick="filterDomain('ALL')" class="domain-btn active px-2.5 py-1 rounded font-medium text-slate-300 bg-slate-800 hover:text-white transition" data-domain="ALL">All (20 Tables)</button>
+      <button onclick="filterDomain('RESTAURANT')" class="domain-btn px-2.5 py-1 rounded font-medium text-slate-400 hover:text-white transition" data-domain="RESTAURANT">🏢 Restaurant</button>
+      <button onclick="filterDomain('USERS')" class="domain-btn px-2.5 py-1 rounded font-medium text-slate-400 hover:text-white transition" data-domain="USERS">👥 Users & CRM</button>
+      <button onclick="filterDomain('DINING')" class="domain-btn px-2.5 py-1 rounded font-medium text-slate-400 hover:text-white transition" data-domain="DINING">🪑 Floor & Sessions</button>
+      <button onclick="filterDomain('ORDERS')" class="domain-btn px-2.5 py-1 rounded font-medium text-slate-400 hover:text-white transition" data-domain="ORDERS">🍲 Menu & Orders</button>
+      <button onclick="filterDomain('KITCHEN')" class="domain-btn px-2.5 py-1 rounded font-medium text-slate-400 hover:text-white transition" data-domain="KITCHEN">🍳 KDS Kitchen</button>
+      <button onclick="filterDomain('BILLING')" class="domain-btn px-2.5 py-1 rounded font-medium text-slate-400 hover:text-white transition" data-domain="BILLING">💳 Billing & Payment</button>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="flex items-center gap-2 text-xs">
+      <div class="relative">
+        <input type="text" id="searchInput" placeholder="Search table or column..." 
+          oninput="handleSearch(this.value)"
+          class="bg-slate-950/80 border border-slate-700/80 rounded-lg px-3 py-1.5 pl-8 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500 w-44 lg:w-56" />
+        <svg class="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      </div>
+
+      <div class="h-5 w-px bg-slate-800"></div>
+
+      <button onclick="resetView()" title="Reset Zoom & Pan" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+      </button>
+
+      <button onclick="zoomBy(0.15)" title="Zoom In" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition font-bold text-sm">+</button>
+      <button onclick="zoomBy(-0.15)" title="Zoom Out" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition font-bold text-sm">−</button>
+
+      <button onclick="toggleSidePanel()" class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-medium flex items-center gap-1.5 transition">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        <span class="hidden sm:inline">Data Dictionary</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Canvas Workspace -->
+  <main class="flex-1 relative overflow-hidden grid-bg" id="viewportContainer">
+    
+    <!-- SVG Connector Lines Overlay -->
+    <svg id="svgOverlay" class="absolute inset-0 w-full h-full pointer-events-none z-10" style="overflow: visible;">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
+        </marker>
+        <marker id="circle-end" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5">
+          <circle cx="5" cy="5" r="3" fill="#64748b" />
+        </marker>
+      </defs>
+      <g id="connectionsGroup"></g>
+    </svg>
+
+    <!-- Draggable & Zoomable World Group -->
+    <div id="diagramWorld" class="absolute inset-0 origin-top-left" style="transform: translate(40px, 30px) scale(0.85);">
+      <!-- Entity Cards Rendered by JS -->
+      <div id="entitiesContainer" class="relative"></div>
+    </div>
+
+    <!-- Floating Legend & Stats Badge -->
+    <div class="absolute bottom-5 left-5 bg-slate-900/95 backdrop-blur-md border border-slate-800/80 rounded-xl p-3 shadow-2xl z-20 flex flex-col gap-2 max-w-xs text-xs">
+      <div class="flex items-center justify-between text-slate-300 font-semibold border-b border-slate-800 pb-1.5">
+        <span class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Diagram Legend
+        </span>
+        <span class="text-[11px] text-slate-500 font-normal">Drag tables to reposition</span>
+      </div>
+      <div class="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11px] text-slate-300">
+        <div class="flex items-center gap-1.5">
+          <span class="px-1 py-0.2 rounded text-[9px] font-bold badge-pk">PK</span>
+          <span>Primary Key</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="px-1 py-0.2 rounded text-[9px] font-bold badge-fk">FK</span>
+          <span>Foreign Key</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="px-1 py-0.2 rounded text-[9px] font-bold badge-uq">UQ</span>
+          <span>Unique Key</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="w-3 h-0.5 bg-sky-400 inline-block"></span>
+          <span>1 : N Relationship</span>
+        </div>
+      </div>
+      <div class="pt-1 text-[11px] text-slate-400 flex items-center justify-between border-t border-slate-800/60">
+        <span>20 Entities &bull; 24 Foreign Keys</span>
+        <button onclick="autoLayout()" class="text-sky-400 hover:text-sky-300 font-medium underline">Auto Layout</button>
+      </div>
+    </div>
+
+    <!-- Floating Mini Map / Navigator -->
+    <div class="absolute bottom-5 right-5 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-xl p-2.5 shadow-2xl z-20 hidden lg:flex flex-col items-center gap-1">
+      <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Navigation</span>
+      <div class="flex items-center gap-1 text-xs">
+        <button onclick="panDirection(0, 100)" class="p-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-300">▲</button>
+      </div>
+      <div class="flex items-center gap-1 text-xs">
+        <button onclick="panDirection(100, 0)" class="p-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-300">◀</button>
+        <button onclick="resetView()" class="p-1 px-2 bg-slate-800 hover:bg-slate-700 rounded text-slate-300 text-[10px]">Center</button>
+        <button onclick="panDirection(-100, 0)" class="p-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-300">▶</button>
+      </div>
+      <div class="flex items-center gap-1 text-xs">
+        <button onclick="panDirection(0, -100)" class="p-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-300">▼</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Side Panel: Table Inspector & Data Dictionary -->
+  <aside id="sidePanel" class="fixed top-14 right-0 bottom-0 w-96 bg-slate-900/98 backdrop-blur-xl border-l border-slate-800 shadow-2xl z-40 transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-xs">📖</div>
+        <h2 id="inspectorTitle" class="font-bold text-sm text-white">Data Dictionary & Inspector</h2>
+      </div>
+      <button onclick="toggleSidePanel(false)" class="text-slate-400 hover:text-white p-1 rounded-md">✕</button>
+    </div>
+
+    <div class="p-4 flex-1 overflow-y-auto custom-scrollbar space-y-5" id="inspectorContent">
+      <div class="text-xs text-slate-400 leading-relaxed">
+        Click on any entity card in the diagram to inspect its complete schema metadata, indexes, foreign key links, domain constraints, and cascade delete rules.
+      </div>
+
+      <!-- Quick Jump List -->
+      <div>
+        <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">All Tables by Module</h3>
+        <div class="space-y-3" id="quickJumpModules"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- JavaScript Engine for Interactive ERD -->
+  <script>
+    // Schema Model Definition
+    const SCHEMA_DATA = {
+      modules: [
+        { id: "RESTAURANT", name: "Restaurant Hierarchy", color: "#38bdf8", bg: "rgba(56, 189, 248, 0.1)", border: "rgba(56, 189, 248, 0.3)" },
+        { id: "USERS", name: "Users & Auth", color: "#a855f7", bg: "rgba(168, 85, 247, 0.1)", border: "rgba(168, 85, 247, 0.3)" },
+        { id: "DINING", name: "Floor & Dining Sessions", color: "#10b981", bg: "rgba(16, 185, 129, 0.1)", border: "rgba(16, 185, 129, 0.3)" },
+        { id: "ORDERS", name: "Menu & Orders", color: "#f59e0b", bg: "rgba(245, 158, 11, 0.1)", border: "rgba(245, 158, 11, 0.3)" },
+        { id: "KITCHEN", name: "Kitchen Display (KDS)", color: "#ef4444", bg: "rgba(239, 68, 68, 0.1)", border: "rgba(239, 68, 68, 0.3)" },
+        { id: "BILLING", name: "Billing, Discounts & Payments", color: "#ec4899", bg: "rgba(236, 72, 153, 0.1)", border: "rgba(236, 72, 153, 0.3)" }
+      ],
+      tables: [
+        // 1. Restaurant Hierarchy
+        {
+          id: "branch",
+          name: "branch",
+          module: "RESTAURANT",
+          description: "Physical restaurant branch / location in multi-store deployment",
+          x: 50, y: 80,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "name", type: "VARCHAR(100)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Branch title" },
+            { name: "address", type: "TEXT", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Physical address" },
+            { name: "phone", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Contact telephone" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["None"]
+        },
+        {
+          id: "dining_area",
+          name: "dining_area",
+          module: "RESTAURANT",
+          description: "Section / zone within a branch (e.g., Patio, Main Hall, Rooftop)",
+          x: 50, y: 350,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "branch_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "branch.id", desc: "CASCADE delete with branch" },
+            { name: "name", type: "VARCHAR(50)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Zone name" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["INDEX on (branch_id)"]
+        },
+        {
+          id: "table_entity",
+          name: "table_entity",
+          module: "RESTAURANT",
+          description: "Physical or logical dining table unit in a zone",
+          x: 50, y: 600,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "area_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "dining_area.id", desc: "CASCADE delete with area" },
+            { name: "table_number", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: true, nullable: false, desc: "Unique table identifier per area" },
+            { name: "capacity", type: "INTEGER", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Max seating capacity" },
+            { name: "is_active", type: "BOOLEAN", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Availability flag (default true)" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["UNIQUE (area_id, table_number)", "CHECK (capacity > 0)"]
+        },
+
+        // 2. Users & CRM
+        {
+          id: "role",
+          name: "role",
+          module: "USERS",
+          description: "RBAC Staff roles (ADMIN, MANAGER, WAITER, CHEF, CASHIER)",
+          x: 420, y: 80,
+          columns: [
+            { name: "id", type: "INTEGER", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Autoincrement ID" },
+            { name: "name", type: "VARCHAR(50)", isPk: false, isFk: false, isUq: true, nullable: false, desc: "Role name" },
+            { name: "description", type: "TEXT", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Privilege explanation" }
+          ],
+          constraints: ["UNIQUE (name)"]
+        },
+        {
+          id: "user_account",
+          name: "user_account",
+          module: "USERS",
+          description: "Internal staff user accounts tied to a branch and role",
+          x: 420, y: 300,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "role_id", type: "INTEGER", isPk: false, isFk: true, isUq: false, nullable: false, ref: "role.id", desc: "Role FK" },
+            { name: "branch_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "branch.id", desc: "Assigned branch" },
+            { name: "first_name", type: "VARCHAR(50)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "First name" },
+            { name: "last_name", type: "VARCHAR(50)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last name" },
+            { name: "email", type: "VARCHAR(100)", isPk: false, isFk: false, isUq: true, nullable: false, desc: "Login email" },
+            { name: "password_hash", type: "VARCHAR(255)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Bcrypt hash" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["UNIQUE (email)", "INDEX on (branch_id)"]
+        },
+        {
+          id: "customer",
+          name: "customer",
+          module: "USERS",
+          description: "Guest / patron profile for reservations & dining sessions",
+          x: 420, y: 640,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "first_name", type: "VARCHAR(50)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "First name" },
+            { name: "last_name", type: "VARCHAR(50)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last name" },
+            { name: "phone", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: true, nullable: true, desc: "Unique phone" },
+            { name: "email", type: "VARCHAR(100)", isPk: false, isFk: false, isUq: true, nullable: true, desc: "Unique email" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["UNIQUE (phone)", "UNIQUE (email)"]
+        },
+
+        // 3. Dining & Floor Operations
+        {
+          id: "reservation",
+          name: "reservation",
+          module: "DINING",
+          description: "Advance table booking with time window and status lifecycle",
+          x: 780, y: 80,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "table_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "table_entity.id", desc: "Reserved table" },
+            { name: "customer_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "customer.id", desc: "Customer FK" },
+            { name: "start_time", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Start slot" },
+            { name: "end_time", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "End slot" },
+            { name: "guest_count", type: "INTEGER", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Party size" },
+            { name: "status", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "PENDING | CONFIRMED | CANCELLED | NO_SHOW | COMPLETED" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["CHECK (end_time > start_time)", "CHECK (guest_count > 0)", "CHECK (status IN (...))"]
+        },
+        {
+          id: "dining_session",
+          name: "dining_session",
+          module: "DINING",
+          description: "Live occupancy session tracking active guests at a table",
+          x: 780, y: 460,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "table_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "table_entity.id", desc: "Occupied table" },
+            { name: "reservation_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: true, ref: "reservation.id", desc: "Optional linked reservation" },
+            { name: "customer_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: true, ref: "customer.id", desc: "Optional customer profile" },
+            { name: "start_time", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Session start" },
+            { name: "end_time", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Closed when COMPLETED" },
+            { name: "guest_count", type: "INTEGER", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Party size" },
+            { name: "status", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "ACTIVE | COMPLETED" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: [
+            "CHECK (guest_count > 0)", 
+            "CHECK (status IN ('ACTIVE', 'COMPLETED'))",
+            "CHECK ((status='ACTIVE' AND end_time IS NULL) OR (status='COMPLETED' AND end_time IS NOT NULL))"
+          ]
+        },
+
+        // 4. Menu & Orders
+        {
+          id: "menu_category",
+          name: "menu_category",
+          module: "ORDERS",
+          description: "Menu hierarchy groupings (Starters, Main Course, Drinks, Desserts)",
+          x: 1150, y: 80,
+          columns: [
+            { name: "id", type: "INTEGER", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Autoincrement ID" },
+            { name: "name", type: "VARCHAR(50)", isPk: false, isFk: false, isUq: true, nullable: false, desc: "Category name" },
+            { name: "description", type: "TEXT", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Description" }
+          ],
+          constraints: ["UNIQUE (name)"]
+        },
+        {
+          id: "menu_item",
+          name: "menu_item",
+          module: "ORDERS",
+          description: "Dishes, beverages and items with current pricing",
+          x: 1150, y: 280,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "category_id", type: "INTEGER", isPk: false, isFk: true, isUq: false, nullable: false, ref: "menu_category.id", desc: "Category FK" },
+            { name: "name", type: "VARCHAR(100)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Item name" },
+            { name: "description", type: "TEXT", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Ingredient description" },
+            { name: "image_url", type: "TEXT", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Item image asset" },
+            { name: "current_price", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Base price" },
+            { name: "is_active", type: "BOOLEAN", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Availability flag" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["CHECK (current_price >= 0)"]
+        },
+        {
+          id: "customer_order",
+          name: "customer_order",
+          module: "ORDERS",
+          description: "Customer order round submitted during a dining session",
+          x: 1150, y: 640,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "session_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "dining_session.id", desc: "Session FK" },
+            { name: "user_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "user_account.id", desc: "Waiter / creator FK" },
+            { name: "status", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "PLACED | CONFIRMED | PREPARING | READY | SERVED | CANCELLED" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["CHECK (status IN ('PLACED', 'CONFIRMED', 'PREPARING', 'READY', 'SERVED', 'CANCELLED'))"]
+        },
+        {
+          id: "order_item",
+          name: "order_item",
+          module: "ORDERS",
+          description: "Individual line item in an order with snapshot price & notes",
+          x: 1520, y: 440,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "order_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "customer_order.id", desc: "CASCADE delete with order" },
+            { name: "item_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "menu_item.id", desc: "Menu item FK" },
+            { name: "quantity", type: "INTEGER", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Number of portions" },
+            { name: "unit_price", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Price snapshot at order time" },
+            { name: "special_requests", type: "TEXT", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Cooking instructions" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["CHECK (quantity > 0)", "CHECK (unit_price >= 0)"]
+        },
+        {
+          id: "order_status_history",
+          name: "order_status_history",
+          module: "ORDERS",
+          description: "Audit trail log tracking state transitions of orders",
+          x: 1520, y: 800,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "order_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "customer_order.id", desc: "CASCADE delete with order" },
+            { name: "status", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "New state" },
+            { name: "changed_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Transition timestamp" }
+          ],
+          constraints: ["CASCADE ON DELETE"]
+        },
+
+        // 5. Kitchen Display (KDS)
+        {
+          id: "kitchen_ticket",
+          name: "kitchen_ticket",
+          module: "KITCHEN",
+          description: "Kitchen operational ticket 1-to-1 attached to customer order",
+          x: 1520, y: 80,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "order_id", type: "UUID", isPk: false, isFk: true, isUq: true, nullable: false, ref: "customer_order.id", desc: "1:1 with order, CASCADE delete" },
+            { name: "status", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "PENDING | IN_PROGRESS | READY" },
+            { name: "prep_start_time", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: true, desc: "When chef begins" },
+            { name: "ready_time", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: true, desc: "When order is plated" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["UNIQUE (order_id)", "CHECK (status IN ('PENDING', 'IN_PROGRESS', 'READY'))"]
+        },
+        {
+          id: "kitchen_ticket_item",
+          name: "kitchen_ticket_item",
+          module: "KITCHEN",
+          description: "Dish preparation progress on chef's station",
+          x: 1880, y: 80,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "ticket_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "kitchen_ticket.id", desc: "CASCADE delete with ticket" },
+            { name: "order_item_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "order_item.id", desc: "CASCADE delete with order_item" },
+            { name: "status", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "PENDING | PREPARING | COMPLETED | CANCELLED" }
+          ],
+          constraints: ["UNIQUE (ticket_id, order_item_id)", "CHECK (status IN (...))"]
+        },
+
+        // 6. Billing, Discounts & Payments
+        {
+          id: "bill",
+          name: "bill",
+          module: "BILLING",
+          description: "Final dining invoice linked 1-to-1 with a dining session",
+          x: 780, y: 880,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "session_id", type: "UUID", isPk: false, isFk: true, isUq: true, nullable: false, ref: "dining_session.id", desc: "1:1 with session" },
+            { name: "subtotal", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Sum of bill items" },
+            { name: "tax_amount", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Calculated tax" },
+            { name: "total_amount", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Final payable amount" },
+            { name: "status", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "UNPAID | PARTIAL | PAID | VOIDED" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["UNIQUE (session_id)", "CHECK (subtotal >= 0)", "CHECK (tax_amount >= 0)", "CHECK (total_amount >= 0)"]
+        },
+        {
+          id: "bill_item",
+          name: "bill_item",
+          module: "BILLING",
+          description: "Itemized snapshot on the bill with persisted computed price",
+          x: 1150, y: 1040,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "bill_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "bill.id", desc: "CASCADE delete with bill" },
+            { name: "order_item_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "order_item.id", desc: "Original order item FK" },
+            { name: "item_name_snapshot", type: "VARCHAR(100)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Immutable item name" },
+            { name: "quantity", type: "INTEGER", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Portion count" },
+            { name: "unit_price", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Billed unit price" },
+            { name: "total_price", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "PERSISTED COMPUTED (quantity * unit_price)" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" }
+          ],
+          constraints: ["CHECK (quantity > 0)", "CHECK (unit_price >= 0)", "COMPUTED (quantity * unit_price)"]
+        },
+        {
+          id: "discount",
+          name: "discount",
+          module: "BILLING",
+          description: "Configured promotional or manager discount rules",
+          x: 50, y: 1000,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "name", type: "VARCHAR(100)", isPk: false, isFk: false, isUq: true, nullable: false, desc: "Rule name" },
+            { name: "description", type: "TEXT", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Campaign details" },
+            { name: "discount_type", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "FIXED | PERCENTAGE" },
+            { name: "value", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Flat amount or percent rate" },
+            { name: "max_discount_amount", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Cap for percentage discount" },
+            { name: "is_active", type: "BOOLEAN", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Active toggle" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["UNIQUE (name)", "CHECK (discount_type IN ('FIXED', 'PERCENTAGE'))"]
+        },
+        {
+          id: "discount_application",
+          name: "discount_application",
+          module: "BILLING",
+          description: "Applied discount on a bill, authorized by manager",
+          x: 420, y: 1000,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "bill_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "bill.id", desc: "CASCADE delete with bill" },
+            { name: "discount_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "discount.id", desc: "Rule FK" },
+            { name: "authorized_by_user_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "user_account.id", desc: "Staff manager FK" },
+            { name: "discount_amount", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Computed or fixed discount deducted" },
+            { name: "discount_percentage", type: "NUMERIC(5,2)", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Percentage applied" },
+            { name: "reason", type: "TEXT", isPk: false, isFk: false, isUq: false, nullable: true, desc: "Justification note" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" }
+          ],
+          constraints: [
+            "CHECK (discount_amount > 0 OR discount_percentage > 0)",
+            "CHECK ((discount_amount IS NOT NULL AND discount_percentage IS NULL) OR (discount_amount IS NULL AND discount_percentage IS NOT NULL))"
+          ]
+        },
+        {
+          id: "payment",
+          name: "payment",
+          module: "BILLING",
+          description: "Tendered payment transactions (supports split bills)",
+          x: 780, y: 1240,
+          columns: [
+            { name: "id", type: "UUID", isPk: true, isFk: false, isUq: false, nullable: false, desc: "Primary key identifier" },
+            { name: "bill_id", type: "UUID", isPk: false, isFk: true, isUq: false, nullable: false, ref: "bill.id", desc: "CASCADE delete with bill" },
+            { name: "amount", type: "NUMERIC(12,2)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Paid sum" },
+            { name: "payment_method", type: "VARCHAR(50)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "CASH | CARD | ONLINE | WALLET" },
+            { name: "status", type: "VARCHAR(20)", isPk: false, isFk: false, isUq: false, nullable: false, desc: "PENDING | COMPLETED | FAILED | REFUNDED" },
+            { name: "transaction_ref", type: "VARCHAR(100)", isPk: false, isFk: false, isUq: true, nullable: true, desc: "Gateway reference number" },
+            { name: "created_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Record timestamp" },
+            { name: "updated_at", type: "TIMESTAMPTZ", isPk: false, isFk: false, isUq: false, nullable: false, desc: "Last update timestamp" }
+          ],
+          constraints: ["CHECK (amount > 0)", "CHECK (payment_method IN (...))", "CHECK (status IN (...))"]
+        }
+      ],
+      relationships: [
+        // 1. Restaurant Hierarchy
+        { from: "dining_area", fromCol: "branch_id", to: "branch", toCol: "id", type: "N:1", label: "branch_id → id" },
+        { from: "table_entity", fromCol: "area_id", to: "dining_area", toCol: "id", type: "N:1", label: "area_id → id" },
+        { from: "user_account", fromCol: "branch_id", to: "branch", toCol: "id", type: "N:1", label: "branch_id → id" },
+        { from: "user_account", fromCol: "role_id", to: "role", toCol: "id", type: "N:1", label: "role_id → id" },
+
+        // 2. Dining Floor & Reservations
+        { from: "reservation", fromCol: "table_id", to: "table_entity", toCol: "id", type: "N:1", label: "table_id → id" },
+        { from: "reservation", fromCol: "customer_id", to: "customer", toCol: "id", type: "N:1", label: "customer_id → id" },
+        { from: "dining_session", fromCol: "table_id", to: "table_entity", toCol: "id", type: "N:1", label: "table_id → id" },
+        { from: "dining_session", fromCol: "customer_id", to: "customer", toCol: "id", type: "N:1", label: "customer_id → id (opt)" },
+        { from: "dining_session", fromCol: "reservation_id", to: "reservation", toCol: "id", type: "N:1", label: "reservation_id → id (opt)" },
+
+        // 3. Menu & Orders
+        { from: "menu_item", fromCol: "category_id", to: "menu_category", toCol: "id", type: "N:1", label: "category_id → id" },
+        { from: "customer_order", fromCol: "session_id", to: "dining_session", toCol: "id", type: "N:1", label: "session_id → id" },
+        { from: "customer_order", fromCol: "user_id", to: "user_account", toCol: "id", type: "N:1", label: "user_id → id" },
+        { from: "order_item", fromCol: "order_id", to: "customer_order", toCol: "id", type: "N:1", label: "order_id → id" },
+        { from: "order_item", fromCol: "item_id", to: "menu_item", toCol: "id", type: "N:1", label: "item_id → id" },
+        { from: "order_status_history", fromCol: "order_id", to: "customer_order", toCol: "id", type: "N:1", label: "order_id → id" },
+
+        // 4. Kitchen KDS
+        { from: "kitchen_ticket", fromCol: "order_id", to: "customer_order", toCol: "id", type: "1:1", label: "order_id ↔ id (1:1)" },
+        { from: "kitchen_ticket_item", fromCol: "ticket_id", to: "kitchen_ticket", toCol: "id", type: "N:1", label: "ticket_id → id" },
+        { from: "kitchen_ticket_item", fromCol: "order_item_id", to: "order_item", toCol: "id", type: "N:1", label: "order_item_id → id" },
+
+        // 5. Billing & Payments
+        { from: "bill", fromCol: "session_id", to: "dining_session", toCol: "id", type: "1:1", label: "session_id ↔ id (1:1)" },
+        { from: "bill_item", fromCol: "bill_id", to: "bill", toCol: "id", type: "N:1", label: "bill_id → id" },
+        { from: "bill_item", fromCol: "order_item_id", to: "order_item", toCol: "id", type: "N:1", label: "order_item_id → id" },
+        { from: "discount_application", fromCol: "bill_id", to: "bill", toCol: "id", type: "N:1", label: "bill_id → id" },
+        { from: "discount_application", fromCol: "discount_id", to: "discount", toCol: "id", type: "N:1", label: "discount_id → id" },
+        { from: "discount_application", fromCol: "authorized_by_user_id", to: "user_account", toCol: "id", type: "N:1", label: "authorized_by → user_account.id" },
+        { from: "payment", fromCol: "bill_id", to: "bill", toCol: "id", type: "N:1", label: "bill_id → id" }
+      ]
+    };
+
+    // State Variables
+    let scale = 0.85;
+    let panX = 40;
+    let panY = 30;
+    let isPanning = false;
+    let startX, startY;
+    let selectedTableId = null;
+    let activeFilter = 'ALL';
+    let draggedEntity = null;
+    let dragOffset = { x: 0, y: 0 };
+
+    const world = document.getElementById('diagramWorld');
+    const container = document.getElementById('entitiesContainer');
+    const svgOverlay = document.getElementById('svgOverlay');
+    const connectionsGroup = document.getElementById('connectionsGroup');
+    const viewportContainer = document.getElementById('viewportContainer');
+
+    // Initialize Diagram
+    function init() {
+      renderEntities();
+      renderQuickJump();
+      requestAnimationFrame(() => {
+        updateTransform();
+        drawConnections();
+      });
+      setupEventListeners();
+    }
+
+    // Render Entity HTML Cards
+    function renderEntities() {
+      container.innerHTML = '';
+      SCHEMA_DATA.tables.forEach(table => {
+        const mod = SCHEMA_DATA.modules.find(m => m.id === table.module) || { color: '#64748b', bg: '#1e293b' };
+        
+        const card = document.createElement('div');
+        card.id = `entity-${table.id}`;
+        card.className = `entity-card absolute w-80 bg-slate-900/95 border border-slate-700/80 rounded-xl shadow-xl overflow-hidden z-20 backdrop-blur-md`;
+        card.style.left = `${table.x}px`;
+        card.style.top = `${table.y}px`;
+        card.dataset.id = table.id;
+        card.dataset.module = table.module;
+
+        // Card Header
+        let html = `
+          <div class="px-3.5 py-2.5 border-b border-slate-800 flex items-center justify-between" style="background: linear-gradient(90deg, ${mod.bg}, rgba(15,23,42,0.6)); border-top: 3px solid ${mod.color};">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full" style="background: ${mod.color};"></span>
+              <span class="font-bold text-sm text-white tracking-wide">${table.name}</span>
+            </div>
+            <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-950/70 text-slate-300 border border-slate-700/50">
+              ${table.columns.length} cols
+            </span>
+          </div>
+          <div class="p-2.5 text-[11px] text-slate-400 bg-slate-950/40 border-b border-slate-800/60 leading-snug">
+            ${table.description}
+          </div>
+          <div class="divide-y divide-slate-800/50 text-xs">
+        `;
+
+        // Columns
+        table.columns.forEach(col => {
+          let badge = '';
+          if (col.isPk) {
+            badge = '<span class="badge-pk px-1.5 py-0.2 rounded text-[10px] font-bold">PK</span>';
+          } else if (col.isFk) {
+            badge = `<span class="badge-fk px-1.5 py-0.2 rounded text-[10px] font-bold" title="${col.ref || ''}">FK</span>`;
+          } else if (col.isUq) {
+            badge = '<span class="badge-uq px-1.5 py-0.2 rounded text-[10px] font-bold">UQ</span>';
+          }
+
+          html += `
+            <div class="px-3 py-1.5 flex items-center justify-between hover:bg-slate-800/40 transition group">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                ${badge}
+                <span class="font-mono text-slate-200 truncate ${col.isPk ? 'font-semibold text-amber-300' : ''}">${col.name}</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono text-[11px] text-slate-400">${col.type}</span>
+                ${!col.nullable ? '<span class="text-[10px] text-rose-400 font-bold" title="NOT NULL">&bull;</span>' : ''}
+              </div>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+        card.innerHTML = html;
+
+        // Card Click to Inspect
+        card.addEventListener('click', (e) => {
+          if (!card.isDragging) {
+            selectTable(table.id);
+          }
+        });
+
+        // Dragging Support
+        card.addEventListener('mousedown', (e) => {
+          if (e.button !== 0) return;
+          e.stopPropagation();
+          draggedEntity = card;
+          card.isDragging = false;
+          const rect = card.getBoundingClientRect();
+          dragOffset.x = (e.clientX - rect.left) / scale;
+          dragOffset.y = (e.clientY - rect.top) / scale;
+          card.style.zIndex = 100;
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    // Draw SVG Relationship Lines
+    function drawConnections() {
+      connectionsGroup.innerHTML = '';
+      const worldRect = world.getBoundingClientRect();
+
+      SCHEMA_DATA.relationships.forEach((rel, idx) => {
+        const fromEl = document.getElementById(`entity-${rel.from}`);
+        const toEl = document.getElementById(`entity-${rel.to}`);
+        if (!fromEl || !toEl) return;
+
+        // Check if filtered out
+        const fromHidden = fromEl.style.display === 'none';
+        const toHidden = toEl.style.display === 'none';
+        if (fromHidden || toHidden) return;
+
+        const fromRect = fromEl.getBoundingClientRect();
+        const toRect = toEl.getBoundingClientRect();
+
+        // Calculate connection ports relative to SVG container
+        const fX = (fromRect.left - worldRect.left + fromRect.width / 2);
+        const fY = (fromRect.top - worldRect.top + fromRect.height / 2);
+        const tX = (toRect.left - worldRect.left + toRect.width / 2);
+        const tY = (toRect.top - worldRect.top + toRect.height / 2);
+
+        // Orthogonal / Bezier control points
+        let p1x, p1y, p2x, p2y;
+        if (fX < tX) {
+          p1x = fromRect.right - worldRect.left;
+          p1y = fY;
+          p2x = toRect.left - worldRect.left;
+          p2y = tY;
+        } else {
+          p1x = fromRect.left - worldRect.left;
+          p1y = fY;
+          p2x = toRect.right - worldRect.left;
+          p2y = tY;
+        }
+
+        const dx = Math.abs(p2x - p1x) * 0.5;
+        const pathData = `M ${p1x} ${p1y} C ${p1x + (p2x > p1x ? dx : -dx)} ${p1y}, ${p2x + (p2x > p1x ? -dx : dx)} ${p2y}, ${p2x} ${p2y}`;
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', pathData);
+        path.setAttribute('class', 'connector-line');
+        path.setAttribute('id', `rel-${idx}`);
+        path.dataset.from = rel.from;
+        path.dataset.to = rel.to;
+        path.setAttribute('marker-end', 'url(#arrow)');
+        path.setAttribute('marker-start', 'url(#circle-end)');
+
+        // Highlight state
+        if (selectedTableId) {
+          if (rel.from === selectedTableId || rel.to === selectedTableId) {
+            path.classList.add('active');
+          } else {
+            path.classList.add('dimmed');
+          }
+        }
+
+        connectionsGroup.appendChild(path);
+      });
+    }
+
+    // Select and inspect table
+    function selectTable(tableId) {
+      selectedTableId = tableId;
+      const table = SCHEMA_DATA.tables.find(t => t.id === tableId);
+      if (!table) return;
+
+      // Highlight cards
+      document.querySelectorAll('.entity-card').forEach(c => {
+        c.classList.remove('highlighted', 'dimmed');
+        const cId = c.dataset.id;
+        if (cId === tableId) {
+          c.classList.add('highlighted');
+        } else {
+          const isRelated = SCHEMA_DATA.relationships.some(
+            r => (r.from === tableId && r.to === cId) || (r.to === tableId && r.from === cId)
+          );
+          if (isRelated) {
+            c.classList.add('highlighted');
+          } else {
+            c.classList.add('dimmed');
+          }
+        }
+      });
+
+      drawConnections();
+      renderInspector(table);
+      toggleSidePanel(true);
+    }
+
+    function renderInspector(table) {
+      const mod = SCHEMA_DATA.modules.find(m => m.id === table.module);
+      const incoming = SCHEMA_DATA.relationships.filter(r => r.to === table.id);
+      const outgoing = SCHEMA_DATA.relationships.filter(r => r.from === table.id);
+
+      document.getElementById('inspectorTitle').innerText = `Table: ${table.name}`;
+
+      let html = `
+        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-white uppercase">${table.name}</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background:${mod.bg}; color:${mod.color}; border: 1px solid ${mod.border}">
+              ${mod.name}
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">${table.description}</p>
+        </div>
+
+        <!-- Columns Specification -->
+        <div>
+          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center justify-between">
+            <span>Columns (${table.columns.length})</span>
+            <span class="text-[10px] text-slate-500 font-normal">Data types & Keys</span>
+          </h3>
+          <div class="space-y-1.5">
+      `;
+
+      table.columns.forEach(col => {
+        let keyBadge = '';
+        if (col.isPk) keyBadge = '<span class="badge-pk px-1.5 py-0.2 rounded text-[10px] font-bold">PK</span>';
+        if (col.isFk) keyBadge = `<span class="badge-fk px-1.5 py-0.2 rounded text-[10px] font-bold" title="${col.ref || ''}">FK → ${col.ref}</span>`;
+        if (col.isUq) keyBadge = '<span class="badge-uq px-1.5 py-0.2 rounded text-[10px] font-bold">UQ</span>';
+
+        html += `
+          <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800/80 space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono font-semibold text-sky-300">${col.name}</span>
+                ${keyBadge}
+              </div>
+              <span class="font-mono text-[11px] text-slate-400">${col.type}</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-500">
+              <span>${col.desc}</span>
+              <span>${col.nullable ? 'NULL' : 'NOT NULL'}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div></div>`;
+
+      // Constraints
+      if (table.constraints && table.constraints.length > 0) {
+        html += `
+          <div>
+            <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Check Constraints & Rules</h3>
+            <div class="space-y-1">
+              ${table.constraints.map(c => `
+                <div class="p-2 rounded bg-slate-950/50 border border-slate-800 text-[11px] font-mono text-emerald-400">
+                  ${c}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      // Foreign Key Relations
+      html += `
+        <div>
+          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Relationship Topology</h3>
+          <div class="space-y-2 text-xs">
+            <div class="text-[11px] text-slate-400 font-semibold">Outgoing References (This table references):</div>
+            ${outgoing.length === 0 ? '<div class="text-[11px] text-slate-600 italic">None</div>' : ''}
+            ${outgoing.map(r => `
+              <div onclick="selectTable('${r.to}')" class="p-2 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 flex items-center justify-between cursor-pointer transition">
+                <span class="text-sky-400 font-mono">${r.fromCol}</span>
+                <span class="text-slate-400 text-[11px]">→ ${r.to}.${r.toCol}</span>
+              </div>
+            `).join('')}
+
+            <div class="text-[11px] text-slate-400 font-semibold pt-2">Incoming References (Other tables reference this):</div>
+            ${incoming.length === 0 ? '<div class="text-[11px] text-slate-600 italic">None</div>' : ''}
+            ${incoming.map(r => `
+              <div onclick="selectTable('${r.from}')" class="p-2 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 flex items-center justify-between cursor-pointer transition">
+                <span class="text-emerald-400 font-mono">${r.from}</span>
+                <span class="text-slate-400 text-[11px]">via ${r.fromCol} (${r.type})</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      document.getElementById('inspectorContent').innerHTML = html;
+    }
+
+    function renderQuickJump() {
+      const container = document.getElementById('quickJumpModules');
+      container.innerHTML = '';
+
+      SCHEMA_DATA.modules.forEach(mod => {
+        const tables = SCHEMA_DATA.tables.filter(t => t.module === mod.id);
+        const section = document.createElement('div');
+        section.className = 'space-y-1';
+        section.innerHTML = `
+          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wide flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full" style="background: ${mod.color}"></span>
+            ${mod.name}
+          </div>
+          <div class="grid grid-cols-2 gap-1 text-xs">
+            ${tables.map(t => `
+              <button onclick="selectTable('${t.id}'); focusEntity('${t.id}')" class="p-1.5 rounded bg-slate-950/60 hover:bg-slate-800 border border-slate-800 text-left font-mono text-slate-300 hover:text-white truncate transition">
+                ${t.name}
+              </button>
+            `).join('')}
+          </div>
+        `;
+        container.appendChild(section);
+      });
+    }
+
+    function focusEntity(tableId) {
+      const el = document.getElementById(`entity-${tableId}`);
+      if (!el) return;
+      const x = parseFloat(el.style.left);
+      const y = parseFloat(el.style.top);
+      panX = (viewportContainer.clientWidth / 2) - (x + 160) * scale;
+      panY = (viewportContainer.clientHeight / 2) - (y + 120) * scale;
+      updateTransform();
+      drawConnections();
+    }
+
+    function filterDomain(domainId) {
+      activeFilter = domainId;
+      document.querySelectorAll('.domain-btn').forEach(btn => {
+        if (btn.dataset.domain === domainId) {
+          btn.classList.add('bg-slate-800', 'text-white');
+          btn.classList.remove('text-slate-400');
+        } else {
+          btn.classList.remove('bg-slate-800', 'text-white');
+          btn.classList.add('text-slate-400');
+        }
+      });
+
+      SCHEMA_DATA.tables.forEach(table => {
+        const el = document.getElementById(`entity-${table.id}`);
+        if (domainId === 'ALL' || table.module === domainId) {
+          el.style.display = 'block';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+
+      drawConnections();
+    }
+
+    function handleSearch(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        document.querySelectorAll('.entity-card').forEach(c => {
+          c.classList.remove('dimmed', 'highlighted');
+        });
+        drawConnections();
+        return;
+      }
+
+      SCHEMA_DATA.tables.forEach(table => {
+        const el = document.getElementById(`entity-${table.id}`);
+        const matchName = table.name.toLowerCase().includes(q);
+        const matchCol = table.columns.some(col => col.name.toLowerCase().includes(q) || col.type.toLowerCase().includes(q));
+
+        if (matchName || matchCol) {
+          el.classList.remove('dimmed');
+          el.classList.add('highlighted');
+        } else {
+          el.classList.add('dimmed');
+          el.classList.remove('highlighted');
+        }
+      });
+
+      drawConnections();
+    }
+
+    function autoLayout() {
+      // Clean structured grid positions
+      const defaultPositions = {
+        branch: { x: 50, y: 80 },
+        dining_area: { x: 50, y: 350 },
+        table_entity: { x: 50, y: 600 },
+        role: { x: 420, y: 80 },
+        user_account: { x: 420, y: 300 },
+        customer: { x: 420, y: 640 },
+        reservation: { x: 780, y: 80 },
+        dining_session: { x: 780, y: 460 },
+        menu_category: { x: 1150, y: 80 },
+        menu_item: { x: 1150, y: 280 },
+        customer_order: { x: 1150, y: 640 },
+        order_item: { x: 1520, y: 440 },
+        order_status_history: { x: 1520, y: 800 },
+        kitchen_ticket: { x: 1520, y: 80 },
+        kitchen_ticket_item: { x: 1880, y: 80 },
+        bill: { x: 780, y: 880 },
+        bill_item: { x: 1150, y: 1040 },
+        discount: { x: 50, y: 1000 },
+        discount_application: { x: 420, y: 1000 },
+        payment: { x: 780, y: 1240 }
+      };
+
+      Object.entries(defaultPositions).forEach(([id, pos]) => {
+        const el = document.getElementById(`entity-${id}`);
+        if (el) {
+          el.style.left = `${pos.x}px`;
+          el.style.top = `${pos.y}px`;
+        }
+      });
+
+      drawConnections();
+    }
+
+    function toggleSidePanel(show) {
+      const panel = document.getElementById('sidePanel');
+      if (typeof show === 'boolean') {
+        if (show) panel.classList.remove('translate-x-full');
+        else panel.classList.add('translate-x-full');
+      } else {
+        panel.classList.toggle('translate-x-full');
+      }
+    }
+
+    function updateTransform() {
+      world.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+      svgOverlay.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+      svgOverlay.style.transformOrigin = '0 0';
+    }
+
+    function zoomBy(delta) {
+      const newScale = Math.min(Math.max(0.3, scale + delta), 2.0);
+      scale = newScale;
+      updateTransform();
+      drawConnections();
+    }
+
+    function resetView() {
+      scale = 0.8;
+      panX = 30;
+      panY = 20;
+      selectedTableId = null;
+      document.querySelectorAll('.entity-card').forEach(c => c.classList.remove('highlighted', 'dimmed'));
+      updateTransform();
+      drawConnections();
+    }
+
+    function panDirection(dx, dy) {
+      panX += dx;
+      panY += dy;
+      updateTransform();
+      drawConnections();
+    }
+
+    function setupEventListeners() {
+      // Pan canvas
+      viewportContainer.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.entity-card') || e.target.closest('button') || e.target.closest('aside')) return;
+        isPanning = true;
+        startX = e.clientX - panX;
+        startY = e.clientY - panY;
+        viewportContainer.style.cursor = 'grabbing';
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isPanning) {
+          panX = e.clientX - startX;
+          panY = e.clientY - startY;
+          updateTransform();
+        } else if (draggedEntity) {
+          draggedEntity.isDragging = true;
+          const worldRect = world.getBoundingClientRect();
+          const newX = (e.clientX - worldRect.left) / scale - dragOffset.x;
+          const newY = (e.clientY - worldRect.top) / scale - dragOffset.y;
+          draggedEntity.style.left = `${Math.max(0, newX)}px`;
+          draggedEntity.style.top = `${Math.max(0, newY)}px`;
+          drawConnections();
+        }
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isPanning) {
+          isPanning = false;
+          viewportContainer.style.cursor = 'default';
+        }
+        if (draggedEntity) {
+          draggedEntity.style.zIndex = 20;
+          draggedEntity = null;
+        }
+      });
+
+      // Mouse wheel zoom
+      viewportContainer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const zoomDelta = e.deltaY < 0 ? 0.08 : -0.08;
+        zoomBy(zoomDelta);
+      }, { passive: false });
+
+      window.addEventListener('resize', () => {
+        drawConnections();
+      });
+    }
+
+    // Launch
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

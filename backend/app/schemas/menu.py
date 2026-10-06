@@ -23,6 +23,7 @@ class MenuItemBase(BaseModel):
     name: str
     description: Optional[str] = None
     current_price: Decimal
+    image_url: Optional[str] = None
     is_active: bool = True
 
 class MenuItemCreate(MenuItemBase):
@@ -33,6 +34,7 @@ class MenuItemUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
     current_price: Optional[Decimal] = None
+    image_url: Optional[str] = None
     is_active: Optional[bool] = None
 
 class MenuItemResponse(MenuItemBase):
