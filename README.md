@@ -176,25 +176,184 @@ The relational database is normalized to Third Normal Form (3NF) to eliminate re
 - `payment`: Monetary transaction receipts and payment instruments.
 - `user_account`: System operator accounts and role associations.
 
-### Entity Relationship Model
+### Entity Relationship Model (Chen-Style Complete Schema)
+
+The diagram below reflects the comprehensive 20-entity relational architecture modeled in [`dinedesk_chen_er_diagram.html`](dinedesk_chen_er_diagram.html), capturing all 25 structural relationships, foreign key constraints, and cardinalities:
 
 ```mermaid
 erDiagram
-    DINING_AREA ||--o{ TABLE_ENTITY : "houses"
-    CUSTOMER ||--o{ RESERVATION : "books"
-    TABLE_ENTITY ||--o{ RESERVATION : "assigned_to"
-    CUSTOMER ||--o{ DINING_SESSION : "part_of"
-    TABLE_ENTITY ||--o{ DINING_SESSION : "hosts"
-    DINING_SESSION ||--o{ CUSTOMER_ORDER : "places"
-    CUSTOMER_ORDER ||--|{ ORDER_ITEM : "contains"
-    MENU_CATEGORY ||--o{ MENU_ITEM : "groups"
-    MENU_ITEM ||--o{ ORDER_ITEM : "ordered_in"
-    CUSTOMER_ORDER ||--|| KITCHEN_TICKET : "routes_to"
-    KITCHEN_TICKET ||--|{ KITCHEN_TICKET_ITEM : "tracks"
-    ORDER_ITEM ||--|| KITCHEN_TICKET_ITEM : "maps_to"
-    DINING_SESSION ||--|| BILL : "generates"
-    BILL ||--o{ PAYMENT : "settled_with"
+    BRANCH ||--o{ DINING_AREA : "has (1:N)"
+    DINING_AREA ||--o{ TABLE_ENTITY : "contains (1:N)"
+    BRANCH ||--o{ USER_ACCOUNT : "employs (1:N)"
+    ROLE ||--o{ USER_ACCOUNT : "assigned_to (1:N)"
+
+    TABLE_ENTITY ||--o{ RESERVATION : "reserved_for (1:N)"
+    CUSTOMER ||--o{ RESERVATION : "books (1:N)"
+    TABLE_ENTITY ||--o{ DINING_SESSION : "hosts (1:N)"
+    CUSTOMER ||--o{ DINING_SESSION : "attends (1:N)"
+    RESERVATION ||--|| DINING_SESSION : "fulfills (1:1)"
+
+    MENU_CATEGORY ||--o{ MENU_ITEM : "categorizes (1:N)"
+    DINING_SESSION ||--o{ CUSTOMER_ORDER : "places (1:N)"
+    USER_ACCOUNT ||--o{ CUSTOMER_ORDER : "takes (1:N)"
+    CUSTOMER_ORDER ||--|{ ORDER_ITEM : "includes (1:N)"
+    MENU_ITEM ||--o{ ORDER_ITEM : "ordered_as (1:N)"
+    CUSTOMER_ORDER ||--o{ ORDER_STATUS_HISTORY : "logs (1:N)"
+
+    CUSTOMER_ORDER ||--|| KITCHEN_TICKET : "generates (1:1)"
+    KITCHEN_TICKET ||--|{ KITCHEN_TICKET_ITEM : "contains (1:N)"
+    ORDER_ITEM ||--o{ KITCHEN_TICKET_ITEM : "routes_to (1:N)"
+
+    DINING_SESSION ||--|| BILL : "generates (1:1)"
+    BILL ||--|{ BILL_ITEM : "itemizes (1:N)"
+    ORDER_ITEM ||--o{ BILL_ITEM : "snapshots (1:N)"
+    DISCOUNT ||--o{ DISCOUNT_APPLICATION : "applied_via (1:N)"
+    BILL ||--o{ DISCOUNT_APPLICATION : "discounts (1:N)"
+    USER_ACCOUNT ||--o{ DISCOUNT_APPLICATION : "authorizes (1:N)"
+    BILL ||--o{ PAYMENT : "settles (1:N)"
+
+    BRANCH {
+        string id PK
+        string name
+        string phone
+        string address
+    }
+    DINING_AREA {
+        string id PK
+        string branch_id FK
+        string name
+    }
+    TABLE_ENTITY {
+        string id PK
+        string area_id FK
+        string table_number UQ
+        int capacity
+        bool is_active
+    }
+    ROLE {
+        string id PK
+        string name UQ
+        string description
+    }
+    USER_ACCOUNT {
+        string id PK
+        string role_id FK
+        string branch_id FK
+        string email UQ
+        string first_name
+        string last_name
+    }
+    CUSTOMER {
+        string id PK
+        string first_name
+        string last_name
+        string phone UQ
+        string email UQ
+    }
+    RESERVATION {
+        string id PK
+        string table_id FK
+        string customer_id FK
+        datetime start_time
+        datetime end_time
+        int guest_count
+        string status
+    }
+    DINING_SESSION {
+        string id PK
+        string table_id FK
+        string reservation_id FK
+        string customer_id FK
+        datetime start_time
+        datetime end_time
+        int guest_count
+        string status
+    }
+    MENU_CATEGORY {
+        string id PK
+        string name UQ
+        string description
+    }
+    MENU_ITEM {
+        string id PK
+        string category_id FK
+        string name
+        decimal current_price
+        bool is_active
+    }
+    CUSTOMER_ORDER {
+        string id PK
+        string session_id FK
+        string user_id FK
+        string status
+    }
+    ORDER_ITEM {
+        string id PK
+        string order_id FK
+        string item_id FK
+        int quantity
+        decimal unit_price
+        string special_requests
+    }
+    ORDER_STATUS_HISTORY {
+        string id PK
+        string order_id FK
+        string status
+        datetime changed_at
+    }
+    KITCHEN_TICKET {
+        string id PK
+        string order_id FK
+        string status
+        datetime prep_start_time
+        datetime ready_time
+    }
+    KITCHEN_TICKET_ITEM {
+        string id PK
+        string ticket_id FK
+        string order_item_id FK
+        string status
+    }
+    BILL {
+        string id PK
+        string session_id FK
+        decimal subtotal
+        decimal tax_amount
+        decimal total_amount
+        string status
+    }
+    BILL_ITEM {
+        string id PK
+        string bill_id FK
+        string order_item_id FK
+        string item_name_snapshot
+        int quantity
+        decimal total_price
+    }
+    DISCOUNT {
+        string id PK
+        string name UQ
+        string discount_type
+        decimal value
+    }
+    DISCOUNT_APPLICATION {
+        string id PK
+        string bill_id FK
+        string discount_id FK
+        string authorized_by FK
+        decimal discount_amount
+    }
+    PAYMENT {
+        string id PK
+        string bill_id FK
+        decimal amount
+        string payment_method
+        string status
+        string transaction_ref UQ
+    }
 ```
+
+An interactive, draggable version of this diagram with custom cluster highlights is also available at [`dinedesk_chen_er_diagram.html`](dinedesk_chen_er_diagram.html).
 
 ---
 
