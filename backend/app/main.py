@@ -18,6 +18,7 @@ from app.api.v1.orders import router as orders_router
 from app.api.v1.kitchen import router as kitchen_router
 from app.api.v1.billing import router as billing_router
 from app.api.v1.reports import router as reports_router
+from app.api.v1.documents import router as documents_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -46,6 +47,7 @@ app.include_router(orders_router, prefix=api_v1_prefix)
 app.include_router(kitchen_router, prefix=api_v1_prefix)
 app.include_router(billing_router, prefix=api_v1_prefix)
 app.include_router(reports_router, prefix=api_v1_prefix)
+app.include_router(documents_router, prefix=api_v1_prefix)
 
 @app.get("/")
 def read_root():

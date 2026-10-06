@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DineDesk - Document Dropzone (PDF & DOCX Manager)</title>
+  <style>
+    :root {
+      --bg-dark: #090e17;
+      --card-bg: #111827;
+      --border: #1f2937;
+      --border-accent: #38bdf8;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .folder-path-box {
+      margin: 15px auto;
+      padding: 10px 16px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      display: inline-block;
+      user-select: all;
+    }
+
+    /* Drag and Drop Zone */
+    .dropzone {
+      background: var(--card-bg);
+      border: 2px dashed #374151;
+      border-radius: 16px;
+      padding: 50px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      position: relative;
+      margin-bottom: 35px;
+    }
+
+    .dropzone.dragover {
+      border-color: var(--border-accent);
+      background: rgba(56, 189, 248, 0.05);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.15);
+      transform: scale(1.01);
+    }
+
+    .dropzone-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      stroke: var(--border-accent);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .dropzone h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .dropzone p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 22px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    #file-input {
+      display: none;
+    }
+
+    /* Status Banner */
+    .status-msg {
+      margin-bottom: 20px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .status-msg.success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      display: block;
+    }
+
+    .status-msg.error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+      display: block;
+    }
+
+    /* Document Ledger Table */
+    .table-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-header h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: #0d131f;
+      padding: 12px 20px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .badge-pdf {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .badge-docx {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .badge-other {
+      background: rgba(148, 163, 184, 0.15);
+      color: #cbd5e1;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .empty-state {
+      padding: 40px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>DineDesk Document Manager</h1>
+      <p>Drag and drop PDF and DOCX reports to store them directly into the folder.</p>
+      <div class="folder-path-box">Destination: DineDesk/docx/</div>
+    </div>
+
+    <div id="status-box" class="status-msg"></div>
+
+    <!-- Drop Zone -->
+    <div class="dropzone" id="dropzone">
+      <svg class="dropzone-icon" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+      </svg>
+      <h3>Drag & Drop PDFs or DOCX files here</h3>
+      <p>Supports .pdf, .docx, .doc (multiple files allowed)</p>
+      <button class="btn" type="button" onclick="document.getElementById('file-input').click()">Browse Files</button>
+      <input type="file" id="file-input" multiple accept=".pdf,.docx,.doc" onchange="handleFileSelect(event)">
+    </div>
+
+    <!-- Current Files List -->
+    <div class="table-card">
+      <div class="table-header">
+        <h2>Files in docx/ Folder (<span id="file-count">0</span>)</h2>
+        <button class="btn btn-secondary" onclick="fetchFiles()">Refresh List</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>File Name</th>
+            <th>Size</th>
+            <th>Last Modified</th>
+            <th style="text-align: right;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="files-tbody">
+          <tr>
+            <td colspan="5" class="empty-state">Loading documents...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "http://127.0.0.1:8000/api/v1";
+    const dropzone = document.getElementById("dropzone");
+    const statusBox = document.getElementById("status-box");
+
+    // Drag & Drop Listeners
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('dragover');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('dragover');
+      }, false);
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        uploadFiles(files);
+      }
+    });
+
+    function handleFileSelect(e) {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        uploadFiles(files);
+      }
+    }
+
+    async function uploadFiles(files) {
+      showStatus("Uploading " + files.length + " file(s)...", false);
+
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append("files", files[i]);
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/documents/upload`, {
+          method: "POST",
+          body: formData
+        });
+
+        if (res.ok) {
+          const result = await res.json();
+          showStatus(result.message, true);
+          document.getElementById('file-input').value = "";
+          fetchFiles();
+        } else {
+          const err = await res.json();
+          showStatus("Upload failed: " + (err.detail || "Server error"), false, true);
+        }
+      } catch (err) {
+        showStatus("Upload failed: " + err.message, false, true);
+      }
+    }
+
+    async function fetchFiles() {
+      try {
+        const res = await fetch(`${API_BASE}/documents/list`);
+        if (res.ok) {
+          const files = await res.json();
+          renderFilesTable(files);
+        } else {
+          document.getElementById("files-tbody").innerHTML = `
+            <tr><td colspan="5" class="empty-state">Failed to load files from server.</td></tr>
+          `;
+        }
+      } catch (err) {
+        document.getElementById("files-tbody").innerHTML = `
+          <tr><td colspan="5" class="empty-state">Server offline or unreachable.</td></tr>
+        `;
+      }
+    }
+
+    function renderFilesTable(files) {
+      const tbody = document.getElementById("files-tbody");
+      document.getElementById("file-count").innerText = files.length;
+
+      if (files.length === 0) {
+        tbody.innerHTML = `
+          <tr><td colspan="5" class="empty-state">No documents stored in docx/ yet. Drag & drop files above.</td></tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = "";
+      files.forEach(f => {
+        const tr = document.createElement("tr");
+
+        let badgeClass = "badge-other";
+        if (f.extension === ".pdf") badgeClass = "badge-pdf";
+        else if (f.extension === ".docx" || f.extension === ".doc") badgeClass = "badge-docx";
+
+        const modDate = new Date(f.modified * 1000).toLocaleString();
+
+        tr.innerHTML = `
+          <td><span class="badge ${badgeClass}">${f.extension.replace('.', '')}</span></td>
+          <td><strong>${escapeHtml(f.name)}</strong></td>
+          <td>${f.size_kb} KB</td>
+          <td style="color:var(--text-muted); font-size:0.85rem;">${modDate}</td>
+          <td style="text-align: right;">
+            <a class="btn btn-secondary" style="padding:4px 10px; font-size:0.8rem; margin-right:6px;" href="${API_BASE}/documents/download/${encodeURIComponent(f.name)}" download="${escapeHtml(f.name)}">Download</a>
+            <button class="btn btn-danger" onclick="deleteFile('${escapeHtml(f.name)}')">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function deleteFile(filename) {
+      if (!confirm("Are you sure you want to delete " + filename + " from docx/?")) {
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/documents/${encodeURIComponent(filename)}`, {
+          method: "DELETE"
+        });
+        if (res.ok) {
+          showStatus("Deleted " + filename, true);
+          fetchFiles();
+        } else {
+          alert("Delete failed");
+        }
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    }
+
+    function showStatus(msg, isSuccess, isError) {
+      statusBox.innerText = msg;
+      statusBox.className = "status-msg " + (isSuccess ? "success" : (isError ? "error" : ""));
+      statusBox.style.display = "block";
+      if (isSuccess) {
+        setTimeout(() => { statusBox.style.display = "none"; }, 4000);
+      }
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    // Initial load
+    fetchFiles();
+  </script>
+</body>
+</html>
