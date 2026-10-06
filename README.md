@@ -62,28 +62,78 @@ DineDesk bridges front-of-house restaurant operations and back-of-house kitchen 
 
 The application adopts a modular client-server architecture:
 
+```mermaid
+graph TD
+    classDef client fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef service fill:#0f172a,stroke:#818cf8,stroke-width:2px,color:#f8fafc;
+    classDef storage fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,color:#f8fafc;
+
+    subgraph ClientLayer["Client Layer (Web Interfaces)"]
+        CP["Customer Portal<br/>(frontend/index.html)"]:::client
+        SP["Staff Operations Portal<br/>(frontend/admin.html)"]:::client
+        KDS_UI["KDS Live Stream Display<br/>(frontend/admin.html#kds)"]:::client
+    end
+
+    subgraph BackendLayer["FastAPI Application Services"]
+        AUTH["Auth & Permissions<br/>(/api/v1/auth)"]:::service
+        RES["Reservations & Seating<br/>(/api/v1/reservations)"]:::service
+        FLOOR["Dining Sessions & Tables<br/>(/api/v1/dining)"]:::service
+        ORD["Order Dispatch Engine<br/>(/api/v1/orders)"]:::service
+        KDS["Kitchen Display Live Engine<br/>(/api/v1/kitchen)"]:::service
+        BILL["Billing & Cashier Settlements<br/>(/api/v1/billing)"]:::service
+        REP["Analytics & Reports<br/>(/api/v1/reports)"]:::service
+    end
+
+    subgraph PersistenceLayer["Persistence Layer (SQLAlchemy ORM)"]
+        DB[("SQLite Relational Database<br/>backend/dinedesk.db")]:::storage
+    end
+
+    CP -->|REST / JSON| RES
+    CP -->|REST / JSON| ORD
+    SP -->|REST / JSON| AUTH
+    SP -->|REST / JSON| FLOOR
+    SP -->|REST / JSON| BILL
+    SP -->|REST / JSON| REP
+    KDS_UI -->|Poll / Stream| KDS
+
+    AUTH --> DB
+    RES --> DB
+    FLOOR --> DB
+    ORD --> DB
+    KDS --> DB
+    BILL --> DB
+    REP --> DB
 ```
-+-----------------------------------------------------------+
-|                      Client Layer                         |
-|   - Customer Portal (frontend/index.html)                 |
-|   - Staff & Operations Portal (frontend/admin.html)       |
-+-----------------------------+-----------------------------+
-                              | REST APIs (JSON)
-+-----------------------------v-----------------------------+
-|                     FastAPI Backend                       |
-|   - Authentication & Access Control (v1/auth)             |
-|   - Reservations & Seating Engine (v1/reservations)       |
-|   - Floor Sessions & Table Status (v1/dining)             |
-|   - Order Dispatch & Ticket Lifecycle (v1/orders)         |
-|   - Kitchen Display Live Engine (v1/kitchen)              |
-|   - Billing & Cashier Settlements (v1/billing)            |
-|   - Reporting & Analytics (v1/reports)                    |
-+-----------------------------+-----------------------------+
-                              | SQLAlchemy ORM
-+-----------------------------v-----------------------------+
-|                     Persistence Layer                     |
-|   - SQLite Relational Database (backend/dinedesk.db)      |
-+-----------------------------------------------------------+
+
+### End-to-End Operational Lifecycle
+
+The diagram below illustrates the life cycle of a dining session, from guest reservation to food preparation and cashier settlement:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Guest as Customer / Walk-In
+    participant UI as DineDesk Web UI
+    participant API as FastAPI Backend
+    participant DB as SQLite Database
+    participant Kitchen as Kitchen Display (KDS)
+    participant Cashier as Cashier / Billing
+
+    Guest->>UI: Select Table / Book Reservation
+    UI->>API: POST /api/v1/dining/sessions
+    API->>DB: Create Session & Lock Table Status
+    Guest->>UI: Browse Menu & Place Order (with Chef Notes)
+    UI->>API: POST /api/v1/orders
+    API->>DB: Store Order & Order Items
+    API->>Kitchen: Create Kitchen Ticket (PENDING)
+    Kitchen->>API: POST /kitchen/tickets/{id}/start
+    API->>DB: Transition Ticket Status to IN_PROGRESS
+    Kitchen->>API: POST /kitchen/tickets/{id}/ready
+    API->>DB: Transition Ticket Status to READY
+    Note over Kitchen,UI: Food delivered by server to table
+    Guest->>UI: Request Bill Settlement
+    Cashier->>API: POST /api/v1/billing/{id}/pay
+    API->>DB: Mark Bill PAID & Release Table to AVAILABLE
 ```
 
 ---
@@ -125,6 +175,26 @@ The relational database is normalized to Third Normal Form (3NF) to eliminate re
 - `bill`: Financial invoices computed per dining session.
 - `payment`: Monetary transaction receipts and payment instruments.
 - `user_account`: System operator accounts and role associations.
+
+### Entity Relationship Model
+
+```mermaid
+erDiagram
+    DINING_AREA ||--o{ TABLE_ENTITY : "houses"
+    CUSTOMER ||--o{ RESERVATION : "books"
+    TABLE_ENTITY ||--o{ RESERVATION : "assigned_to"
+    CUSTOMER ||--o{ DINING_SESSION : "part_of"
+    TABLE_ENTITY ||--o{ DINING_SESSION : "hosts"
+    DINING_SESSION ||--o{ CUSTOMER_ORDER : "places"
+    CUSTOMER_ORDER ||--|{ ORDER_ITEM : "contains"
+    MENU_CATEGORY ||--o{ MENU_ITEM : "groups"
+    MENU_ITEM ||--o{ ORDER_ITEM : "ordered_in"
+    CUSTOMER_ORDER ||--|| KITCHEN_TICKET : "routes_to"
+    KITCHEN_TICKET ||--|{ KITCHEN_TICKET_ITEM : "tracks"
+    ORDER_ITEM ||--|| KITCHEN_TICKET_ITEM : "maps_to"
+    DINING_SESSION ||--|| BILL : "generates"
+    BILL ||--o{ PAYMENT : "settled_with"
+```
 
 ---
 
