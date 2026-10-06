@@ -68,72 +68,71 @@ graph TD
     classDef service fill:#0f172a,stroke:#818cf8,stroke-width:2px,color:#f8fafc;
     classDef storage fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,color:#f8fafc;
 
-    subgraph ClientLayer["Client Layer (Web Interfaces)"]
+    subgraph ClientLayer["1. Client Layer (Web Portals)"]
         CP["Customer Portal<br/>(frontend/index.html)"]:::client
         SP["Staff Operations Portal<br/>(frontend/admin.html)"]:::client
         KDS_UI["KDS Live Stream Display<br/>(frontend/admin.html#kds)"]:::client
     end
 
-    subgraph BackendLayer["FastAPI Application Services"]
-        AUTH["Auth & Permissions<br/>(/api/v1/auth)"]:::service
-        RES["Reservations & Seating<br/>(/api/v1/reservations)"]:::service
-        FLOOR["Dining Sessions & Tables<br/>(/api/v1/dining)"]:::service
-        ORD["Order Dispatch Engine<br/>(/api/v1/orders)"]:::service
-        KDS["Kitchen Display Live Engine<br/>(/api/v1/kitchen)"]:::service
-        BILL["Billing & Cashier Settlements<br/>(/api/v1/billing)"]:::service
-        REP["Analytics & Reports<br/>(/api/v1/reports)"]:::service
+    subgraph BackendLayer["2. Backend Services (FastAPI REST APIs)"]
+        AUTH["Auth Service<br/>/api/v1/auth"]:::service
+        RES["Reservations Service<br/>/api/v1/reservations"]:::service
+        FLOOR["Floor & Session Service<br/>/api/v1/dining"]:::service
+        ORD["Order Processing Service<br/>/api/v1/orders"]:::service
+        KDS["Kitchen Display Service<br/>/api/v1/kitchen"]:::service
+        BILL["Billing & Payment Service<br/>/api/v1/billing"]:::service
+        REP["Reporting & Analytics<br/>/api/v1/reports"]:::service
     end
 
-    subgraph PersistenceLayer["Persistence Layer (SQLAlchemy ORM)"]
+    subgraph PersistenceLayer["3. Database Layer (SQLAlchemy ORM)"]
         DB[("SQLite Relational Database<br/>backend/dinedesk.db")]:::storage
     end
 
-    CP -->|REST / JSON| RES
-    CP -->|REST / JSON| ORD
-    SP -->|REST / JSON| AUTH
-    SP -->|REST / JSON| FLOOR
-    SP -->|REST / JSON| BILL
-    SP -->|REST / JSON| REP
-    KDS_UI -->|Poll / Stream| KDS
+    CP --> RES & ORD
+    SP --> AUTH & FLOOR & BILL & REP
+    KDS_UI --> KDS
 
-    AUTH --> DB
-    RES --> DB
-    FLOOR --> DB
-    ORD --> DB
-    KDS --> DB
-    BILL --> DB
-    REP --> DB
+    AUTH & RES & FLOOR & ORD & KDS & BILL & REP --> DB
 ```
 
 ### End-to-End Operational Lifecycle
 
-The diagram below illustrates the life cycle of a dining session, from guest reservation to food preparation and cashier settlement:
+The flowchart below details the step-by-step operational lifecycle of a dining session from table seating to cashier settlement:
 
 ```mermaid
-sequenceDiagram
-    autonumber
-    actor Guest as Customer / Walk-In
-    participant UI as DineDesk Web UI
-    participant API as FastAPI Backend
-    participant DB as SQLite Database
-    participant Kitchen as Kitchen Display (KDS)
-    participant Cashier as Cashier / Billing
+graph TD
+    classDef step fill:#1e293b,stroke:#818cf8,stroke-width:1.5px,color:#f8fafc;
+    classDef db fill:#0f172a,stroke:#38bdf8,stroke-width:1.5px,color:#f8fafc;
+    classDef success fill:#064e3b,stroke:#34d399,stroke-width:1.5px,color:#f8fafc;
 
-    Guest->>UI: Select Table / Book Reservation
-    UI->>API: POST /api/v1/dining/sessions
-    API->>DB: Create Session & Lock Table Status
-    Guest->>UI: Browse Menu & Place Order (with Chef Notes)
-    UI->>API: POST /api/v1/orders
-    API->>DB: Store Order & Order Items
-    API->>Kitchen: Create Kitchen Ticket (PENDING)
-    Kitchen->>API: POST /kitchen/tickets/{id}/start
-    API->>DB: Transition Ticket Status to IN_PROGRESS
-    Kitchen->>API: POST /kitchen/tickets/{id}/ready
-    API->>DB: Transition Ticket Status to READY
-    Note over Kitchen,UI: Food delivered by server to table
-    Guest->>UI: Request Bill Settlement
-    Cashier->>API: POST /api/v1/billing/{id}/pay
-    API->>DB: Mark Bill PAID & Release Table to AVAILABLE
+    subgraph Phase1["Phase 1: Seating and Table Allocation"]
+        S1["1. Guest selects table or arrives for reservation"]:::step
+        S2["2. Dispatch API: POST /api/v1/dining/sessions"]:::step
+        S3[("3. Dining Session created in Database<br/>Table status locked to OCCUPIED")]:::db
+        S1 --> S2 --> S3
+    end
+
+    subgraph Phase2["Phase 2: Digital Menu & Order Placement"]
+        S4["4. Guest browses menu items & adds chef notes"]:::step
+        S5["5. Dispatch API: POST /api/v1/orders"]:::step
+        S6[("6. Order and line items saved<br/>Kitchen Ticket generated: PENDING")]:::db
+        S3 --> S4 --> S5 --> S6
+    end
+
+    subgraph Phase3["Phase 3: Kitchen Preparation (KDS)"]
+        S7["7. Chef starts cooking: POST /kitchen/tickets/{id}/start"]:::step
+        S8[("8. Ticket status updated to IN_PROGRESS")]:::db
+        S9["9. Chef completes preparation: POST /kitchen/tickets/{id}/ready"]:::step
+        S10[("10. Ticket status updated to READY<br/>Server delivers food to table")]:::db
+        S6 --> S7 --> S8 --> S9 --> S10
+    end
+
+    subgraph Phase4["Phase 4: Invoice Billing & Settlement"]
+        S11["11. Guest requests final bill"]:::step
+        S12["12. Cashier settles invoice: POST /api/v1/billing/{id}/pay"]:::step
+        S13[("13. Bill status updated to PAID<br/>Table status released to AVAILABLE")]:::success
+        S10 --> S11 --> S12 --> S13
+    end
 ```
 
 ---
