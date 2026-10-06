@@ -1,0 +1,1197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3450 3100" width="100%" height="100%" style="background:#070c18; font-family: system-ui, -apple-system, sans-serif;">
+
+  <defs>
+    <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="rgba(255,255,255,0.12)" />
+    </pattern>
+    <filter id="diamondGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#818cf8" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+<rect width="3450" height="3100" fill="#070c18" />
+<rect width="3450" height="3100" fill="url(#dotGrid)" />
+
+  <g transform="translate(60, 40)">
+    <circle cx="10" cy="14" r="7" fill="#38bdf8" />
+    <text x="30" y="20" fill="#ffffff" font-size="22" font-weight="900" letter-spacing="2">DINEDESK • CHEN-STYLE ENTITY RELATIONSHIP (ER) DIAGRAM</text>
+    
+    <!-- Domain Legend Pills -->
+    <g transform="translate(850, 0)">
+      <rect x="0" y="0" width="160" height="32" rx="16" fill="rgba(56, 189, 248, 0.15)" stroke="#0284c7" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="4" fill="#38bdf8"/>
+      <text x="30" y="21" fill="#7dd3fc" font-size="12" font-weight="700">BRANCH &amp; FLOOR</text>
+
+      <rect x="180" y="0" width="160" height="32" rx="16" fill="rgba(129, 140, 248, 0.15)" stroke="#4f46e5" stroke-width="1.5"/>
+      <circle cx="196" cy="16" r="4" fill="#818cf8"/>
+      <text x="210" y="21" fill="#c7d2fe" font-size="12" font-weight="700">USERS &amp; CRM</text>
+
+      <rect x="360" y="0" width="160" height="32" rx="16" fill="rgba(52, 211, 153, 0.15)" stroke="#059669" stroke-width="1.5"/>
+      <circle cx="376" cy="16" r="4" fill="#34d399"/>
+      <text x="390" y="21" fill="#a7f3d0" font-size="12" font-weight="700">RESERVATIONS</text>
+
+      <rect x="540" y="0" width="160" height="32" rx="16" fill="rgba(251, 191, 36, 0.15)" stroke="#d97706" stroke-width="1.5"/>
+      <circle cx="556" cy="16" r="4" fill="#fbbf24"/>
+      <text x="570" y="21" fill="#fde68a" font-size="12" font-weight="700">MENU &amp; ORDERS</text>
+
+      <rect x="720" y="0" width="160" height="32" rx="16" fill="rgba(248, 113, 113, 0.15)" stroke="#dc2626" stroke-width="1.5"/>
+      <circle cx="736" cy="16" r="4" fill="#f87171"/>
+      <text x="750" y="21" fill="#fecaca" font-size="12" font-weight="700">KITCHEN KDS</text>
+
+      <rect x="900" y="0" width="190" height="32" rx="16" fill="rgba(244, 114, 182, 0.15)" stroke="#db2777" stroke-width="1.5"/>
+      <circle cx="916" cy="16" r="4" fill="#f472b6"/>
+      <text x="930" y="21" fill="#fbcfe8" font-size="12" font-weight="700">BILLING &amp; DISCOUNTS</text>
+    </g>
+  </g>
+
+<g id="relLines">
+<line x1="270.0" y1="204.0" x2="272.5" y2="464.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="272.5" y1="464.0" x2="275.0" y2="724.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="278.875" y="287.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="282.125" y="625.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="275.0" y1="724.0" x2="277.5" y2="994.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="277.5" y1="994.0" x2="280.0" y2="1264.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="283.875" y="810.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="287.125" y="1161.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="270.0" y1="204.0" x2="635.0" y2="464.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="635.0" y1="464.0" x2="1000.0" y2="724.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="405.75" y="287.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="880.25" y="625.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="985.0" y1="204.0" x2="992.5" y2="464.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="992.5" y1="464.0" x2="1000.0" y2="724.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="995.625" y="287.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1005.375" y="625.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="280.0" y1="1264.0" x2="1017.5" y2="1264.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1017.5" y1="1264.0" x2="1755.0" y2="1264.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="546.125" y="1256.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1504.875" y="1256.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="995.0" y1="1264.0" x2="1375.0" y2="1264.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1375.0" y1="1264.0" x2="1755.0" y2="1264.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1136.0" y="1256.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1630.0" y="1256.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="280.0" y1="1264.0" x2="1021.25" y2="1534.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1021.25" y1="1534.0" x2="1762.5" y2="1804.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="547.4375" y="1350.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1511.0625" y="1701.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="995.0" y1="1264.0" x2="1378.75" y2="1534.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1378.75" y1="1534.0" x2="1762.5" y2="1804.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1137.3125" y="1350.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1636.1875" y="1701.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="1755.0" y1="1264.0" x2="1758.75" y2="1534.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1758.75" y1="1534.0" x2="1762.5" y2="1804.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1764.3125" y="1350.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1769.1875" y="1701.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<line x1="1762.5" y1="204.0" x2="1758.75" y2="464.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1758.75" y1="464.0" x2="1755.0" y2="724.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1769.1875" y="287.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1764.3125" y="625.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="1762.5" y1="1804.0" x2="2148.75" y2="1534.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="2148.75" y1="1534.0" x2="2535.0" y2="1264.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1905.6875" y="1701.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="2407.8125" y="1350.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="1000.0" y1="724.0" x2="1767.5" y2="994.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1767.5" y1="994.0" x2="2535.0" y2="1264.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1276.625" y="810.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="2274.375" y="1161.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="2535.0" y1="1264.0" x2="2530.0" y2="994.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="2530.0" y1="994.0" x2="2525.0" y2="724.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="2541.25" y="1161.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="2534.75" y="810.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="1755.0" y1="724.0" x2="2140.0" y2="724.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="2140.0" y1="724.0" x2="2525.0" y2="724.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1897.75" y="716.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="2398.25" y="716.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="2535.0" y1="1264.0" x2="2867.5" y2="1264.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="2867.5" y1="1264.0" x2="3200.0" y2="1264.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="2659.375" y="1256.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="3091.625" y="1256.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="2535.0" y1="1264.0" x2="2533.75" y2="734.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="2533.75" y1="734.0" x2="2532.5" y2="204.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="2542.5625" y="1070.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="2540.9375" y="381.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<line x1="2532.5" y1="204.0" x2="2866.25" y2="204.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="2866.25" y1="204.0" x2="3200.0" y2="204.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="2657.3125" y="196.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="3091.1875" y="196.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="2525.0" y1="724.0" x2="2862.5" y2="464.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="2862.5" y1="464.0" x2="3200.0" y2="204.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="2651.125" y="625.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="3089.875" y="287.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="1762.5" y1="1804.0" x2="1756.25" y2="2074.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1756.25" y1="2074.0" x2="1750.0" y2="2344.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1768.3125" y="1890.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1760.1875" y="2241.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<line x1="1750.0" y1="2344.0" x2="2136.25" y2="2074.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="2136.25" y1="2074.0" x2="2522.5" y2="1804.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1893.1875" y="2241.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="2395.3125" y="1890.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="2525.0" y1="724.0" x2="2523.75" y2="1264.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="2523.75" y1="1264.0" x2="2522.5" y2="1804.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="2532.5625" y="905.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="2530.9375" y="1607.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="272.5" y1="2344.0" x2="648.75" y2="2344.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="648.75" y1="2344.0" x2="1025.0" y2="2344.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="412.1875" y="2336.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="901.3125" y="2336.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="1750.0" y1="2344.0" x2="1387.5" y2="2344.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1387.5" y1="2344.0" x2="1025.0" y2="2344.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1631.125" y="2336.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1159.875" y="2336.0" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="1000.0" y1="724.0" x2="1012.5" y2="1534.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1012.5" y1="1534.0" x2="1025.0" y2="2344.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1012.375" y="999.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1028.625" y="2052.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+<line x1="1750.0" y1="2344.0" x2="1751.25" y2="2614.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<line x1="1751.25" y1="2614.0" x2="1752.5" y2="2884.0" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+<text x="1758.4375" y="2430.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">1</text>
+<text x="1760.0625" y="2781.5" fill="#f8fafc" font-size="12" font-weight="800" font-family="monospace">N</text>
+</g>
+<g id="attrStems">
+<path d="M 270.0 204.0 Q 200.0 166.5, 130.0 129.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 270.0 204.0 Q 255.0 156.5, 240.0 109.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 270.0 204.0 Q 310.0 159.0, 350.0 114.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 270.0 204.0 Q 197.5 209.0, 125.0 214.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 270.0 204.0 Q 200.0 241.5, 130.0 279.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 270.0 204.0 Q 270.0 246.5, 270.0 289.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 275.0 724.0 Q 207.5 694.0, 140.0 664.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 275.0 724.0 Q 200.0 724.0, 125.0 724.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 275.0 724.0 Q 207.5 754.0, 140.0 784.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 275.0 724.0 Q 275.0 766.5, 275.0 809.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 280.0 1264.0 Q 212.5 1226.5, 145.0 1189.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 280.0 1264.0 Q 205.0 1254.0, 130.0 1244.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 280.0 1264.0 Q 200.0 1281.5, 120.0 1299.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 280.0 1264.0 Q 212.5 1309.0, 145.0 1354.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 280.0 1264.0 Q 280.0 1306.5, 280.0 1349.0" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 985.0 204.0 Q 950.0 161.5, 915.0 119.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 985.0 204.0 Q 1010.0 161.5, 1035.0 119.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 985.0 204.0 Q 1052.5 204.0, 1120.0 204.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1000.0 724.0 Q 1070.0 686.5, 1140.0 649.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1000.0 724.0 Q 1075.0 711.5, 1150.0 699.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1000.0 724.0 Q 1077.5 736.5, 1155.0 749.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1000.0 724.0 Q 1072.5 761.5, 1145.0 799.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1000.0 724.0 Q 965.0 681.5, 930.0 639.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1000.0 724.0 Q 1020.0 681.5, 1040.0 639.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1000.0 724.0 Q 1000.0 766.5, 1000.0 809.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 995.0 1264.0 Q 1062.5 1226.5, 1130.0 1189.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 995.0 1264.0 Q 1067.5 1251.5, 1140.0 1239.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 995.0 1264.0 Q 1067.5 1276.5, 1140.0 1289.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 995.0 1264.0 Q 1070.0 1301.5, 1145.0 1339.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 995.0 1264.0 Q 1020.0 1306.5, 1045.0 1349.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 995.0 1264.0 Q 965.0 1306.5, 935.0 1349.0" fill="none" stroke="#818cf8" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 1264.0 Q 1707.5 1221.5, 1660.0 1179.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 1264.0 Q 1755.0 1216.5, 1755.0 1169.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 1264.0 Q 1802.5 1221.5, 1850.0 1179.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 1264.0 Q 1822.5 1251.5, 1890.0 1239.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 1264.0 Q 1822.5 1276.5, 1890.0 1289.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 1264.0 Q 1792.5 1306.5, 1830.0 1349.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 1264.0 Q 1722.5 1306.5, 1690.0 1349.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 1804.0 Q 1715.0 1761.5, 1667.5 1719.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 1804.0 Q 1762.5 1756.5, 1762.5 1709.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 1804.0 Q 1812.5 1761.5, 1862.5 1719.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 1804.0 Q 1837.5 1794.0, 1912.5 1784.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 1804.0 Q 1835.0 1821.5, 1907.5 1839.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 1804.0 Q 1805.0 1846.5, 1847.5 1889.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 1804.0 Q 1762.5 1851.5, 1762.5 1899.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 1804.0 Q 1720.0 1846.5, 1677.5 1889.0" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 204.0 Q 1727.5 161.5, 1692.5 119.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 204.0 Q 1787.5 161.5, 1812.5 119.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1762.5 204.0 Q 1830.0 204.0, 1897.5 204.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 724.0 Q 1720.0 681.5, 1685.0 639.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 724.0 Q 1780.0 681.5, 1805.0 639.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 724.0 Q 1822.5 704.0, 1890.0 684.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 724.0 Q 1827.5 731.5, 1900.0 739.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 724.0 Q 1822.5 756.5, 1890.0 789.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1755.0 724.0 Q 1755.0 766.5, 1755.0 809.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2535.0 1264.0 Q 2492.5 1221.5, 2450.0 1179.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2535.0 1264.0 Q 2535.0 1216.5, 2535.0 1169.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2535.0 1264.0 Q 2582.5 1221.5, 2630.0 1179.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2535.0 1264.0 Q 2605.0 1264.0, 2675.0 1264.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2535.0 1264.0 Q 2562.5 1306.5, 2590.0 1349.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2535.0 1264.0 Q 2502.5 1306.5, 2470.0 1349.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2525.0 724.0 Q 2487.5 681.5, 2450.0 639.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2525.0 724.0 Q 2535.0 676.5, 2545.0 629.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2525.0 724.0 Q 2572.5 681.5, 2620.0 639.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2525.0 724.0 Q 2592.5 714.0, 2660.0 704.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2525.0 724.0 Q 2595.0 741.5, 2665.0 759.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2525.0 724.0 Q 2525.0 766.5, 2525.0 809.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 3200.0 1264.0 Q 3162.5 1306.5, 3125.0 1349.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 3200.0 1264.0 Q 3210.0 1311.5, 3220.0 1359.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 3200.0 1264.0 Q 3267.5 1254.0, 3335.0 1244.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 3200.0 1264.0 Q 3270.0 1279.0, 3340.0 1294.0" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2532.5 204.0 Q 2490.0 161.5, 2447.5 119.0" fill="none" stroke="#f87171" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2532.5 204.0 Q 2537.5 156.5, 2542.5 109.0" fill="none" stroke="#f87171" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2532.5 204.0 Q 2580.0 161.5, 2627.5 119.0" fill="none" stroke="#f87171" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2532.5 204.0 Q 2607.5 194.0, 2682.5 184.0" fill="none" stroke="#f87171" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2532.5 204.0 Q 2605.0 219.0, 2677.5 234.0" fill="none" stroke="#f87171" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 3200.0 204.0 Q 3162.5 161.5, 3125.0 119.0" fill="none" stroke="#f87171" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 3200.0 204.0 Q 3215.0 156.5, 3230.0 109.0" fill="none" stroke="#f87171" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 3200.0 204.0 Q 3277.5 194.0, 3355.0 184.0" fill="none" stroke="#f87171" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 3200.0 204.0 Q 3267.5 219.0, 3335.0 234.0" fill="none" stroke="#f87171" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1750.0 2344.0 Q 1685.0 2321.5, 1620.0 2299.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1750.0 2344.0 Q 1677.5 2351.5, 1605.0 2359.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1750.0 2344.0 Q 1682.5 2381.5, 1615.0 2419.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1750.0 2344.0 Q 1722.5 2386.5, 1695.0 2429.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1750.0 2344.0 Q 1777.5 2386.5, 1805.0 2429.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1750.0 2344.0 Q 1812.5 2354.0, 1875.0 2364.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2522.5 1804.0 Q 2490.0 1761.5, 2457.5 1719.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2522.5 1804.0 Q 2537.5 1756.5, 2552.5 1709.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2522.5 1804.0 Q 2597.5 1789.0, 2672.5 1774.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2522.5 1804.0 Q 2605.0 1814.0, 2687.5 1824.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2522.5 1804.0 Q 2550.0 1846.5, 2577.5 1889.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 2522.5 1804.0 Q 2495.0 1851.5, 2467.5 1899.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 272.5 2344.0 Q 235.0 2301.5, 197.5 2259.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 272.5 2344.0 Q 292.5 2299.0, 312.5 2254.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 272.5 2344.0 Q 202.5 2336.5, 132.5 2329.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 272.5 2344.0 Q 207.5 2364.0, 142.5 2384.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 272.5 2344.0 Q 250.0 2386.5, 227.5 2429.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 272.5 2344.0 Q 305.0 2386.5, 337.5 2429.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1025.0 2344.0 Q 982.5 2301.5, 940.0 2259.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1025.0 2344.0 Q 1025.0 2296.5, 1025.0 2249.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1025.0 2344.0 Q 1072.5 2301.5, 1120.0 2259.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1025.0 2344.0 Q 992.5 2386.5, 960.0 2429.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1025.0 2344.0 Q 1052.5 2391.5, 1080.0 2439.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1025.0 2344.0 Q 1087.5 2354.0, 1150.0 2364.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1752.5 2884.0 Q 1715.0 2926.5, 1677.5 2969.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1752.5 2884.0 Q 1767.5 2931.5, 1782.5 2979.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1752.5 2884.0 Q 1820.0 2874.0, 1887.5 2864.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1752.5 2884.0 Q 1827.5 2896.5, 1902.5 2909.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1752.5 2884.0 Q 1685.0 2876.5, 1617.5 2869.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+<path d="M 1752.5 2884.0 Q 1675.0 2901.5, 1597.5 2919.0" fill="none" stroke="#f472b6" stroke-width="1.6" opacity="0.8" stroke-linecap="round" />
+</g>
+<g id="relDiamonds">
+
+      <g transform="translate(272.5, 464.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">has</text>
+      </g>
+    
+
+      <g transform="translate(277.5, 994.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">contains</text>
+      </g>
+    
+
+      <g transform="translate(635.0, 464.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">employs</text>
+      </g>
+    
+
+      <g transform="translate(992.5, 464.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">assigned_to</text>
+      </g>
+    
+
+      <g transform="translate(1017.5, 1264.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">reserved_for</text>
+      </g>
+    
+
+      <g transform="translate(1375.0, 1264.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">books</text>
+      </g>
+    
+
+      <g transform="translate(1021.25, 1534.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">hosts</text>
+      </g>
+    
+
+      <g transform="translate(1378.75, 1534.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">attends</text>
+      </g>
+    
+
+      <g transform="translate(1758.75, 1534.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">fulfills</text>
+      </g>
+    
+
+      <g transform="translate(1758.75, 464.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">categorizes</text>
+      </g>
+    
+
+      <g transform="translate(2148.75, 1534.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">places</text>
+      </g>
+    
+
+      <g transform="translate(1767.5, 994.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">takes</text>
+      </g>
+    
+
+      <g transform="translate(2530.0, 994.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">includes</text>
+      </g>
+    
+
+      <g transform="translate(2140.0, 724.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">ordered_as</text>
+      </g>
+    
+
+      <g transform="translate(2867.5, 1264.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">logs</text>
+      </g>
+    
+
+      <g transform="translate(2533.75, 734.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">generates</text>
+      </g>
+    
+
+      <g transform="translate(2866.25, 204.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">contains</text>
+      </g>
+    
+
+      <g transform="translate(2862.5, 464.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">routes_to</text>
+      </g>
+    
+
+      <g transform="translate(1756.25, 2074.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">generates</text>
+      </g>
+    
+
+      <g transform="translate(2136.25, 2074.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">itemizes</text>
+      </g>
+    
+
+      <g transform="translate(2523.75, 1264.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">snapshots</text>
+      </g>
+    
+
+      <g transform="translate(648.75, 2344.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">applied_via</text>
+      </g>
+    
+
+      <g transform="translate(1387.5, 2344.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">discounts</text>
+      </g>
+    
+
+      <g transform="translate(1012.5, 1534.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">authorizes</text>
+      </g>
+    
+
+      <g transform="translate(1751.25, 2614.0)" filter="url(#diamondGlow)">
+        <polygon points="0,-34 45.900000000000006,0 0,34 -45.900000000000006,0" fill="#0f172a" stroke="#6366f1" stroke-width="2.2" />
+        <text text-anchor="middle" dy="4" fill="#a5b4fc" font-size="10" font-weight="800">settles</text>
+      </g>
+    
+</g>
+<g id="attrPills">
+
+          <g transform="translate(130.0, 129.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(240.0, 109.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">name</text>
+          </g>
+        
+
+          <g transform="translate(350.0, 114.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">phone</text>
+          </g>
+        
+
+          <g transform="translate(125.0, 214.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">address</text>
+          </g>
+        
+
+          <g transform="translate(130.0, 279.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">created_at</text>
+          </g>
+        
+
+          <g transform="translate(270.0, 289.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">updated_at</text>
+          </g>
+        
+
+          <g transform="translate(140.0, 664.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(125.0, 724.0)">
+            <rect x="-62.5" y="-12.0" width="125.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">branch_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(140.0, 784.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">name</text>
+          </g>
+        
+
+          <g transform="translate(275.0, 809.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">created_at</text>
+          </g>
+        
+
+          <g transform="translate(145.0, 1189.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(130.0, 1244.0)">
+            <rect x="-55.0" y="-12.0" width="110.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">area_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(120.0, 1299.0)">
+            <rect x="-73.75" y="-12.0" width="147.5" height="24" rx="12" fill="rgba(192, 132, 252, 0.16)" stroke="#c084fc" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#e9d5ff" font-size="11" font-weight="600" font-family="monospace">table_number (UQ)</text>
+          </g>
+        
+
+          <g transform="translate(145.0, 1354.0)">
+            <rect x="-40.0" y="-12.0" width="80.0" height="24" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">capacity</text>
+          </g>
+        
+
+          <g transform="translate(280.0, 1349.0)">
+            <rect x="-43.75" y="-12.0" width="87.5" height="24" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">is_active</text>
+          </g>
+        
+
+          <g transform="translate(915.0, 119.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(1035.0, 119.0)">
+            <rect x="-43.75" y="-12.0" width="87.5" height="24" rx="12" fill="rgba(192, 132, 252, 0.16)" stroke="#c084fc" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#e9d5ff" font-size="11" font-weight="600" font-family="monospace">name (UQ)</text>
+          </g>
+        
+
+          <g transform="translate(1120.0, 204.0)">
+            <rect x="-51.25" y="-12.0" width="102.5" height="24" rx="12" fill="#0f172a" stroke="#4f46e5" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">description</text>
+          </g>
+        
+
+          <g transform="translate(1140.0, 649.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(1150.0, 699.0)">
+            <rect x="-55.0" y="-12.0" width="110.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">role_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1155.0, 749.0)">
+            <rect x="-62.5" y="-12.0" width="125.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">branch_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1145.0, 799.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="rgba(192, 132, 252, 0.16)" stroke="#c084fc" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#e9d5ff" font-size="11" font-weight="600" font-family="monospace">email (UQ)</text>
+          </g>
+        
+
+          <g transform="translate(930.0, 639.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#4f46e5" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">first_name</text>
+          </g>
+        
+
+          <g transform="translate(1040.0, 639.0)">
+            <rect x="-43.75" y="-12.0" width="87.5" height="24" rx="12" fill="#0f172a" stroke="#4f46e5" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">last_name</text>
+          </g>
+        
+
+          <g transform="translate(1000.0, 809.0)">
+            <rect x="-58.75" y="-12.0" width="117.5" height="24" rx="12" fill="#0f172a" stroke="#4f46e5" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">password_hash</text>
+          </g>
+        
+
+          <g transform="translate(1130.0, 1189.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(1140.0, 1239.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#4f46e5" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">first_name</text>
+          </g>
+        
+
+          <g transform="translate(1140.0, 1289.0)">
+            <rect x="-43.75" y="-12.0" width="87.5" height="24" rx="12" fill="#0f172a" stroke="#4f46e5" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">last_name</text>
+          </g>
+        
+
+          <g transform="translate(1145.0, 1339.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="rgba(192, 132, 252, 0.16)" stroke="#c084fc" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#e9d5ff" font-size="11" font-weight="600" font-family="monospace">phone (UQ)</text>
+          </g>
+        
+
+          <g transform="translate(1045.0, 1349.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="rgba(192, 132, 252, 0.16)" stroke="#c084fc" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#e9d5ff" font-size="11" font-weight="600" font-family="monospace">email (UQ)</text>
+          </g>
+        
+
+          <g transform="translate(935.0, 1349.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#4f46e5" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">created_at</text>
+          </g>
+        
+
+          <g transform="translate(1660.0, 1179.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(1755.0, 1169.0)">
+            <rect x="-58.75" y="-12.0" width="117.5" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">table_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1850.0, 1179.0)">
+            <rect x="-70.0" y="-12.0" width="140.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">customer_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1890.0, 1239.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#059669" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">start_time</text>
+          </g>
+        
+
+          <g transform="translate(1890.0, 1289.0)">
+            <rect x="-40.0" y="-12.0" width="80.0" height="24" rx="12" fill="#0f172a" stroke="#059669" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">end_time</text>
+          </g>
+        
+
+          <g transform="translate(1830.0, 1349.0)">
+            <rect x="-51.25" y="-12.0" width="102.5" height="24" rx="12" fill="#0f172a" stroke="#059669" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">guest_count</text>
+          </g>
+        
+
+          <g transform="translate(1690.0, 1349.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#059669" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">status</text>
+          </g>
+        
+
+          <g transform="translate(1667.5, 1719.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(1762.5, 1709.0)">
+            <rect x="-58.75" y="-12.0" width="117.5" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">table_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1862.5, 1719.0)">
+            <rect x="-81.25" y="-12.0" width="162.5" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">reservation_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1912.5, 1784.0)">
+            <rect x="-70.0" y="-12.0" width="140.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">customer_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1907.5, 1839.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#059669" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">start_time</text>
+          </g>
+        
+
+          <g transform="translate(1847.5, 1889.0)">
+            <rect x="-40.0" y="-12.0" width="80.0" height="24" rx="12" fill="#0f172a" stroke="#059669" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">end_time</text>
+          </g>
+        
+
+          <g transform="translate(1762.5, 1899.0)">
+            <rect x="-51.25" y="-12.0" width="102.5" height="24" rx="12" fill="#0f172a" stroke="#059669" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">guest_count</text>
+          </g>
+        
+
+          <g transform="translate(1677.5, 1889.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#059669" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">status</text>
+          </g>
+        
+
+          <g transform="translate(1692.5, 119.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(1812.5, 119.0)">
+            <rect x="-43.75" y="-12.0" width="87.5" height="24" rx="12" fill="rgba(192, 132, 252, 0.16)" stroke="#c084fc" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#e9d5ff" font-size="11" font-weight="600" font-family="monospace">name (UQ)</text>
+          </g>
+        
+
+          <g transform="translate(1897.5, 204.0)">
+            <rect x="-51.25" y="-12.0" width="102.5" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">description</text>
+          </g>
+        
+
+          <g transform="translate(1685.0, 639.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(1805.0, 639.0)">
+            <rect x="-70.0" y="-12.0" width="140.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">category_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1890.0, 684.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">name</text>
+          </g>
+        
+
+          <g transform="translate(1900.0, 739.0)">
+            <rect x="-58.75" y="-12.0" width="117.5" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">current_price</text>
+          </g>
+        
+
+          <g transform="translate(1890.0, 789.0)">
+            <rect x="-43.75" y="-12.0" width="87.5" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">is_active</text>
+          </g>
+        
+
+          <g transform="translate(1755.0, 809.0)">
+            <rect x="-51.25" y="-12.0" width="102.5" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">description</text>
+          </g>
+        
+
+          <g transform="translate(2450.0, 1179.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(2535.0, 1169.0)">
+            <rect x="-66.25" y="-12.0" width="132.5" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">session_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(2630.0, 1179.0)">
+            <rect x="-55.0" y="-12.0" width="110.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">user_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(2675.0, 1264.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">status</text>
+          </g>
+        
+
+          <g transform="translate(2590.0, 1349.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">created_at</text>
+          </g>
+        
+
+          <g transform="translate(2470.0, 1349.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">updated_at</text>
+          </g>
+        
+
+          <g transform="translate(2450.0, 639.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(2545.0, 629.0)">
+            <rect x="-58.75" y="-12.0" width="117.5" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">order_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(2620.0, 639.0)">
+            <rect x="-55.0" y="-12.0" width="110.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">item_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(2660.0, 704.0)">
+            <rect x="-40.0" y="-12.0" width="80.0" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">quantity</text>
+          </g>
+        
+
+          <g transform="translate(2665.0, 759.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">unit_price</text>
+          </g>
+        
+
+          <g transform="translate(2525.0, 809.0)">
+            <rect x="-70.0" y="-12.0" width="140.0" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">special_requests</text>
+          </g>
+        
+
+          <g transform="translate(3125.0, 1349.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(3220.0, 1359.0)">
+            <rect x="-58.75" y="-12.0" width="117.5" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">order_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(3335.0, 1244.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">status</text>
+          </g>
+        
+
+          <g transform="translate(3340.0, 1294.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">changed_at</text>
+          </g>
+        
+
+          <g transform="translate(2447.5, 119.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(2542.5, 109.0)">
+            <rect x="-58.75" y="-12.0" width="117.5" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">order_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(2627.5, 119.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#dc2626" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">status</text>
+          </g>
+        
+
+          <g transform="translate(2682.5, 184.0)">
+            <rect x="-66.25" y="-12.0" width="132.5" height="24" rx="12" fill="#0f172a" stroke="#dc2626" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">prep_start_time</text>
+          </g>
+        
+
+          <g transform="translate(2677.5, 234.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#dc2626" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">ready_time</text>
+          </g>
+        
+
+          <g transform="translate(3125.0, 119.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(3230.0, 109.0)">
+            <rect x="-62.5" y="-12.0" width="125.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">ticket_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(3355.0, 184.0)">
+            <rect x="-77.5" y="-12.0" width="155.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">order_item_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(3335.0, 234.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#dc2626" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">status</text>
+          </g>
+        
+
+          <g transform="translate(1620.0, 2299.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(1605.0, 2359.0)">
+            <rect x="-66.25" y="-12.0" width="132.5" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">session_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1615.0, 2419.0)">
+            <rect x="-40.0" y="-12.0" width="80.0" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">subtotal</text>
+          </g>
+        
+
+          <g transform="translate(1695.0, 2429.0)">
+            <rect x="-47.5" y="-12.0" width="95.0" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">tax_amount</text>
+          </g>
+        
+
+          <g transform="translate(1805.0, 2429.0)">
+            <rect x="-55.0" y="-12.0" width="110.0" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">total_amount</text>
+          </g>
+        
+
+          <g transform="translate(1875.0, 2364.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">status</text>
+          </g>
+        
+
+          <g transform="translate(2457.5, 1719.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(2552.5, 1709.0)">
+            <rect x="-55.0" y="-12.0" width="110.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">bill_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(2672.5, 1774.0)">
+            <rect x="-77.5" y="-12.0" width="155.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">order_item_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(2687.5, 1824.0)">
+            <rect x="-77.5" y="-12.0" width="155.0" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">item_name_snapshot</text>
+          </g>
+        
+
+          <g transform="translate(2577.5, 1889.0)">
+            <rect x="-40.0" y="-12.0" width="80.0" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">quantity</text>
+          </g>
+        
+
+          <g transform="translate(2467.5, 1899.0)">
+            <rect x="-77.5" y="-12.0" width="155.0" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">total_price (Comp)</text>
+          </g>
+        
+
+          <g transform="translate(197.5, 2259.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(312.5, 2254.0)">
+            <rect x="-43.75" y="-12.0" width="87.5" height="24" rx="12" fill="rgba(192, 132, 252, 0.16)" stroke="#c084fc" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#e9d5ff" font-size="11" font-weight="600" font-family="monospace">name (UQ)</text>
+          </g>
+        
+
+          <g transform="translate(132.5, 2329.0)">
+            <rect x="-58.75" y="-12.0" width="117.5" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">discount_type</text>
+          </g>
+        
+
+          <g transform="translate(142.5, 2384.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">value</text>
+          </g>
+        
+
+          <g transform="translate(227.5, 2429.0)">
+            <rect x="-81.25" y="-12.0" width="162.5" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">max_discount_amount</text>
+          </g>
+        
+
+          <g transform="translate(337.5, 2429.0)">
+            <rect x="-43.75" y="-12.0" width="87.5" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">is_active</text>
+          </g>
+        
+
+          <g transform="translate(940.0, 2259.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(1025.0, 2249.0)">
+            <rect x="-55.0" y="-12.0" width="110.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">bill_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1120.0, 2259.0)">
+            <rect x="-70.0" y="-12.0" width="140.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">discount_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(960.0, 2429.0)">
+            <rect x="-77.5" y="-12.0" width="155.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">authorized_by (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1080.0, 2439.0)">
+            <rect x="-66.25" y="-12.0" width="132.5" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">discount_amount</text>
+          </g>
+        
+
+          <g transform="translate(1150.0, 2364.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">reason</text>
+          </g>
+        
+
+          <g transform="translate(1677.5, 2969.0)">
+            <rect x="-36.25" y="-12.0" width="72.5" height="24" rx="12" fill="rgba(234, 179, 8, 0.22)" stroke="#facc15" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#fde047" font-size="11" font-weight="600" font-family="monospace">id (PK)</text>
+          </g>
+        
+
+          <g transform="translate(1782.5, 2979.0)">
+            <rect x="-55.0" y="-12.0" width="110.0" height="24" rx="12" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#7dd3fc" font-size="11" font-weight="600" font-family="monospace">bill_id (FK)</text>
+          </g>
+        
+
+          <g transform="translate(1887.5, 2864.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">amount</text>
+          </g>
+        
+
+          <g transform="translate(1902.5, 2909.0)">
+            <rect x="-62.5" y="-12.0" width="125.0" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">payment_method</text>
+          </g>
+        
+
+          <g transform="translate(1617.5, 2869.0)">
+            <rect x="-35.0" y="-12.0" width="70" height="24" rx="12" fill="#0f172a" stroke="#db2777" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#cbd5e1" font-size="11" font-weight="600" font-family="monospace">status</text>
+          </g>
+        
+
+          <g transform="translate(1597.5, 2919.0)">
+            <rect x="-85.0" y="-12.0" width="170.0" height="24" rx="12" fill="rgba(192, 132, 252, 0.16)" stroke="#c084fc" stroke-width="1.3" />
+            <text text-anchor="middle" dy="4" fill="#e9d5ff" font-size="11" font-weight="600" font-family="monospace">transaction_ref (UQ)</text>
+          </g>
+        
+</g>
+<g id="entityBoxes">
+
+      <g transform="translate(200, 180)">
+        <rect width="140" height="48" rx="8" fill="#0b1329" stroke="#38bdf8" stroke-width="2.5" />
+        <text x="70.0" y="28.0" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="900" letter-spacing="1">BRANCH</text>
+      </g>
+    
+
+      <g transform="translate(200, 700)">
+        <rect width="150" height="48" rx="8" fill="#0b1329" stroke="#38bdf8" stroke-width="2.5" />
+        <text x="75.0" y="28.0" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="900" letter-spacing="1">DINING_AREA</text>
+      </g>
+    
+
+      <g transform="translate(200, 1240)">
+        <rect width="160" height="48" rx="8" fill="#0b1329" stroke="#38bdf8" stroke-width="2.5" />
+        <text x="80.0" y="28.0" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="900" letter-spacing="1">TABLE_ENTITY</text>
+      </g>
+    
+
+      <g transform="translate(920, 180)">
+        <rect width="130" height="48" rx="8" fill="#0b1329" stroke="#818cf8" stroke-width="2.5" />
+        <text x="65.0" y="28.0" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="900" letter-spacing="1">ROLE</text>
+      </g>
+    
+
+      <g transform="translate(920, 700)">
+        <rect width="160" height="48" rx="8" fill="#0b1329" stroke="#818cf8" stroke-width="2.5" />
+        <text x="80.0" y="28.0" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="900" letter-spacing="1">USER_ACCOUNT</text>
+      </g>
+    
+
+      <g transform="translate(920, 1240)">
+        <rect width="150" height="48" rx="8" fill="#0b1329" stroke="#818cf8" stroke-width="2.5" />
+        <text x="75.0" y="28.0" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="900" letter-spacing="1">CUSTOMER</text>
+      </g>
+    
+
+      <g transform="translate(1680, 1240)">
+        <rect width="150" height="48" rx="8" fill="#0b1329" stroke="#34d399" stroke-width="2.5" />
+        <text x="75.0" y="28.0" text-anchor="middle" fill="#34d399" font-size="12" font-weight="900" letter-spacing="1">RESERVATION</text>
+      </g>
+    
+
+      <g transform="translate(1680, 1780)">
+        <rect width="165" height="48" rx="8" fill="#0b1329" stroke="#34d399" stroke-width="2.5" />
+        <text x="82.5" y="28.0" text-anchor="middle" fill="#34d399" font-size="12" font-weight="900" letter-spacing="1">DINING_SESSION</text>
+      </g>
+    
+
+      <g transform="translate(1680, 180)">
+        <rect width="165" height="48" rx="8" fill="#0b1329" stroke="#fbbf24" stroke-width="2.5" />
+        <text x="82.5" y="28.0" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="900" letter-spacing="1">MENU_CATEGORY</text>
+      </g>
+    
+
+      <g transform="translate(1680, 700)">
+        <rect width="150" height="48" rx="8" fill="#0b1329" stroke="#fbbf24" stroke-width="2.5" />
+        <text x="75.0" y="28.0" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="900" letter-spacing="1">MENU_ITEM</text>
+      </g>
+    
+
+      <g transform="translate(2450, 1240)">
+        <rect width="170" height="48" rx="8" fill="#0b1329" stroke="#fbbf24" stroke-width="2.5" />
+        <text x="85.0" y="28.0" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="900" letter-spacing="1">CUSTOMER_ORDER</text>
+      </g>
+    
+
+      <g transform="translate(2450, 700)">
+        <rect width="150" height="48" rx="8" fill="#0b1329" stroke="#fbbf24" stroke-width="2.5" />
+        <text x="75.0" y="28.0" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="900" letter-spacing="1">ORDER_ITEM</text>
+      </g>
+    
+
+      <g transform="translate(3100, 1240)">
+        <rect width="200" height="48" rx="8" fill="#0b1329" stroke="#fbbf24" stroke-width="2.5" />
+        <text x="100.0" y="28.0" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="900" letter-spacing="1">ORDER_STATUS_HISTORY</text>
+      </g>
+    
+
+      <g transform="translate(2450, 180)">
+        <rect width="165" height="48" rx="8" fill="#0b1329" stroke="#f87171" stroke-width="2.5" />
+        <text x="82.5" y="28.0" text-anchor="middle" fill="#f87171" font-size="12" font-weight="900" letter-spacing="1">KITCHEN_TICKET</text>
+      </g>
+    
+
+      <g transform="translate(3100, 180)">
+        <rect width="200" height="48" rx="8" fill="#0b1329" stroke="#f87171" stroke-width="2.5" />
+        <text x="100.0" y="28.0" text-anchor="middle" fill="#f87171" font-size="12" font-weight="900" letter-spacing="1">KITCHEN_TICKET_ITEM</text>
+      </g>
+    
+
+      <g transform="translate(1680, 2320)">
+        <rect width="140" height="48" rx="8" fill="#0b1329" stroke="#f472b6" stroke-width="2.5" />
+        <text x="70.0" y="28.0" text-anchor="middle" fill="#f472b6" font-size="12" font-weight="900" letter-spacing="1">BILL</text>
+      </g>
+    
+
+      <g transform="translate(2450, 1780)">
+        <rect width="145" height="48" rx="8" fill="#0b1329" stroke="#f472b6" stroke-width="2.5" />
+        <text x="72.5" y="28.0" text-anchor="middle" fill="#f472b6" font-size="12" font-weight="900" letter-spacing="1">BILL_ITEM</text>
+      </g>
+    
+
+      <g transform="translate(200, 2320)">
+        <rect width="145" height="48" rx="8" fill="#0b1329" stroke="#f472b6" stroke-width="2.5" />
+        <text x="72.5" y="28.0" text-anchor="middle" fill="#f472b6" font-size="12" font-weight="900" letter-spacing="1">DISCOUNT</text>
+      </g>
+    
+
+      <g transform="translate(920, 2320)">
+        <rect width="210" height="48" rx="8" fill="#0b1329" stroke="#f472b6" stroke-width="2.5" />
+        <text x="105.0" y="28.0" text-anchor="middle" fill="#f472b6" font-size="12" font-weight="900" letter-spacing="1">DISCOUNT_APPLICATION</text>
+      </g>
+    
+
+      <g transform="translate(1680, 2860)">
+        <rect width="145" height="48" rx="8" fill="#0b1329" stroke="#f472b6" stroke-width="2.5" />
+        <text x="72.5" y="28.0" text-anchor="middle" fill="#f472b6" font-size="12" font-weight="900" letter-spacing="1">PAYMENT</text>
+      </g>
+    
+</g>
+</svg>

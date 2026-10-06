@@ -138,12 +138,15 @@ The relational database is normalized to Third Normal Form (3NF) to eliminate re
 
 ### Entity Relationship (ER) Diagram
 
-DineDesk provides a fully interactive, movable, and draggable **Chen-Style Conceptual ER Diagram** alongside a normalized relational entity diagram.
+Below is the complete **Chen-Style Conceptual ER Diagram** for DineDesk with all entities, radiating attribute capsules, relationship diamonds, and cardinalities:
 
-#### 🎮 Interactive Live Canvas
-- **[Launch Live Draggable ER Diagram (Interactive Preview)](https://htmlpreview.github.io/?https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_chen_er_diagram.html)**
-- **[View Repository HTML File (`dinedesk_chen_er_diagram.html`)](https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_chen_er_diagram.html)**
-- **[View Data Dictionary & Schema Inspector (`dinedesk_er_diagram.html`)](https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_er_diagram.html)**
+[![DineDesk Chen-Style Entity Relationship Diagram](dinedesk_chen_er_diagram.svg)](https://htmlpreview.github.io/?https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_chen_er_diagram.html)
+
+#### 🎮 Interactive Movable & Draggable Canvas
+You can open the live, fully draggable and interactive version directly in your browser:
+- 🚀 **[Launch Live Draggable ER Diagram (Interactive Preview)](https://htmlpreview.github.io/?https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_chen_er_diagram.html)**
+- 📄 **[View Repository HTML File (`dinedesk_chen_er_diagram.html`)](https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_chen_er_diagram.html)**
+- 📑 **[View Data Dictionary & Schema Inspector (`dinedesk_er_diagram.html`)](https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_er_diagram.html)**
 
 #### 🕹️ Interactive Diagram Features
 - **Independent Entity Dragging:** Drag any entity box across the canvas without disturbing adjacent tables or relationships.
@@ -152,41 +155,6 @@ DineDesk provides a fully interactive, movable, and draggable **Chen-Style Conce
 - **Zero-Overlap Layout Engine:** Switch between *Radiating Fan (Chen Classic)* and *Clean Stack* views with global spacing controls (`+` / `−`).
 - **Domain Cluster Filters:** Isolate specific subsystems (*Branch & Floor*, *Users & CRM*, *Reservations*, *Menu & Orders*, *Kitchen KDS*, *Billing & Discounts*).
 - **Auto-Save Persistence:** Custom arrangements automatically persist in browser local storage across sessions.
-
-#### 📊 Complete Entity-Relationship Architecture
-
-```mermaid
-erDiagram
-    BRANCH ||--o{ DINING_AREA : "has (1:N)"
-    BRANCH ||--o{ USER_ACCOUNT : "employs (1:N)"
-    ROLE ||--o{ USER_ACCOUNT : "assigned_to (1:N)"
-    DINING_AREA ||--o{ TABLE_ENTITY : "contains (1:N)"
-    
-    CUSTOMER ||--o{ RESERVATION : "books (1:N)"
-    TABLE_ENTITY ||--o{ RESERVATION : "reserved_for (1:N)"
-    TABLE_ENTITY ||--o{ DINING_SESSION : "hosts (1:N)"
-    CUSTOMER ||--o{ DINING_SESSION : "attends (1:N)"
-    RESERVATION ||--o| DINING_SESSION : "fulfills (1:1)"
-    
-    MENU_CATEGORY ||--o{ MENU_ITEM : "categorizes (1:N)"
-    DINING_SESSION ||--o{ CUSTOMER_ORDER : "places (1:N)"
-    USER_ACCOUNT ||--o{ CUSTOMER_ORDER : "takes (1:N)"
-    
-    CUSTOMER_ORDER ||--o{ ORDER_ITEM : "includes (1:N)"
-    MENU_ITEM ||--o{ ORDER_ITEM : "ordered_as (1:N)"
-    CUSTOMER_ORDER ||--o{ ORDER_STATUS_HISTORY : "logs (1:N)"
-    CUSTOMER_ORDER ||--|| KITCHEN_TICKET : "generates (1:1)"
-    KITCHEN_TICKET ||--o{ KITCHEN_TICKET_ITEM : "contains (1:N)"
-    ORDER_ITEM ||--o{ KITCHEN_TICKET_ITEM : "routes_to (1:N)"
-    
-    DINING_SESSION ||--|| BILL : "generates (1:1)"
-    BILL ||--o{ BILL_ITEM : "itemizes (1:N)"
-    ORDER_ITEM ||--o{ BILL_ITEM : "snapshots (1:N)"
-    DISCOUNT ||--o{ DISCOUNT_APPLICATION : "applied_via (1:N)"
-    BILL ||--o{ DISCOUNT_APPLICATION : "discounts (1:N)"
-    USER_ACCOUNT ||--o{ DISCOUNT_APPLICATION : "authorizes (1:N)"
-    BILL ||--o{ PAYMENT : "settles (1:N)"
-```
 
 ---
 
