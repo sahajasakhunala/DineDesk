@@ -178,7 +178,9 @@ The relational database is normalized to Third Normal Form (3NF) to eliminate re
 
 ### Entity Relationship Model
 
-The interactive Chen-style Entity Relationship (ER) diagram can be viewed directly at:
+![DineDesk Chen-Style Entity Relationship Diagram](dinedesk_chen_er_diagram.png)
+
+An interactive, draggable version of this diagram with custom cluster highlights is also available at:
 - [DineDesk Chen-Style ER Diagram](dinedesk_chen_er_diagram.html)
 
 ---
