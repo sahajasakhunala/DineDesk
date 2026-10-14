@@ -36,7 +36,7 @@ def add_heading_1(doc, text):
     run.font.name = 'Calibri'
     run.font.size = Pt(16)
     run.font.bold = True
-    run.font.color.rgb = RGBColor(15, 23, 42) # Slate 900
+    run.font.color.rgb = RGBColor(24, 24, 27) # Light Black / Onyx
     return p
 
 def add_heading_2(doc, text):
@@ -48,7 +48,7 @@ def add_heading_2(doc, text):
     run.font.name = 'Calibri'
     run.font.size = Pt(13)
     run.font.bold = True
-    run.font.color.rgb = RGBColor(2, 132, 199) # Sky 600
+    run.font.color.rgb = RGBColor(55, 65, 81) # Slate Charcoal
     return p
 
 def add_body_p(doc, text, bold=False, italic=False):
@@ -68,7 +68,7 @@ def add_code_block(doc, code_text):
     tbl = doc.add_table(rows=1, cols=1)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     cell = tbl.cell(0, 0)
-    set_cell_background(cell, "0F172A") # Dark slate
+    set_cell_background(cell, "18181B") # Dark charcoal / Light black
     set_cell_margins(cell, top=140, bottom=140, left=200, right=200)
     
     p = cell.paragraphs[0]
@@ -78,7 +78,7 @@ def add_code_block(doc, code_text):
     run = p.add_run(code_text)
     run.font.name = 'Consolas'
     run.font.size = Pt(9.5)
-    run.font.color.rgb = RGBColor(56, 189, 248) # Sky 400
+    run.font.color.rgb = RGBColor(243, 244, 246) # Crisp light slate
     
     # Empty paragraph after table for spacing
     p_after = doc.add_paragraph()
@@ -93,7 +93,7 @@ def add_styled_table(doc, headers, rows):
     hdr_cells = tbl.rows[0].cells
     for i, h in enumerate(headers):
         hdr_cells[i].text = h
-        set_cell_background(hdr_cells[i], "1E293B")
+        set_cell_background(hdr_cells[i], "18181B")
         set_cell_margins(hdr_cells[i], top=120, bottom=120, left=150, right=150)
         p = hdr_cells[i].paragraphs[0]
         p.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -166,7 +166,7 @@ def build_docx():
     run_t.font.name = 'Calibri'
     run_t.font.size = Pt(20)
     run_t.font.bold = True
-    run_t.font.color.rgb = RGBColor(2, 132, 199)
+    run_t.font.color.rgb = RGBColor(24, 24, 27)
 
     # Student Details Box Table
     tbl_box = doc.add_table(rows=1, cols=1)
@@ -182,14 +182,14 @@ def build_docx():
     r1 = p_box.add_run("SUBMITTED BY:\n")
     r1.font.bold = True
     r1.font.size = Pt(11)
-    r1.font.color.rgb = RGBColor(15, 23, 42)
+    r1.font.color.rgb = RGBColor(24, 24, 27)
 
     r2 = p_box.add_run("Student Name: ")
     r2.font.size = Pt(11)
     r3 = p_box.add_run("Sakhunala Sahaja\n")
     r3.font.bold = True
     r3.font.size = Pt(12)
-    r3.font.color.rgb = RGBColor(2, 132, 199)
+    r3.font.color.rgb = RGBColor(24, 24, 27)
 
     r4 = p_box.add_run("Roll Number: 25WU0102237\n")
     r4.font.size = Pt(11)
