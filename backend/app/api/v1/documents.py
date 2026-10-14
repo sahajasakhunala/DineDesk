@@ -52,6 +52,21 @@ async def upload_documents(files: List[UploadFile] = File(...)):
 
     return {"message": f"Successfully uploaded {len(saved)} document(s)", "files": saved}
 
+@router.get("/view/{filename}")
+def view_document(filename: str):
+    """View a document inline (in browser) without downloading."""
+    safe_filename = os.path.basename(filename)
+    file_path = os.path.join(DOCX_DIR, safe_filename)
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found")
+    media_type = "application/pdf" if safe_filename.lower().endswith(".pdf") else "application/octet-stream"
+    return FileResponse(
+        file_path,
+        media_type=media_type,
+        content_disposition_type="inline",
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
+    )
+
 @router.get("/download/{filename}")
 def download_document(filename: str):
     """Download or view a document from the docx folder."""

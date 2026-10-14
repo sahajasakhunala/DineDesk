@@ -309,6 +309,17 @@
     </div>
   </div>
 
+  <!-- Document Preview Modal -->
+  <div id="preview-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:#111827; border:1px solid #374151; border-radius:12px; width:100%; max-width:1050px; height:90vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 25px 50px -12px rgba(0,0,0,0.7);">
+      <div style="padding:14px 20px; background:#0f172a; border-bottom:1px solid #1f2937; display:flex; justify-content:space-between; align-items:center;">
+        <h3 id="preview-title" style="font-size:1.1rem; color:#f9fafb; font-weight:700;">Document Preview</h3>
+        <button class="btn btn-secondary" style="padding:6px 14px;" onclick="closePreview()">Close ✕</button>
+      </div>
+      <iframe id="preview-iframe" style="flex:1; width:100%; border:none; background:#ffffff;" src="about:blank"></iframe>
+    </div>
+  </div>
+
   <script>
     const API_BASE = "http://127.0.0.1:8000/api/v1";
     const dropzone = document.getElementById("dropzone");
@@ -412,18 +423,41 @@
 
         const modDate = new Date(f.modified * 1000).toLocaleString();
 
+        const isPdf = f.extension === ".pdf";
+        const viewBtn = isPdf 
+          ? `<button class="btn" style="padding:4px 10px; font-size:0.8rem; margin-right:6px; background:#0284c7;" onclick="openPreview('${encodeURIComponent(f.name)}')">View</button>
+             <a class="btn btn-secondary" style="padding:4px 10px; font-size:0.8rem; margin-right:6px;" href="${API_BASE}/documents/view/${encodeURIComponent(f.name)}?t=${Date.now()}" target="_blank">New Tab</a>`
+          : "";
+
         tr.innerHTML = `
           <td><span class="badge ${badgeClass}">${f.extension.replace('.', '')}</span></td>
           <td><strong>${escapeHtml(f.name)}</strong></td>
           <td>${f.size_kb} KB</td>
           <td style="color:var(--text-muted); font-size:0.85rem;">${modDate}</td>
           <td style="text-align: right;">
+            ${viewBtn}
             <a class="btn btn-secondary" style="padding:4px 10px; font-size:0.8rem; margin-right:6px;" href="${API_BASE}/documents/download/${encodeURIComponent(f.name)}" download="${escapeHtml(f.name)}">Download</a>
             <button class="btn btn-danger" onclick="deleteFile('${escapeHtml(f.name)}')">Delete</button>
           </td>
         `;
         tbody.appendChild(tr);
       });
+    }
+
+    function openPreview(filename) {
+      const modal = document.getElementById("preview-modal");
+      const iframe = document.getElementById("preview-iframe");
+      const title = document.getElementById("preview-title");
+      title.innerText = decodeURIComponent(filename);
+      iframe.src = `${API_BASE}/documents/view/${filename}?t=${Date.now()}`;
+      modal.style.display = "flex";
+    }
+
+    function closePreview() {
+      const modal = document.getElementById("preview-modal");
+      const iframe = document.getElementById("preview-iframe");
+      iframe.src = "about:blank";
+      modal.style.display = "none";
     }
 
     async function deleteFile(filename) {
