@@ -11,9 +11,9 @@ from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
 from docx.oxml import OxmlElement, parse_xml
 from docx.oxml.ns import qn, nsdecls
 
-DOCX_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "docx"))
+DOCX_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "docx"))
 LOGO_PATH = os.path.join(DOCX_DIR, "woxsen_logo.png")
-ER_IMG_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "dinedesk_chen_er_diagram.png"))
+ER_IMG_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dinedesk_chen_er_diagram.png"))
 OUTPUT_DOCX = os.path.join(DOCX_DIR, "DBMS REPORT.docx")
 OUTPUT_DOCX_ALT = os.path.join(DOCX_DIR, "DBMS_REPORT.docx")
 

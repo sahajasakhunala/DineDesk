@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 # Connect to database
-db_path = os.path.join(os.path.dirname(__file__), "backend", "dinedesk.db")
+db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "backend", "dinedesk.db"))
 conn = sqlite3.connect(db_path)
 cur = conn.cursor()
 

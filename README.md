@@ -180,9 +180,8 @@ DineDesk/
 |   |-- staff.js                     # Staff portal operational logic
 |   |-- styles.css                   # Customer interface stylesheets
 |   `-- staff.css                    # Admin and KDS stylesheets
-|-- run_schema_demo.py               # Standalone DDL/DML presentation demonstration
-|-- sql_shell.py                     # Root launcher for database queries
-|-- sqlite3.bat                      # Windows CLI shortcut for SQLite shell
+|-- scripts/                         # Helper tools, presentation & demo utilities
+|-- docx/                            # Documentation and project assets
 `-- README.md                        # Documentation
 ```
 

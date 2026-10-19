@@ -6,7 +6,7 @@ Executes table creation (DDL), sample data insertion (DML), and displays results
 import sqlite3
 import os
 
-DB_NAME = "demo_dinedesk.db"
+DB_NAME = os.path.join(os.path.dirname(__file__), "demo_dinedesk.db")
 
 def main():
     if os.path.exists(DB_NAME):
