@@ -138,7 +138,7 @@ The relational database is normalized to Third Normal Form (3NF) to eliminate re
 
 ### Entity Relationship (ER) Diagram
 
-[![DineDesk Chen-Style Entity Relationship Diagram](dinedesk_chen_er_diagram.svg)](https://htmlpreview.github.io/?https://github.com/sahajasakhunala/DineDesk/blob/main/dinedesk_chen_er_diagram.html)
+[![DineDesk Chen-Style Entity Relationship Diagram](scripts/dinedesk_chen_er_diagram.svg)](https://htmlpreview.github.io/?https://github.com/sahajasakhunala/DineDesk/blob/main/scripts/dinedesk_chen_er_diagram.html)
 
 ---
 
@@ -171,6 +171,7 @@ DineDesk/
 |   `-- requirements.txt             # Python backend dependencies
 |-- database/
 |   |-- seed/                        # SQL seed files
+|   |-- docker-compose.yml           # PostgreSQL container service setup
 |   `-- reports.sql                  # Analytical SQL queries
 |-- frontend/
 |   |-- admin.html                   # Staff operations and admin dashboard
@@ -180,8 +181,9 @@ DineDesk/
 |   |-- staff.js                     # Staff portal operational logic
 |   |-- styles.css                   # Customer interface stylesheets
 |   `-- staff.css                    # Admin and KDS stylesheets
-|-- scripts/                         # Helper tools, presentation & demo utilities
+|-- scripts/                         # Helper tools, ER diagrams & demo utilities
 |-- docx/                            # Documentation and project assets
+|-- presentation.jpg                 # Project presentation photo
 `-- README.md                        # Documentation
 ```
 

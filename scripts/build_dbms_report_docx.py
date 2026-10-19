@@ -12,9 +12,9 @@ from docx.oxml import OxmlElement, parse_xml
 from docx.oxml.ns import qn, nsdecls
 
 DOCX_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "docx"))
-LOGO_PATH = os.path.join(DOCX_DIR, "woxsen_logo.png")
-ER_IMG_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dinedesk_chen_er_diagram.png"))
-OUTPUT_DOCX = os.path.join(DOCX_DIR, "DBMS REPORT.docx")
+ER_IMG_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "dinedesk_chen_er_diagram.png"))
+if not os.path.exists(ER_IMG_PATH):
+    ER_IMG_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dinedesk_chen_er_diagram.png"))
 OUTPUT_DOCX_ALT = os.path.join(DOCX_DIR, "DBMS_REPORT.docx")
 
 def set_cell_background(cell, fill_hex):
